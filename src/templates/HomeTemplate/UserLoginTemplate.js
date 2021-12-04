@@ -1,0 +1,32 @@
+import React, { Fragment } from "react";
+import { Route } from "react-router";
+import { Layout } from "antd";
+
+const { Header, Footer, Sider, Content } = Layout;
+
+export const UserLoginTemplate = (props) => {
+  const { Component, ...restProps } = props;
+  return (
+    <Route
+      {...restProps}
+      render={(propsRoute) => {
+        return (
+          <Fragment>
+            <Layout>
+              <Sider
+                style={{
+                  height: window.innerHeight,
+                  width: window.innerWidth,
+                  backgroundImage: `url(https://picsum.photos/700)`,
+                }}
+              ></Sider>
+              <Content>
+                <Component {...propsRoute} />
+              </Content>
+            </Layout>
+          </Fragment>
+        );
+      }}
+    />
+  );
+};

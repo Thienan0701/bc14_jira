@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { createBrowserHistory } from "history";
+import "./App.css";
+
+import { Suspense, lazy } from "react";
+
+import { BrowserRouter, Switch } from "react-router-dom";
+import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
+import { UserLoginTemplate } from "./templates/HomeTemplate/UserLoginTemplate";
+
+export const history = createBrowserHistory();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter history={history}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+          <HomeTemplate
+            path="/"
+            exact
+            Component={lazy(() => import("./pages/Home/Home"))}
+          />
+          <UserLoginTemplate
+            path="/login"
+            exact
+            Component={lazy(() => import("./pages/Login/Login"))}
+          />
+        </Switch>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 
