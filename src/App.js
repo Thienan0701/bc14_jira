@@ -5,8 +5,7 @@ import { Suspense, lazy } from "react";
 
 import { BrowserRouter, Switch } from "react-router-dom";
 import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
-import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
+
 import { UserLoginTemplate } from "./templates/HomeTemplate/UserLoginTemplate";
 
 export const history = createBrowserHistory();
@@ -18,6 +17,11 @@ function App() {
         <Switch>
           <HomeTemplate
             path="/"
+            exact
+            Component={lazy(() => import("./pages/Home/Home"))}
+          />
+          <HomeTemplate
+            path="/home"
             exact
             Component={lazy(() => import("./pages/Home/Home"))}
           />

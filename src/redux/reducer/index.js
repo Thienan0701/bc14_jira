@@ -1,4 +1,9 @@
 import { combineReducers } from "redux";
+import loginReducer from "../../pages/Login/modules/reducer";
 
 //store tong
-export const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  loginReducer,
+});
+
+export default rootReducer;
