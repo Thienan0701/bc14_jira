@@ -21,13 +21,11 @@ function App() {
             Component={lazy(() => import("./pages/Home/Home"))}
           />
           <HomeTemplate
-            path="/home"
-            exact
+            path="/project-management"
             Component={lazy(() => import("./pages/Home/Home"))}
           />
           <UserLoginTemplate
             path="/login"
-            exact
             Component={lazy(() => import("./pages/Login/Login"))}
           />
         </Switch>

@@ -22,12 +22,13 @@ export const actLoginApi = (user, history) => {
         localStorage.setItem("UserLogin", JSON.stringify(result.data.content));
 
         //chuyen trang neu login thanh cong
-        history.replace("/home");
+        history.replace("/");
         // history.goBack();
 
         dispatch(actLoginSuccess(result.data.content));
       })
       .catch((errors) => {
+        console.log(errors);
         dispatch(actLoginFailed(errors));
       });
   };

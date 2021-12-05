@@ -1,5 +1,6 @@
 import { Fragment } from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
+import SideNavHome from "./_components/sidebar_home/Sidebar_home";
 
 export const HomeTemplate = (props) => {
   const { Component, ...restProps } = props;
@@ -9,11 +10,15 @@ export const HomeTemplate = (props) => {
       {...restProps}
       render={(propsRoute) => {
         // propsRout  .match .history .location
-        return (
-          <Fragment>
-            <Component {...propsRoute} />
-          </Fragment>
-        );
+        if (localStorage.getItem("UserLogin")) {
+          return (
+            <Fragment>
+              {/* <SideNavHome {...propsRoute} /> */}
+              <Component {...propsRoute} />
+            </Fragment>
+          );
+        } // redirect ve login
+        return <Redirect to="/login" />;
       }}
     />
   );

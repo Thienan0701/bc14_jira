@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Button } from "antd";
 import { FacebookOutlined } from "@ant-design/icons";
 import { withFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actLoginApi } from "./modules/actions";
+import Loader from "../../components/Loader/Loader";
 
 function Login(props) {
   const { errors } = props;
@@ -22,17 +23,33 @@ function Login(props) {
   };
 
   const dispatch = useDispatch();
+  const error = useSelector((state) => state.loginReducer.error);
+  const loading = useSelector((state) => state.loginReducer.loading);
   const handleLogin = (e) => {
     e.preventDefault();
     // console.log(state);
     dispatch(actLoginApi(state, props.history));
   };
 
+  //alert khi login fail
+  const renderNoti = () => {
+    return (
+      error && (
+        <div className="alert alert-danger">
+          {error?.response?.data?.content}
+        </div>
+      )
+    );
+  };
+
+  if (loading) return <Loader />;
+
   return (
     <div className="container" style={{ height: window.innerHeight }}>
       <h3 className="d-flex justify-content-center">Login</h3>
       <form onSubmit={handleLogin}>
         <div className="form-group">
+          {renderNoti()}
           <label>Email</label>
           <input
             type="text"

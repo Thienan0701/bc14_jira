@@ -12,7 +12,7 @@ export const UserLoginTemplate = (props) => {
       render={(propsRoute) => {
         return (
           <Fragment>
-            <Layout>
+            <Layout style={{ height: window.innerHeight }}>
               <Sider
                 style={{
                   height: window.innerHeight,
