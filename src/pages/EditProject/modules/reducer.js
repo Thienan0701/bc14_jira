@@ -4,6 +4,7 @@ const initialState = {
   data: null,
   loading: false,
   error: null,
+  allCategory: null,
 };
 
 const editProjectReducer = (state = initialState, action) => {
@@ -24,6 +25,9 @@ const editProjectReducer = (state = initialState, action) => {
       state.data = null;
       state.error = action.payload;
       state.loading = false;
+      return { ...state };
+    case actType.PROJECT_CATEGORY_SUCCESS:
+      state.allCategory = action.payload;
       return { ...state };
 
     default:

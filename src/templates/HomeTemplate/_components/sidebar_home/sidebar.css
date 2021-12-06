@@ -95,6 +95,10 @@
   div.content {
     margin-left: 0;
   }
+  .content-container {
+    padding-left: 0px;
+    width: auto;
+  }
 }
 
 /* On screens that are less than 400px, display the bar vertically, instead of horizontally */
@@ -102,5 +106,9 @@
   .sidebar-navigation li a {
     text-align: center;
     float: none;
+  }
+  .content-container {
+    padding-left: 0px;
+    width: auto;
   }
 }
