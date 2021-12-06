@@ -4,6 +4,10 @@ const initialState = {
   data: null,
   loading: false,
   error: null,
+
+  //delete project
+  deleteResult: null,
+  deleteError: null,
 };
 const homeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -23,6 +27,16 @@ const homeReducer = (state = initialState, action) => {
       state.loading = false;
       state.data = null;
       state.error = action.payload;
+      return { ...state };
+
+    case ActionType.DELETE_SUCCESS:
+      state.deleteResult = action.payload;
+      state.deleteError = null;
+      return { ...state };
+
+    case ActionType.DELETE_FAILED:
+      state.deleteResult = null;
+      state.deleteError = action.payload;
       return { ...state };
 
     default:

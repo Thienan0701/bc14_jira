@@ -34,3 +34,29 @@ const actListProjectFailed = (error) => {
     payload: error,
   };
 };
+//Delete project
+export const actDeleteProject = (id) => {
+  return (dispatch) => {
+    api
+      .delete(`Project/deleteProject?projectId=${id}`)
+      .then((result) => {
+        dispatch(actDeleteProjectSuccess(result.data.content));
+      })
+      .catch((error) => {
+        dispatch(actDeleteProjectFailed(error));
+      });
+  };
+};
+
+const actDeleteProjectSuccess = (data) => {
+  return {
+    type: actType.DELETE_SUCCESS,
+    payload: data,
+  };
+};
+const actDeleteProjectFailed = (error) => {
+  return {
+    type: actType.DELETE_FAILED,
+    payload: error,
+  };
+};

@@ -1,8 +1,11 @@
 import React from "react";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { actDeleteProject, actFetchListProject } from "../modules/actions";
 
 function Project(props) {
   const { project } = props;
+  const dispatch = useDispatch();
   return (
     <tr>
       <th scope="row">{project.id}</th>
@@ -12,37 +15,45 @@ function Project(props) {
       <td>
         {project.members.slice(0, 2).map((member) => {
           return (
-            <button key={member.userId} className="btn-sm btn-primary">
-              <img
-                src={member.avatar}
-                alt="frf"
-                style={{ width: 30, height: 30 }}
-              />
-            </button>
+            <img
+              key={member.userId}
+              src={member.avatar}
+              alt="frf"
+              style={{ width: 40, height: 40, borderRadius: "50%" }}
+            />
           );
         })}
-        {/* <button className="btn-sm btn-primary">
-          <i class="fas fa-plus-circle"></i>
-        </button> */}
+        <button
+          className="btn-sm btn-primary ml-1"
+          style={{ width: 40, height: 40, borderRadius: "50%" }}
+        >
+          <i class="fas fa-plus"></i>
+        </button>
       </td>
       <td>
         <div className="row">
           <div className="col-md-6">
-            <button
+            <Link
               type="button"
               className="btn-sm btn-primary"
               title="Edit Project"
+              to={`edit/${project.id}`}
             >
-              <i class="fas fa-pen-fancy"></i>
-            </button>
+              <i class="fas fa-pen"></i>
+            </Link>
           </div>
           <div className="col-md-6">
             <button
               type="button"
               className="btn-sm btn-danger"
               title="Delete Project"
+              onClick={() => {
+                dispatch(actDeleteProject(project.id));
+                //reload lai danh sach;
+                dispatch(actFetchListProject());
+              }}
             >
-              <i class="fas fa-trash-alt"></i>
+              <i class="far fa-trash-alt"></i>
             </button>
           </div>
         </div>

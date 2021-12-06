@@ -24,6 +24,10 @@ function App() {
             path="/project-management"
             Component={lazy(() => import("./pages/Home/Home"))}
           />
+          <HomeTemplate
+            path="/edit/:id"
+            Component={lazy(() => import("./pages/EditProject/EditProject"))}
+          />
           <UserLoginTemplate
             path="/login"
             Component={lazy(() => import("./pages/Login/Login"))}
