@@ -16,13 +16,17 @@ function EditProject(props) {
     (state) => state.editProjectReducer.allCategory
   );
 
-  const [state, setstate] = useState({
-    id: id,
-    projectName: detail?.projectName,
-    creator: detail?.creator.id,
-    description: detail?.description,
-    categoryId: 0,
-  });
+  const [state, setstate] = useState({});
+
+  useEffect(() => {
+    setstate({
+      id: +id,
+      projectName: detail?.projectName,
+      creator: detail?.creator.id,
+      description: detail?.description,
+      categoryId: 0,
+    });
+  }, [detail, id]);
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -34,7 +38,7 @@ function EditProject(props) {
 
   const handleEdit = (e) => {
     e.preventDefault();
-    console.log(state);
+
     dispatch(actEditProject(id, state, props.history));
   };
 
