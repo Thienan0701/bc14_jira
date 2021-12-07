@@ -15,7 +15,7 @@ export const HomeTemplate = (props) => {
           return (
             <Fragment>
               <SideNavHome {...propsRoute} />
-              <div class="content-container">
+              <div className="content-container">
                 <Component {...propsRoute} />
               </div>
             </Fragment>
