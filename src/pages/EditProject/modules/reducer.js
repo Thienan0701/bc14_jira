@@ -5,6 +5,8 @@ const initialState = {
   loading: false,
   error: null,
   allCategory: null,
+  editResult: null,
+  editError: null,
 };
 
 const editProjectReducer = (state = initialState, action) => {
@@ -29,7 +31,15 @@ const editProjectReducer = (state = initialState, action) => {
     case actType.PROJECT_CATEGORY_SUCCESS:
       state.allCategory = action.payload;
       return { ...state };
+    case actType.EDIT_SUCCESS:
+      state.editResult = action.payload;
+      state.editError = null;
+      return { ...state };
 
+    case actType.EDIT_FAILED:
+      state.editError = action.payload;
+      state.editResult = null;
+      return { ...state };
     default:
       return { ...state };
   }

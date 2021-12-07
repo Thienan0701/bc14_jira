@@ -54,3 +54,32 @@ const actCategorySuccess = (data) => {
     payload: data,
   };
 };
+
+//Edit project
+export const actEditProject = (id, project, history) => {
+  return (dispatch) => {
+    api
+      .put(`Project/updateProject?projectId=${id}`, project)
+      .then((result) => {
+        dispatch(actEditSuccess(result.data.content));
+        history.replace("/");
+      })
+      .catch((error) => {
+        dispatch(actEditFailed(error));
+      });
+  };
+};
+
+const actEditSuccess = (data) => {
+  return {
+    type: actTypes.EDIT_SUCCESS,
+    payload: data,
+  };
+};
+
+const actEditFailed = (error) => {
+  return {
+    type: actTypes.EDIT_FAILED,
+    payload: error,
+  };
+};

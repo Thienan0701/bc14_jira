@@ -2,10 +2,49 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { actDeleteProject, actFetchListProject } from "../modules/actions";
+import { Popconfirm, message, Popover } from "antd";
 
 function Project(props) {
   const { project } = props;
   const dispatch = useDispatch();
+  function confirm(e) {
+    dispatch(actDeleteProject(project.id));
+    //reload lai danh sach;
+    dispatch(actFetchListProject());
+    message.success("deleted");
+  }
+
+  function cancel(e) {
+    message.error("Click on No");
+  }
+
+  const content = (
+    <div>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>username</th>
+            <th>action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>01</td>
+            <td>tran duy hung</td>
+            <td>
+              <button
+                className="btn-sm btn-danger"
+                style={{ borderRadius: "50%" }}
+              >
+                X
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
 
   return (
     <tr>
@@ -33,42 +72,21 @@ function Project(props) {
         })}
 
         {/* Nut xem cac user trong project */}
-        <button
-          className="btn-sm btn-success ml-1"
-          style={{ width: 40, height: 40, borderRadius: "50%" }}
-          data-toggle="modal"
-          data-target="#usersModal"
-        >
-          <i class="fas fa-plus"></i>
-        </button>
-        {/* <!-- Modal load danh sach user cua project--> */}
-        <div
-          className="modal fade"
-          id="usersModal"
-          tabIndex={-1}
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title text-primary" id="exampleModalLabel">
-                  Members
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body">...</div>
-            </div>
-          </div>
-        </div>
+        <Popover content={content} title="Members">
+          <button
+            className="btn-sm btn-secondary ml-1"
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: "50%",
+              outline: "none",
+            }}
+            data-toggle="modal"
+            data-target="#usersModal"
+          >
+            <i class="fas fa-plus"></i>
+          </button>
+        </Popover>
       </td>
       <td>
         <div className="row">
@@ -83,18 +101,21 @@ function Project(props) {
             </Link>
           </div>
           <div className="col-md-6">
-            <button
-              type="button"
-              className="btn-sm btn-danger"
-              title="Delete Project"
-              onClick={() => {
-                dispatch(actDeleteProject(project.id));
-                //reload lai danh sach;
-                dispatch(actFetchListProject());
-              }}
+            <Popconfirm
+              title="Are you sure to delete this project?"
+              onConfirm={confirm}
+              onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
             >
-              <i class="far fa-trash-alt"></i>
-            </button>
+              <button
+                type="button"
+                className="btn-sm btn-danger"
+                title="Delete Project"
+              >
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </Popconfirm>
           </div>
         </div>
       </td>
