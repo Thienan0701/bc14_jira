@@ -84,16 +84,9 @@ function EditProject(props) {
                 className="form-control"
                 aria-label="Default select example"
                 name="categoryId"
-                value={state.categoryId}
+                defaultValue={detail?.projectCategory.id}
                 onChange={handleOnchange}
               >
-                <option
-                  selected
-                  disabled={true}
-                  value={detail?.projectCategory.id}
-                >
-                  {detail?.projectCategory.name}
-                </option>
                 {allCategory?.map((category, index) => {
                   return (
                     <option key={index} value={category.id}>

@@ -84,7 +84,7 @@ function Project(props) {
             data-toggle="modal"
             data-target="#usersModal"
           >
-            <i class="fas fa-plus"></i>
+            <i className="fas fa-plus"></i>
           </button>
         </Popover>
       </td>
@@ -97,7 +97,7 @@ function Project(props) {
               title="Edit Project"
               to={`edit/${project.id}`}
             >
-              <i class="fas fa-pen"></i>
+              <i className="fas fa-pen"></i>
             </Link>
           </div>
           <div className="col-md-6">
@@ -113,7 +113,7 @@ function Project(props) {
                 className="btn-sm btn-danger"
                 title="Delete Project"
               >
-                <i class="far fa-trash-alt"></i>
+                <i className="far fa-trash-alt"></i>
               </button>
             </Popconfirm>
           </div>
