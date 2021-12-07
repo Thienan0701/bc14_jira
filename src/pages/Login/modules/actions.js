@@ -28,7 +28,6 @@ export const actLoginApi = (user, history) => {
         dispatch(actLoginSuccess(result.data.content));
       })
       .catch((errors) => {
-        console.log(errors);
         dispatch(actLoginFailed(errors));
       });
   };

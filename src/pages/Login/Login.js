@@ -5,6 +5,7 @@ import { withFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { actLoginApi } from "./modules/actions";
 import Loader from "../../components/Loader/Loader";
+import { Link } from "react-router-dom";
 
 function Login(props) {
   const { errors } = props;
@@ -69,10 +70,15 @@ function Login(props) {
           />
           <div className="text-danger">{errors.password}</div>
         </div>
-        <div className=" mt-2 d-flex justify-content-center">
-          <button type="submit" className="btn btn-primary">
-            Login
-          </button>
+        <div className="form-group ">
+          <div className="row mt-2 d-flex justify-content-center">
+            <button type="submit" className="btn btn-primary">
+              Login
+            </button>
+            <Link type="button" className="btn btn-danger ml-1" to="/register">
+              Register
+            </Link>
+          </div>
         </div>
 
         <div className="social mt-2 d-flex justify-content-center">
