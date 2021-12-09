@@ -4,6 +4,7 @@ import homeReducer from "../../pages/Home/modules/reducer";
 import editProjectReducer from "../../pages/EditProject/modules/reducer";
 import registerReducer from "../../pages/Register/modules/reducer";
 import createProjectReducer from "../../pages/CreateProject/modules/reducer";
+import usermanageReducer from "../../pages/UserManage/modules/reducer";
 
 //store tong
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   editProjectReducer,
   registerReducer,
   createProjectReducer,
+  usermanageReducer,
 });
 
 export default rootReducer;

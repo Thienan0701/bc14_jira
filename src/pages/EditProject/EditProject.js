@@ -39,7 +39,7 @@ function EditProject(props) {
   const handleEdit = (e) => {
     e.preventDefault();
 
-    dispatch(actEditProject(id, state, props.history));
+    dispatch(actEditProject(state.id, state, props.history));
   };
 
   if (loading) {
@@ -48,7 +48,7 @@ function EditProject(props) {
 
   return (
     <div className="container">
-      <h3>Edit Project {id}</h3>
+      <h3>Edit Project {state.id}</h3>
       <hr className="mt-1 mb-1" />
       <form onSubmit={handleEdit}>
         <div className="row">

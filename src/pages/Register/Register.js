@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
 import { actRegister } from "./modules/actions";
+import { withFormik } from "formik";
 
 function Register(props) {
   const [state, setstate] = useState({
@@ -78,4 +79,39 @@ function Register(props) {
   );
 }
 
-export default Register;
+const RegisterWithFormik = withFormik({
+  mapPropsToValues: () => ({
+    email: "",
+    passWord: "",
+    name: "",
+    phoneNumber: "",
+  }),
+  // Custom sync validation
+  validate: (values) => {
+    const errors = {};
+
+    if (!values.email) {
+      errors.email = "Required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+    ) {
+      errors.email = "Invalid email address";
+    }
+    if (!values.password) {
+      errors.password = "Required";
+    }
+
+    if (!values.name) {
+      errors.name = "Required";
+    }
+    if (!values.phoneNumber) {
+      errors.phoneNumber = "Required";
+    }
+
+    return errors;
+  },
+
+  displayName: "Login",
+})(Register);
+
+export default RegisterWithFormik;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -30,6 +30,16 @@ function Project(props) {
   function cancel() {
     message.error("Clicked on No");
   }
+
+  const asignErr = useSelector((state) => state.homeReducer.asignErr);
+
+  const showErr = () => {
+    if (asignErr) {
+      return message.error("You dont have permission on this project");
+    }
+    return message.success("User added to project");
+  };
+
   // Content cac member cua project
   const content = (
     <div>
@@ -81,7 +91,9 @@ function Project(props) {
     <tr>
       <th scope="row">{project.id}</th>
       <td>
-        <span className="text-primary">{project.projectName}</span>
+        <Link to={`/project-detail/${project.id}`} className="text-primary">
+          {project.projectName}
+        </Link>
       </td>
       <td>{project.categoryName}</td>
       <td>
@@ -92,9 +104,8 @@ function Project(props) {
       <td>
         {project.members.slice(0, 2).map((member) => {
           return (
-            <Popover content={content} title="Members">
+            <Popover content={content} title="Members" key={member.userId}>
               <img
-                key={member.userId}
                 src={member.avatar}
                 title={member.name}
                 alt="frf"
@@ -107,23 +118,26 @@ function Project(props) {
           content={() => {
             return (
               <AutoComplete
-                options={searchData?.slice(0, 10).map((option) => {
+                options={searchData?.slice(0, 10).map((opts) => {
                   return {
-                    label: option.name,
-                    value: option.userId.toString(),
+                    label: opts.name,
+                    value: opts.userId.toString(),
                   };
                 })}
                 value={value}
                 className="w-100"
-                onSelect={(option) => {
+                onChange={(txt) => {
+                  setValue(txt);
+                }}
+                onSelect={(option, values) => {
                   //set lai gia tri hop thoai
-                  setValue(option.label);
+                  setValue(values.label);
                   setstate({ visible: !state.visible });
-                  console.log(option);
+                  showErr();
                   dispatch(
                     actAsignUserProject({
                       projectId: project.id,
-                      userId: option.value,
+                      userId: option,
                     })
                   );
                 }}

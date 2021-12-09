@@ -25,13 +25,11 @@ function CreateProject(props) {
       ...state,
       [name]: value,
     });
-    console.log(state);
   };
 
   const handleCreate = (e) => {
     e.preventDefault();
 
-    console.log(state);
     dispatch(actCreateProject(state, props.history));
   };
 

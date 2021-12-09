@@ -8,7 +8,7 @@ import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
 
 import { UserLoginTemplate } from "./templates/HomeTemplate/UserLoginTemplate";
 
-export const history = createBrowserHistory();
+export const history = createBrowserHistory({ forceRefresh: true });
 
 function App() {
   return (

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Loader from "../../components/Loader/Loader";
 import { actFetchListProject } from "./modules/actions";
 import Project from "./Project/Project";
 
@@ -10,6 +11,7 @@ function Home() {
   }, [dispatch]);
 
   const data = useSelector((state) => state.homeReducer.data);
+  const loading = useSelector((state) => state.homeReducer.loading);
 
   const renderListProject = () => {
     return data?.map((project) => {
@@ -17,6 +19,9 @@ function Home() {
     });
   };
 
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <div className="container">
       <h3>Project management</h3>

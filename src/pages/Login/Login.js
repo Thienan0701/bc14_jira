@@ -34,13 +34,7 @@ function Login(props) {
 
   //alert khi login fail
   const renderNoti = () => {
-    return (
-      error && (
-        <div className="alert alert-danger">
-          {error?.response?.data?.content}
-        </div>
-      )
-    );
+    return error && <div className="alert alert-danger">{error?.message}</div>;
   };
 
   if (loading) return <Loader />;
