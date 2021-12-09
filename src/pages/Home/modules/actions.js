@@ -41,6 +41,7 @@ export const actDeleteProject = (id) => {
       .delete(`Project/deleteProject?projectId=${id}`)
       .then((result) => {
         dispatch(actDeleteProjectSuccess(result.data.content));
+        console.log(result);
       })
       .catch((error) => {
         dispatch(actDeleteProjectFailed(error));
@@ -58,5 +59,60 @@ const actDeleteProjectFailed = (error) => {
   return {
     type: actType.DELETE_FAILED,
     payload: error,
+  };
+};
+
+//Search user
+export const actSearchUser = (keyword) => {
+  return (dispatch) => {
+    api
+      .get(`Users/getUser?keyword=${keyword}`)
+      .then((result) => {
+        dispatch(actSearchUserSuccess(result.data.content));
+      })
+      .catch((err) => {
+        dispatch(actSearchUserFailed(err));
+      });
+  };
+};
+const actSearchUserSuccess = (data) => {
+  return {
+    type: actType.SEARCH_USER_SUCCESS,
+    payload: data,
+  };
+};
+
+const actSearchUserFailed = (err) => {
+  return {
+    type: actType.SEARCH_USER_FAILED,
+    payload: err,
+  };
+};
+
+//adduser to project
+export const actAsignUserProject = (object) => {
+  return (dispatch) => {
+    api
+      .post("Project/assignUserProject", object)
+      .then((result) => {
+        dispatch(actAsignUserSuccess(result.data.content));
+      })
+      .catch((error) => {
+        dispatch(actAsignUserFailed(error));
+      });
+  };
+};
+
+const actAsignUserSuccess = (data) => {
+  return {
+    type: actType.ASIGN_USER_PROJECT_SUCCESS,
+    payload: data,
+  };
+};
+
+const actAsignUserFailed = (err) => {
+  return {
+    type: actType.ASIGN_USER_PROJECT_FAILED,
+    payload: err,
   };
 };

@@ -19,9 +19,9 @@ function SideNavHome() {
         </li>
         <li className="header">Another Menu</li>
         <li>
-          <a href="#">
-            <i className="fa fa-users" aria-hidden="true" /> Friends
-          </a>
+          <Link to="/user-manage">
+            <i className="fa fa-users" aria-hidden="true" /> User manage
+          </Link>
         </li>
         <li>
           <a href="#">

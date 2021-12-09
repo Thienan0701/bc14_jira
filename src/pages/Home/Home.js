@@ -7,7 +7,7 @@ function Home() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actFetchListProject());
-  }, []);
+  }, [dispatch]);
 
   const data = useSelector((state) => state.homeReducer.data);
 

@@ -4,3 +4,16 @@ export const HOME_LIST_FAILED = "@HomeReducer/HOME_LIST_FAILED";
 
 export const DELETE_SUCCESS = "@HomeReducer/DELETE_SUCCESS";
 export const DELETE_FAILED = "@HomeReducer/DELETE_FAILED";
+
+export const DELETE_USER_PROJECT_SUCCESS =
+  "@HomeReducer/DELETE_USER_PROJECT_SUCCESS";
+export const DELETE_USER_PROJECT_FAILED =
+  "@HomeReducer/DELETE_USER_PROJECT_FAILED";
+
+export const SEARCH_USER_SUCCESS = "@HomeReducer/SEARCH_USER_SUCCESS";
+export const SEARCH_USER_FAILED = "@HomeReducer/SEARCH_USER_FAILED";
+
+export const ASIGN_USER_PROJECT_SUCCESS =
+  "@HomeReducer/ASIGN_USER_PROJECT_SUCCESS";
+export const ASIGN_USER_PROJECT_FAILED =
+  "@HomeReducer/ASIGN_USER_PROJECT_FAILED";
