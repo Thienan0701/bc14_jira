@@ -52,16 +52,16 @@ function Project(props) {
 
   const showErr = () => {
     if (error.asignErr) {
-      return message.error("You dont have permission on this project");
-    } else if (asignResult) {
-      return message.success("User added to project");
+      return message.error(`${error.asignErr.response?.data?.content}`);
+    } else if (error.asignResult) {
+      return message.success(`${error.asignResult}`);
     }
   };
   const showErrRemoveUser = () => {
     if (error.deleteUserErr) {
-      return message.error("You dont have permission on this project");
-    } else if (deleteUserResult) {
-      return message.success("User removed from project");
+      return message.error(`${error.deleteUserErr.response?.data?.content}`);
+    } else if (error.deleteUserResult) {
+      return message.success(`${error.deleteUserResult}`);
     }
   };
 
