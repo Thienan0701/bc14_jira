@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -34,28 +34,35 @@ function Project(props) {
   }
 
   //The hien cac loi, ket qua cua action add,remove user project
+  const [error, setError] = useState({});
   const asignErr = useSelector((state) => state.homeReducer.asignErr);
   const asignResult = useSelector((state) => state.homeReducer.asignResult);
   const deleteUserResult = useSelector(
     (state) => state.homeReducer.deleteUserResult
   );
   const deleteUserErr = useSelector((state) => state.homeReducer.deleteUserErr);
+  useEffect(() => {
+    setError({
+      asignErr: asignErr,
+      asignResult: asignResult,
+      deleteUserResult: deleteUserResult,
+      deleteUserErr: deleteUserErr,
+    });
+  }, [asignErr, asignResult, deleteUserErr, deleteUserResult]);
 
   const showErr = () => {
-    if (asignErr) {
+    if (error.asignErr) {
       return message.error("You dont have permission on this project");
     } else if (asignResult) {
       return message.success("User added to project");
     }
-    return message;
   };
   const showErrRemoveUser = () => {
-    if (deleteUserErr) {
+    if (error.deleteUserErr) {
       return message.error("You dont have permission on this project");
     } else if (deleteUserResult) {
       return message.success("User removed from project");
     }
-    return message;
   };
 
   // Content cac member cua project
@@ -94,7 +101,7 @@ function Project(props) {
                           userId: member.userId,
                         })
                       );
-                      if (deleteUserResult) {
+                      if (error.deleteUserResult) {
                         dispatch(actFetchListProject());
                       }
                       showErrRemoveUser();
@@ -170,7 +177,7 @@ function Project(props) {
                       userId: option,
                     })
                   );
-                  if (asignResult) {
+                  if (error.asignResult) {
                     dispatch(actFetchListProject());
                   }
                   showErr();
