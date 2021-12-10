@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -6,11 +6,13 @@ import {
   actFetchListProject,
   actSearchUser,
   actAsignUserProject,
+  actDeleteUserProject,
 } from "../modules/actions";
 import { Popconfirm, message, Popover, AutoComplete } from "antd";
 
 function Project(props) {
   const { project } = props;
+
   const dispatch = useDispatch();
   const [state, setstate] = useState({
     visible: false,
@@ -31,18 +33,34 @@ function Project(props) {
     message.error("Clicked on No");
   }
 
+  //The hien cac loi, ket qua cua action add,remove user project
   const asignErr = useSelector((state) => state.homeReducer.asignErr);
+  const asignResult = useSelector((state) => state.homeReducer.asignResult);
+  const deleteUserResult = useSelector(
+    (state) => state.homeReducer.deleteUserResult
+  );
+  const deleteUserErr = useSelector((state) => state.homeReducer.deleteUserErr);
 
   const showErr = () => {
     if (asignErr) {
       return message.error("You dont have permission on this project");
+    } else if (asignResult) {
+      return message.success("User added to project");
     }
-    return message.success("User added to project");
+    return message;
+  };
+  const showErrRemoveUser = () => {
+    if (deleteUserErr) {
+      return message.error("You dont have permission on this project");
+    } else if (deleteUserResult) {
+      return message.success("User removed from project");
+    }
+    return message;
   };
 
   // Content cac member cua project
   const content = (
-    <div>
+    <div className="table-responsive " style={{ height: 300 }}>
       <table className="table">
         <thead>
           <tr>
@@ -69,6 +87,18 @@ function Project(props) {
                   <button
                     className="btn-sm btn-danger"
                     style={{ borderRadius: "50%" }}
+                    onClick={() => {
+                      dispatch(
+                        actDeleteUserProject({
+                          projectId: project.id,
+                          userId: member.userId,
+                        })
+                      );
+                      if (deleteUserResult) {
+                        dispatch(actFetchListProject());
+                      }
+                      showErrRemoveUser();
+                    }}
                   >
                     X
                   </button>
@@ -133,13 +163,17 @@ function Project(props) {
                   //set lai gia tri hop thoai
                   setValue(values.label);
                   setstate({ visible: !state.visible });
-                  showErr();
+
                   dispatch(
                     actAsignUserProject({
                       projectId: project.id,
                       userId: option,
                     })
                   );
+                  if (asignResult) {
+                    dispatch(actFetchListProject());
+                  }
+                  showErr();
                 }}
                 onSearch={(value) => {
                   dispatch(actSearchUser(value));

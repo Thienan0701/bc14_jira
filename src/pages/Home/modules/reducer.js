@@ -16,6 +16,10 @@ const initialState = {
   //Asign user to project
   asignResult: null,
   asignErr: null,
+
+  //delete user from project
+  deleteUserResult: null,
+  deleteUserErr: null,
 };
 const homeReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -55,13 +59,25 @@ const homeReducer = (state = initialState, action) => {
       state.searchdata = null;
       state.searcherr = action.payload;
       return { ...state };
+
     case ActionType.ASIGN_USER_PROJECT_SUCCESS:
       state.asignResult = action.payload;
       state.asignErr = null;
       return { ...state };
+
     case ActionType.ASIGN_USER_PROJECT_FAILED:
       state.asignResult = null;
       state.asignErr = action.payload;
+      return { ...state };
+
+    case ActionType.DELETE_USER_PROJECT_SUCCESS:
+      state.deleteUserResult = action.payload;
+      state.deleteUserErr = null;
+      return { ...state };
+
+    case ActionType.DELETE_USER_PROJECT_FAILED:
+      state.deleteUserResult = null;
+      state.deleteUserErr = action.payload;
       return { ...state };
     default:
       return { ...state };

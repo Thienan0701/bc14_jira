@@ -41,7 +41,6 @@ export const actDeleteProject = (id) => {
       .delete(`Project/deleteProject?projectId=${id}`)
       .then((result) => {
         dispatch(actDeleteProjectSuccess(result.data.content));
-        console.log(result);
       })
       .catch((error) => {
         dispatch(actDeleteProjectFailed(error));
@@ -114,5 +113,33 @@ const actAsignUserFailed = (err) => {
   return {
     type: actType.ASIGN_USER_PROJECT_FAILED,
     payload: err,
+  };
+};
+
+//delete user from project
+export const actDeleteUserProject = (object) => {
+  return (dispatch) => {
+    api
+      .post("Project/removeUserFromProject", object)
+      .then((result) => {
+        dispatch(actDeleteUserProjectSuccess(result.data.content));
+      })
+      .catch((err) => {
+        dispatch(actDeleteUserProjectFailed(err));
+      });
+  };
+};
+
+const actDeleteUserProjectSuccess = (data) => {
+  return {
+    type: actType.DELETE_USER_PROJECT_SUCCESS,
+    payload: data,
+  };
+};
+
+const actDeleteUserProjectFailed = (error) => {
+  return {
+    type: actType.DELETE_USER_PROJECT_FAILED,
+    payload: error,
   };
 };

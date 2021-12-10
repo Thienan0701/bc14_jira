@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { actLoginApi } from "./modules/actions";
 import Loader from "../../components/Loader/Loader";
 import { Link } from "react-router-dom";
+import * as Yup from "yup";
 
 function Login(props) {
-  const { errors } = props;
+  // const { errors } = props;
 
   const [state, setstate] = useState({
     email: "",
@@ -52,7 +53,7 @@ function Login(props) {
             name="email"
             onChange={handleOnchange}
           />
-          <div className="text-danger">{errors.email}</div>
+          {/* <div className="text-danger">{errors.email}</div> */}
         </div>
         <div className="form-group">
           <label>Password</label>
@@ -62,7 +63,7 @@ function Login(props) {
             name="password"
             onChange={handleOnchange}
           />
-          <div className="text-danger">{errors.password}</div>
+          {/* <div className="text-danger">{errors.password}</div> */}
         </div>
         <div className="form-group ">
           <div className="row mt-2 d-flex justify-content-center">
@@ -87,30 +88,19 @@ function Login(props) {
   );
 }
 
-const LoginWithFormik = withFormik({
-  mapPropsToValues: () => ({
-    email: "",
-    password: "",
-  }),
-  // Custom sync validation
-  validate: (values) => {
-    const errors = {};
+// const LoginWithFormik = withFormik({
+//   mapPropsToValues: () => ({
+//     email: "",
+//     password: "",
+//   }),
 
-    if (!values.email) {
-      errors.email = "Required";
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-    ) {
-      errors.email = "Invalid email address";
-    }
-    if (!values.password) {
-      errors.password = "Required";
-    }
+//   // Custom sync validation
+//   validationSchema: Yup.object().shape({
+//     email: Yup.string().required("email is required").email("email is invalid"),
+//     password: Yup.string().required("password is required"),
+//   }),
 
-    return errors;
-  },
+//   displayName: "Login",
+// })(Login);
 
-  displayName: "Login",
-})(Login);
-
-export default LoginWithFormik;
+export default Login;
