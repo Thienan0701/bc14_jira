@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { actGetUserList } from "./modules/actions";
+import { actGetUserList, actFilterList } from "./modules/actions";
 import User from "./User/User";
 
 function UserManage() {
@@ -11,14 +11,36 @@ function UserManage() {
 
   const userList = useSelector((state) => state.usermanageReducer.data);
 
+  const [keyword, setkeyword] = useState("");
+
   const renderUserList = () => {
     return userList?.map((user) => {
       return <User key={user.userId} user={user} />;
     });
   };
+  const handleFilter = (e) => {
+    setkeyword(e.target.value);
+    dispatch(actFilterList(keyword));
+  };
   return (
     <div>
       <h3>User management</h3>
+      <div
+        className="row d-flex justify-content-end"
+        style={{ display: "flex" }}
+      >
+        <div className="col-md-6 d-flex justify-content-end">
+          <input
+            type="search"
+            className="form-control"
+            placeholder="username"
+            onChange={handleFilter}
+          />
+        </div>
+        <div className="col-md-5 d-flex justify-content-center">
+          <button className="btn btn-primary">Add User</button>
+        </div>
+      </div>
       <div className="table-responsive mt-3 mb-5" style={{ height: 500 }}>
         <table className="table">
           <thead>

@@ -4,6 +4,14 @@ const initialState = {
   data: null,
   loading: false,
   error: null,
+
+  //delete user
+  deleteResult: null,
+  deleteErr: null,
+
+  //filter
+  dataDefault: null,
+  keyword: null,
 };
 const usermanageReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -16,6 +24,7 @@ const usermanageReducer = (state = initialState, action) => {
     case actTypes.LIST_USER_SUCCESS:
       state.loading = false;
       state.data = action.payload;
+      state.dataDefault = action.payload;
       state.error = null;
       return { ...state };
 
@@ -25,6 +34,23 @@ const usermanageReducer = (state = initialState, action) => {
       state.error = action.payload;
       return { ...state };
 
+    case actTypes.DELETE_USER_SUCCESS:
+      state.deleteResult = action.payload;
+      state.deleteErr = null;
+      return { ...state };
+    case actTypes.DELETE_USER_FAILED:
+      state.deleteResult = null;
+      state.deleteErr = action.payload;
+      return { ...state };
+
+    case actTypes.FILTER_USER:
+      state.keyword = action.payload;
+      state.data = state.dataDefault.filter((user) => {
+        return (
+          user.name.toLowerCase().indexOf(state.keyword.toLowerCase()) !== -1
+        );
+      });
+      return { ...state };
     default:
       return { ...state };
   }

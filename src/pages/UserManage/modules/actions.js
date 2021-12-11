@@ -33,3 +33,38 @@ const actListUserFailed = (error) => {
     payload: error,
   };
 };
+
+//delete user
+export const actDeleteUser = (id) => {
+  return (dispatch) => {
+    api
+      .delete(`Users/deleteUser?id=${id}`)
+      .then((result) => {
+        dispatch(actDeleteUserSuccess(result.data.content));
+      })
+      .catch((error) => {
+        dispatch(actDeleteUserFailed(error));
+      });
+  };
+};
+const actDeleteUserSuccess = (data) => {
+  return {
+    type: actType.DELETE_USER_SUCCESS,
+    payload: data,
+  };
+};
+
+const actDeleteUserFailed = (error) => {
+  return {
+    type: actType.DELETE_USER_FAILED,
+    payload: error,
+  };
+};
+
+//filter
+export const actFilterList = (keyword) => {
+  return {
+    type: actType.FILTER_USER,
+    payload: keyword,
+  };
+};

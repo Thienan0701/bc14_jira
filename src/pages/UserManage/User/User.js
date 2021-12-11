@@ -1,7 +1,30 @@
 import React from "react";
+import { Popconfirm, message } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { actDeleteUser, actGetUserList } from "../modules/actions";
 
 function User(props) {
   const { user } = props;
+  const dispatch = useDispatch();
+  const deleteUserResult = useSelector(
+    (state) => state.usermanageReducer.deleteResult
+  );
+  const deleteUserErr = useSelector(
+    (state) => state.usermanageReducer.deleteErr
+  );
+
+  function confirm() {
+    dispatch(actDeleteUser(user.userId));
+    if (deleteUserResult) {
+      dispatch(actGetUserList());
+      message.success(`${deleteUserResult}`);
+    } else if (deleteUserErr) {
+      message.error(`${deleteUserErr?.response?.data?.content}`);
+    }
+  }
+  function cancel() {
+    message.error("Canceled");
+  }
   return (
     <tr>
       <th scope="row">{user.userId}</th>
@@ -21,13 +44,21 @@ function User(props) {
             </button>
           </div>
           <div className="col-md-6">
-            <button
-              type="button"
-              className="btn-sm btn-danger"
-              title="Delete User"
+            <Popconfirm
+              title="Are you sure to delete this task?"
+              onConfirm={confirm}
+              onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
             >
-              <i className="far fa-trash-alt"></i>
-            </button>
+              <button
+                type="button"
+                className="btn-sm btn-danger"
+                title="Delete User"
+              >
+                <i className="far fa-trash-alt"></i>
+              </button>
+            </Popconfirm>
           </div>
         </div>
       </td>
