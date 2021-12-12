@@ -11,17 +11,22 @@ function UserManage() {
 
   const userList = useSelector((state) => state.usermanageReducer.data);
 
-  const [keyword, setkeyword] = useState("");
+  const [keyword, setKeyword] = useState("");
 
   const renderUserList = () => {
-    return userList?.map((user) => {
-      return <User key={user.userId} user={user} />;
-    });
+    if (userList) {
+      let userRender = [...userList];
+      if (keyword) {
+        userRender = userList.filter((user) => {
+          return user.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
+        });
+      }
+      return userRender?.map((user) => {
+        return <User key={user.userId} user={user} />;
+      });
+    }
   };
-  const handleFilter = (e) => {
-    setkeyword(e.target.value);
-    dispatch(actFilterList(keyword));
-  };
+
   return (
     <div className="container">
       <h3>User management</h3>
@@ -34,7 +39,9 @@ function UserManage() {
             type="search"
             className="form-control"
             placeholder="username"
-            onChange={handleFilter}
+            onChange={(e) => {
+              setKeyword(e.target.value);
+            }}
           />
         </div>
         <div className="col-md-5 d-flex justify-content-center">
