@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import { Button } from "antd";
 import { FacebookOutlined } from "@ant-design/icons";
-import { withFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { actLoginApi } from "./modules/actions";
 import Loader from "../../components/Loader/Loader";
 import { Link } from "react-router-dom";
-import * as Yup from "yup";
 
 function Login(props) {
-  // const { errors } = props;
-
   const [state, setstate] = useState({
     email: "",
     password: "",

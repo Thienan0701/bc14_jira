@@ -24,14 +24,16 @@ function SideNavHome() {
           </Link>
         </li>
         <li>
-          <a href="#">
-            <i className="fa fa-cog" aria-hidden="true" /> Settings
-          </a>
+          <Link to="#">
+            <i className="fa fa-users" aria-hidden="true" />
+            Settings
+          </Link>
         </li>
         <li>
-          <a href="#">
-            <i className="fa fa-info-circle" aria-hidden="true" /> Information
-          </a>
+          <Link to="#">
+            <i className="fa fa-users" aria-hidden="true" />
+            Information
+          </Link>
         </li>
       </ul>
     </div>

@@ -1,4 +1,3 @@
-import { createBrowserHistory } from "history";
 import "./App.css";
 
 import { Suspense, lazy } from "react";
@@ -8,11 +7,9 @@ import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
 
 import { UserLoginTemplate } from "./templates/HomeTemplate/UserLoginTemplate";
 
-export const history = createBrowserHistory({ forceRefresh: true });
-
 function App() {
   return (
-    <BrowserRouter history={history}>
+    <BrowserRouter>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           <HomeTemplate

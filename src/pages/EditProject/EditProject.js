@@ -9,28 +9,34 @@ function EditProject(props) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actGetDetailProject(id));
-  }, []);
+  }, [dispatch, id]);
   const detail = useSelector((state) => state.editProjectReducer.data);
   const loading = useSelector((state) => state.editProjectReducer.loading);
   const allCategory = useSelector(
     (state) => state.editProjectReducer.allCategory
   );
 
-  const [state, setstate] = useState({});
+  const [state, setState] = useState({
+    id: 0,
+    projectName: "",
+    description: "",
+    category: "",
+  });
 
   useEffect(() => {
-    setstate({
-      id: +id,
-      projectName: detail?.projectName,
-      creator: detail?.creator.id,
-      description: detail?.description,
-      categoryId: 0,
-    });
+    if (detail) {
+      setState({
+        id: detail?.id,
+        projectName: detail?.projectName,
+        description: detail?.description,
+        categoryId: detail?.projectCategory.id.toString(),
+      });
+    }
   }, [detail, id]);
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
-    setstate({
+    setState({
       ...state,
       [name]: value,
     });
@@ -70,7 +76,7 @@ function EditProject(props) {
               <input
                 type="text"
                 name="projectName"
-                value={state.projectName}
+                value={state?.projectName}
                 onChange={handleOnchange}
                 placeholder="name"
                 className="form-control"
@@ -84,7 +90,7 @@ function EditProject(props) {
                 className="form-control"
                 aria-label="Default select example"
                 name="categoryId"
-                defaultValue={detail?.projectCategory.id}
+                value={detail?.projectCategory.id}
                 onChange={handleOnchange}
               >
                 {allCategory?.map((category, index) => {
@@ -121,10 +127,9 @@ function EditProject(props) {
               to="/"
               className="btn btn-warning mx-1 my-1"
               onClick={() => {
-                setstate({
+                setState({
                   id: 0,
                   projectName: "",
-                  creator: "",
                   description: "",
                   categoryId: 0,
                 });

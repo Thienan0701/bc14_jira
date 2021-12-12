@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Route } from "react-router";
 import { Layout } from "antd";
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 export const UserLoginTemplate = (props) => {
   const { Component, ...restProps } = props;
