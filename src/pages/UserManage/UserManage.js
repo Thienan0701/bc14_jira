@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { actGetUserList, actFilterList } from "./modules/actions";
+import { actGetUserList } from "./modules/actions";
 import User from "./User/User";
 
 function UserManage() {
@@ -50,7 +50,7 @@ function UserManage() {
       </div>
       <div
         className="table-responsive mt-3 mb-5"
-        style={{ height: 450, overflowX: "hidden" }}
+        style={{ height: 800, overflowX: "hidden" }}
       >
         <table className="table">
           <thead>
