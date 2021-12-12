@@ -28,13 +28,13 @@ function UserManage() {
   };
 
   return (
-    <div>
+    <div className="container">
       <h3>User management</h3>
       <div
-        className="row d-flex justify-content-end"
-        style={{ display: "flex" }}
+        className="row d-flex justify-content-start mt-3"
+        style={{ display: "flex", width: 800 }}
       >
-        <div className="col-md-6 d-flex justify-content-end">
+        <div className=" col-md-6 d-flex justify-content-end">
           <input
             type="search"
             className="form-control"
@@ -48,7 +48,10 @@ function UserManage() {
           <button className="btn btn-primary">Add User</button>
         </div>
       </div>
-      <div className="table-responsive mt-3 mb-5" style={{ height: 500 }}>
+      <div
+        className="table-responsive mt-3 mb-5"
+        style={{ height: 450, overflowX: "hidden" }}
+      >
         <table className="table">
           <thead>
             <tr>
