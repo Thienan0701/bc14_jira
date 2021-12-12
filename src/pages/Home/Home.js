@@ -29,7 +29,7 @@ function Home() {
         className="table-responsive mt-3 mb-5"
         style={{ height: 500, overflowX: "hidden" }}
       >
-        <table className="table">
+        <table className="table  table-bordered">
           <thead>
             <tr>
               <th scope="col">id</th>
