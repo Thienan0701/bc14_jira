@@ -25,7 +25,10 @@ function Home() {
   return (
     <div className="container">
       <h3>Project management</h3>
-      <div className="table-responsive mt-3 mb-5" style={{ height: 500 }}>
+      <div
+        className="table-responsive mt-3 mb-5"
+        style={{ height: 500, overflowX: "hidden" }}
+      >
         <table className="table">
           <thead>
             <tr>

@@ -34,7 +34,7 @@ function User(props) {
 
       <td>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <button
               type="button"
               className="btn-sm btn-primary"
@@ -43,11 +43,12 @@ function User(props) {
               <i className="fas fa-pen"></i>
             </button>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <Popconfirm
-              title="Are you sure to delete this task?"
+              title="Delete this user?"
               onConfirm={confirm}
               onCancel={cancel}
+              placement="bottom"
               okText="Yes"
               cancelText="No"
             >
