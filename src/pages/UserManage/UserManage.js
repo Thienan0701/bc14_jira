@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { actGetUserList, actFilterList } from "./modules/actions";
+import { actGetUserList } from "./modules/actions";
 import User from "./User/User";
+import "./style.css";
 
 function UserManage() {
   const dispatch = useDispatch();
@@ -49,10 +50,10 @@ function UserManage() {
         </div>
       </div>
       <div
-        className="table-responsive mt-3 mb-5"
-        style={{ height: 450, overflowX: "hidden" }}
+        className="table-responsive mt-3 mb-5 "
+        style={{ height: 450, overflowX: "auto", width: "100%" }}
       >
-        <table className="table  table-bordered">
+        <table className="table table-bordered">
           <thead>
             <tr>
               <th scope="col">id</th>

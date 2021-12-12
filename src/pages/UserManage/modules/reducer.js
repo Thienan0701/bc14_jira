@@ -6,8 +6,8 @@ const initialState = {
   error: null,
 
   //delete user
-  deleteResult: null,
-  deleteErr: null,
+  deleteResult: "",
+  deleteErr: [],
 };
 const usermanageReducer = (state = initialState, action) => {
   switch (action.type) {
