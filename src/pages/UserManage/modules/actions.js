@@ -35,14 +35,16 @@ const actListUserFailed = (error) => {
 };
 
 //delete user
-export const actDeleteUser = (id) => {
+export const actDeleteUser = (id, message) => {
   return (dispatch) => {
     api
       .delete(`Users/deleteUser?id=${id}`)
       .then((result) => {
+        message.success("Bạn đã xóa thành công");
         dispatch(actDeleteUserSuccess(result.data.content));
       })
       .catch((error) => {
+        message.error(error.response.data.content);
         dispatch(actDeleteUserFailed(error));
       });
   };

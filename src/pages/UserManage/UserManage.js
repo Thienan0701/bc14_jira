@@ -50,8 +50,8 @@ function UserManage() {
         </div>
       </div>
       <div
-        className="table-responsive mt-3 mb-5 "
-        style={{ height: 450, overflowX: "auto", width: "100%" }}
+        className="table-responsive mt-3 mb-5"
+        style={{ height: 800, overflowX: "hidden" }}
       >
         <table className="table table-bordered">
           <thead>
