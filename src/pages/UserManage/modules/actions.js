@@ -60,11 +60,3 @@ const actDeleteUserFailed = (error) => {
     payload: error,
   };
 };
-
-//filter
-export const actFilterList = (keyword) => {
-  return {
-    type: actType.FILTER_USER,
-    payload: keyword,
-  };
-};

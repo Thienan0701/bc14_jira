@@ -8,10 +8,6 @@ const initialState = {
   //delete user
   deleteResult: null,
   deleteErr: null,
-
-  //filter
-  dataDefault: null,
-  keyword: null,
 };
 const usermanageReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -43,14 +39,6 @@ const usermanageReducer = (state = initialState, action) => {
       state.deleteErr = action.payload;
       return { ...state };
 
-    case actTypes.FILTER_USER:
-      state.keyword = action.payload;
-      state.data = state.dataDefault.filter((user) => {
-        return (
-          user.name.toLowerCase().indexOf(state.keyword.toLowerCase()) !== -1
-        );
-      });
-      return { ...state };
     default:
       return { ...state };
   }
