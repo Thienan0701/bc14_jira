@@ -23,10 +23,7 @@ function Project(props) {
   const [value, setValue] = useState("");
   //confirm delete project
   function confirm() {
-    dispatch(actDeleteProject(project.id));
-    //reload lai danh sach;
-    dispatch(actFetchListProject());
-    message.success("Deleted");
+    dispatch(actDeleteProject(project.id, message));
   }
 
   function cancel() {

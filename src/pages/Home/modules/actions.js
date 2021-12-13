@@ -35,15 +35,18 @@ const actListProjectFailed = (error) => {
   };
 };
 //Delete project
-export const actDeleteProject = (id) => {
+export const actDeleteProject = (id, message) => {
   return (dispatch) => {
     api
       .delete(`Project/deleteProject?projectId=${id}`)
       .then((result) => {
-        dispatch(actDeleteProjectSuccess(result.data.content));
+        message.success(result.data.message);
+
+        dispatch(actDeleteProjectSuccess(result.data));
       })
       .catch((error) => {
-        dispatch(actDeleteProjectFailed(error));
+        message.error(error.response.data.message);
+        dispatch(actDeleteProjectFailed(error.response));
       });
   };
 };

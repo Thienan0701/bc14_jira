@@ -40,7 +40,7 @@ export const actDeleteUser = (id, message) => {
     api
       .delete(`Users/deleteUser?id=${id}`)
       .then((result) => {
-        message.success("Bạn đã xóa thành công");
+        message.success(result.data.content);
         dispatch(actDeleteUserSuccess(result.data.content));
       })
       .catch((error) => {
