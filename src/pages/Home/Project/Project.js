@@ -31,36 +31,13 @@ function Project(props) {
   }
 
   //The hien cac loi, ket qua cua action add,remove user project
-  const [error, setError] = useState({});
+
   const asignErr = useSelector((state) => state.homeReducer.asignErr);
   const asignResult = useSelector((state) => state.homeReducer.asignResult);
   const deleteUserResult = useSelector(
     (state) => state.homeReducer.deleteUserResult
   );
   const deleteUserErr = useSelector((state) => state.homeReducer.deleteUserErr);
-  useEffect(() => {
-    setError({
-      asignErr: asignErr,
-      asignResult: asignResult,
-      deleteUserResult: deleteUserResult,
-      deleteUserErr: deleteUserErr,
-    });
-  }, [asignErr, asignResult, deleteUserErr, deleteUserResult]);
-
-  const showErr = () => {
-    if (error.asignErr) {
-      return message.error(`${error.asignErr.response?.data?.content}`);
-    } else if (error.asignResult) {
-      return message.success(`${error.asignResult}`);
-    }
-  };
-  const showErrRemoveUser = () => {
-    if (error.deleteUserErr) {
-      return message.error(`${error.deleteUserErr.response?.data?.content}`);
-    } else if (error.deleteUserResult) {
-      return message.success(`${error.deleteUserResult}`);
-    }
-  };
 
   // Content cac member cua project
   const content = (
@@ -93,15 +70,17 @@ function Project(props) {
                     style={{ borderRadius: "50%" }}
                     onClick={() => {
                       dispatch(
-                        actDeleteUserProject({
-                          projectId: project.id,
-                          userId: member.userId,
-                        })
+                        actDeleteUserProject(
+                          {
+                            projectId: project.id,
+                            userId: member.userId,
+                          },
+                          message
+                        )
                       );
-                      if (error.deleteUserResult) {
+                      if (deleteUserResult) {
                         dispatch(actFetchListProject());
                       }
-                      showErrRemoveUser();
                     }}
                   >
                     X
@@ -169,15 +148,17 @@ function Project(props) {
                   setstate({ visible: !state.visible });
 
                   dispatch(
-                    actAsignUserProject({
-                      projectId: project.id,
-                      userId: option,
-                    })
+                    actAsignUserProject(
+                      {
+                        projectId: project.id,
+                        userId: option,
+                      },
+                      message
+                    )
                   );
-                  if (error.asignResult) {
+                  if (asignResult) {
                     dispatch(actFetchListProject());
                   }
-                  showErr();
                 }}
                 onSearch={(value) => {
                   dispatch(actSearchUser(value));

@@ -92,15 +92,17 @@ const actSearchUserFailed = (err) => {
 };
 
 //adduser to project
-export const actAsignUserProject = (object) => {
+export const actAsignUserProject = (object, message) => {
   return (dispatch) => {
     api
       .post("Project/assignUserProject", object)
       .then((result) => {
+        message.success(result.data);
         dispatch(actAsignUserSuccess(result.data.content));
       })
       .catch((error) => {
-        dispatch(actAsignUserFailed(error));
+        message.error(error.response.data.message);
+        dispatch(actAsignUserFailed(error.response.data));
       });
   };
 };
@@ -120,15 +122,17 @@ const actAsignUserFailed = (err) => {
 };
 
 //delete user from project
-export const actDeleteUserProject = (object) => {
+export const actDeleteUserProject = (object, message) => {
   return (dispatch) => {
     api
       .post("Project/removeUserFromProject", object)
       .then((result) => {
+        message.success(result.data.content);
         dispatch(actDeleteUserProjectSuccess(result.data.content));
       })
       .catch((err) => {
-        dispatch(actDeleteUserProjectFailed(err));
+        message.success(err.response.data.message);
+        dispatch(actDeleteUserProjectFailed(err.response.data.message));
       });
   };
 };
