@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "antd";
 import { FacebookOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { actLoginApi } from "./modules/actions";
 import { Link } from "react-router-dom";
 
 function Login(props) {
-  const [state, setstate] = useState({
+  const [state, setState] = useState({
     values: {
       email: "",
       password: "",
@@ -21,33 +21,16 @@ function Login(props) {
     formValid: false, //form chua hop le
   });
 
-  useEffect(() => {
-    setstate({
-      values: {
-        email: "dfd",
-        password: "dfdf",
-      },
-      errors: {
-        email: "",
-        password: "",
-      },
-      emailValid: false,
-      passwordValid: false,
-      formValid: false, //form chua hop le
-    });
-  }, []);
-
   const handleOnchange = (e) => {
     const { name, value } = e.target;
-    setstate({
+    setState({
+      ...state,
       values: { ...state.values, [name]: value },
     });
-    console.log(state);
   };
 
   const handleErors = (e) => {
     const { name, value } = e.target;
-
     let mess = value.trim() === "" ? name + " không được rỗng" : "";
     let { emailValid, passwordValid } = state;
 
@@ -61,8 +44,8 @@ function Login(props) {
         break;
       case "password":
         passwordValid = mess === "" ? true : false;
-        if (value && value.length <= 2) {
-          mess = "độ dài password phải từ 3 trở lên";
+        if (value.length <= 5 || value.length > 24) {
+          mess = "độ dài password phải từ 6 đến 24";
           passwordValid = false;
         }
         break;
@@ -70,17 +53,11 @@ function Login(props) {
       default:
         break;
     }
-    setstate({
+    setState({
+      ...state,
       errors: { ...state.errors, [name]: mess },
       emailValid,
       passwordValid,
-    });
-    handleFormValid();
-  };
-
-  const handleFormValid = () => {
-    const { passwordValid, emailValid } = state;
-    setstate({
       formValid: emailValid && passwordValid,
     });
   };
@@ -90,8 +67,8 @@ function Login(props) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // console.log(state);
-    dispatch(actLoginApi(state, props.history));
+
+    dispatch(actLoginApi(state.values, props.history));
   };
 
   //alert khi login fail
@@ -110,14 +87,14 @@ function Login(props) {
             type="text"
             className="form-control"
             name="email"
-            // onBlur={handleErors}
-
+            value={state.email}
+            onBlur={handleErors}
             onChange={handleOnchange}
           />
           {state.errors.email ? (
             <div className="alert alert-danger">{state.errors.email}</div>
           ) : (
-            ""
+            " "
           )}
         </div>
         <div className="form-group">
@@ -126,18 +103,23 @@ function Login(props) {
             type="password"
             className="form-control"
             name="password"
+            value={state.password}
             onBlur={handleErors}
             onChange={handleOnchange}
           />
           {state.errors.password ? (
             <div className="alert alert-danger">{state.errors.password}</div>
           ) : (
-            ""
+            " "
           )}
         </div>
         <div className="form-group ">
           <div className="row mt-2 d-flex justify-content-center">
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              disabled={!state.formValid}
+              className="btn btn-primary"
+            >
               Login
             </button>
             <Link type="button" className="btn btn-danger ml-1" to="/register">
@@ -148,7 +130,6 @@ function Login(props) {
 
         <div className="social mt-2 d-flex justify-content-center">
           <Button
-            disabled={!state.formValid}
             type="primary"
             shape="circle"
             icon={<FacebookOutlined />}
