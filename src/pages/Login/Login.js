@@ -1,28 +1,93 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "antd";
 import { FacebookOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { actLoginApi } from "./modules/actions";
-import Loader from "../../components/Loader/Loader";
+
 import { Link } from "react-router-dom";
 
 function Login(props) {
   const [state, setstate] = useState({
-    email: "",
-    password: "",
+    values: {
+      email: "",
+      password: "",
+    },
+    errors: {
+      email: "",
+      password: "",
+    },
+    emailValid: false,
+    passwordValid: false,
+    formValid: false, //form chua hop le
   });
+
+  useEffect(() => {
+    setstate({
+      values: {
+        email: "dfd",
+        password: "dfdf",
+      },
+      errors: {
+        email: "",
+        password: "",
+      },
+      emailValid: false,
+      passwordValid: false,
+      formValid: false, //form chua hop le
+    });
+  }, []);
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
     setstate({
-      ...state,
-      [name]: value,
+      values: { ...state.values, [name]: value },
+    });
+    console.log(state);
+  };
+
+  const handleErors = (e) => {
+    const { name, value } = e.target;
+
+    let mess = value.trim() === "" ? name + " không được rỗng" : "";
+    let { emailValid, passwordValid } = state;
+
+    switch (name) {
+      case "email":
+        emailValid = mess === "" ? true : false;
+        if (value && !value.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)) {
+          mess = " Email chưa đúng định dạng";
+          emailValid = false;
+        }
+        break;
+      case "password":
+        passwordValid = mess === "" ? true : false;
+        if (value && value.length <= 2) {
+          mess = "độ dài password phải từ 3 trở lên";
+          passwordValid = false;
+        }
+        break;
+
+      default:
+        break;
+    }
+    setstate({
+      errors: { ...state.errors, [name]: mess },
+      emailValid,
+      passwordValid,
+    });
+    handleFormValid();
+  };
+
+  const handleFormValid = () => {
+    const { passwordValid, emailValid } = state;
+    setstate({
+      formValid: emailValid && passwordValid,
     });
   };
 
   const dispatch = useDispatch();
   const error = useSelector((state) => state.loginReducer.error);
-  const loading = useSelector((state) => state.loginReducer.loading);
+
   const handleLogin = (e) => {
     e.preventDefault();
     // console.log(state);
@@ -33,8 +98,6 @@ function Login(props) {
   const renderNoti = () => {
     return error && <div className="alert alert-danger">{error?.message}</div>;
   };
-
-  if (loading) return <Loader />;
 
   return (
     <div className="container" style={{ height: window.innerHeight }}>
@@ -47,9 +110,15 @@ function Login(props) {
             type="text"
             className="form-control"
             name="email"
+            // onBlur={handleErors}
+
             onChange={handleOnchange}
           />
-          {/* <div className="text-danger">{errors.email}</div> */}
+          {state.errors.email ? (
+            <div className="alert alert-danger">{state.errors.email}</div>
+          ) : (
+            ""
+          )}
         </div>
         <div className="form-group">
           <label>Password</label>
@@ -57,9 +126,14 @@ function Login(props) {
             type="password"
             className="form-control"
             name="password"
+            onBlur={handleErors}
             onChange={handleOnchange}
           />
-          {/* <div className="text-danger">{errors.password}</div> */}
+          {state.errors.password ? (
+            <div className="alert alert-danger">{state.errors.password}</div>
+          ) : (
+            ""
+          )}
         </div>
         <div className="form-group ">
           <div className="row mt-2 d-flex justify-content-center">
@@ -74,6 +148,7 @@ function Login(props) {
 
         <div className="social mt-2 d-flex justify-content-center">
           <Button
+            disabled={!state.formValid}
             type="primary"
             shape="circle"
             icon={<FacebookOutlined />}
@@ -83,20 +158,5 @@ function Login(props) {
     </div>
   );
 }
-
-// const LoginWithFormik = withFormik({
-//   mapPropsToValues: () => ({
-//     email: "",
-//     password: "",
-//   }),
-
-//   // Custom sync validation
-//   validationSchema: Yup.object().shape({
-//     email: Yup.string().required("email is required").email("email is invalid"),
-//     password: Yup.string().required("password is required"),
-//   }),
-
-//   displayName: "Login",
-// })(Login);
 
 export default Login;
