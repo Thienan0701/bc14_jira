@@ -23,10 +23,10 @@ function Home() {
     return <Loader />;
   }
   return (
-    <div className="container row m-0">
+    <div>
       <h3>Project management</h3>
       <div className="table-responsive mt-3 mb-5" style={{ height: 500 }}>
-        <table className="table table-bordered">
+        <table className="table table-bordered ">
           <thead>
             <tr>
               <th scope="col">id</th>

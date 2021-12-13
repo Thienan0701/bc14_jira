@@ -21,7 +21,7 @@ function User(props) {
       <td>{user.phoneNumber}</td>
 
       <td>
-        <div className="row">
+        <div className="row m-0">
           <div className="col-md-4">
             <button
               type="button"

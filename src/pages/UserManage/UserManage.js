@@ -28,7 +28,7 @@ function UserManage() {
   };
 
   return (
-    <div className="container row m-0">
+    <div>
       <h3>User management</h3>
       <div
         className="form-group d-flex justify-content-start mt-3"
@@ -48,7 +48,7 @@ function UserManage() {
           <button className="btn btn-primary">Add User</button>
         </div>
       </div>
-      <div className="table-responsive mt-3 mb-5" style={{ height: 800 }}>
+      <div className="table-responsive mt-3 mb-5 " style={{ height: 800 }}>
         <table className="table table-bordered">
           <thead>
             <tr>

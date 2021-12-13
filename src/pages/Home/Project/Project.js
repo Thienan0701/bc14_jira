@@ -42,7 +42,7 @@ function Project(props) {
     <div className="table-responsive " style={{ height: 300 }}>
       <table className="table">
         <thead>
-          <tr>
+          <tr className="class m-0">
             <th>id</th>
             <th>avatar</th>
             <th>username</th>
@@ -52,7 +52,7 @@ function Project(props) {
         <tbody>
           {project?.members.map((member) => {
             return (
-              <tr key={member.userId}>
+              <tr className="class m-0" key={member.userId}>
                 <td>{member.userId}</td>
                 <td>
                   <img
@@ -182,7 +182,7 @@ function Project(props) {
         </Popover>
       </td>
       <td>
-        <div className="row">
+        <div className="row m-0">
           <div className="col-md-6">
             <Link
               type="button"
