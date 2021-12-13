@@ -32,12 +32,10 @@ function Project(props) {
 
   //The hien cac loi, ket qua cua action add,remove user project
 
-  const asignErr = useSelector((state) => state.homeReducer.asignErr);
   const asignResult = useSelector((state) => state.homeReducer.asignResult);
   const deleteUserResult = useSelector(
     (state) => state.homeReducer.deleteUserResult
   );
-  const deleteUserErr = useSelector((state) => state.homeReducer.deleteUserErr);
 
   // Content cac member cua project
   const content = (
