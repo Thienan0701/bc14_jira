@@ -4,11 +4,20 @@ import { actGetCategory } from "../EditProject/modules/actions";
 import { actCreateProject } from "./modules/actions";
 
 function CreateProject(props) {
-  const [state, setstate] = useState({
-    projectName: "",
-    description: "",
-    categoryId: 0,
-    alias: "",
+  const [state, setState] = useState({
+    values: {
+      projectName: "",
+      description: "",
+      categoryId: 0,
+      alias: "",
+    },
+    errors: {
+      projectName: "",
+      description: "",
+    },
+    projectNameValid: false,
+    descriptionValid: false,
+    formValid: false,
   });
   const dispatch = useDispatch();
   useEffect(() => {
@@ -21,16 +30,42 @@ function CreateProject(props) {
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
-    setstate({
+    setState({
       ...state,
-      [name]: value,
+      values: { ...state.values, [name]: value },
+    });
+  };
+
+  const handleErors = (e) => {
+    const { name, value } = e.target;
+    let mess = value.trim() === "" ? name + " không được rỗng" : "";
+    let { projectNameValid, descriptionValid } = state;
+    switch (name) {
+      case "projectName":
+        projectNameValid = mess === "" ? true : false;
+
+        break;
+      case "description":
+        descriptionValid = mess === "" ? true : false;
+
+        break;
+
+      default:
+        break;
+    }
+    setState({
+      ...state,
+      errors: { ...state.errors, [name]: mess },
+      projectNameValid,
+      descriptionValid,
+      formValid: projectNameValid && descriptionValid,
     });
   };
 
   const handleCreate = (e) => {
     e.preventDefault();
 
-    dispatch(actCreateProject(state, props.history));
+    dispatch(actCreateProject(state.values, props.history));
   };
 
   return (
@@ -43,8 +78,14 @@ function CreateProject(props) {
             className="form-control"
             name="projectName"
             placeholder="Project name"
+            onBlur={handleErors}
             onChange={handleOnchange}
           />
+          {state.errors.projectName ? (
+            <div className="alert alert-danger">{state.errors.projectName}</div>
+          ) : (
+            " "
+          )}
         </div>
         <div className="form-group">
           <label>Description:</label>
@@ -53,8 +94,14 @@ function CreateProject(props) {
             className="form-control"
             name="description"
             placeholder="Enter description here"
+            onBlur={handleErors}
             onChange={handleOnchange}
           />
+          {state.errors.description ? (
+            <div className="alert alert-danger">{state.errors.description}</div>
+          ) : (
+            " "
+          )}
         </div>
         <div className="form-group">
           <label>Category:</label>
@@ -75,7 +122,11 @@ function CreateProject(props) {
           </select>
         </div>
         <div className="form-group">
-          <button className="btn btn-primary" type="submit">
+          <button
+            className="btn btn-primary"
+            type="submit"
+            disabled={!state.formValid}
+          >
             Create Project
           </button>
         </div>

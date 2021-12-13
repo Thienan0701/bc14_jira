@@ -82,8 +82,6 @@ function Register(props) {
       phoneNumberValid,
       formValid: emailValid && passwordValid && nameValid && phoneNumberValid,
     });
-
-    console.log(state);
   };
 
   const handleRegister = (e) => {
