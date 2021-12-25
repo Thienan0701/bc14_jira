@@ -6,7 +6,7 @@ import registerReducer from "../../pages/Register/modules/reducer";
 import createProjectReducer from "../../pages/CreateProject/modules/reducer";
 import usermanageReducer from "../../pages/UserManage/modules/reducer";
 import projectDetailReducer from "../../pages/ProjectDetail/modules/reducer";
-
+import { drawerCommonReducer } from "../../components/DrawerCommon/modules/reducer";
 //store tong
 const rootReducer = combineReducers({
   loginReducer,
@@ -16,6 +16,7 @@ const rootReducer = combineReducers({
   createProjectReducer,
   usermanageReducer,
   projectDetailReducer,
+  drawerCommonReducer,
 });
 
 export default rootReducer;

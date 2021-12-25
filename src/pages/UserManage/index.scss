@@ -1,0 +1,33 @@
+.user-manage {
+  padding: 0 1rem;
+
+  .user-manage-form {
+    display: flex;
+    padding: 1rem 0;
+    .input-search {
+      width: 200px;
+      margin-left: 0.5rem;
+    }
+  }
+  .table-user {
+    .table-content {
+      td {
+        padding: 0.5rem 0;
+      }
+    }
+  }
+  .table-action {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .user-manage {
+    .table-user {
+      .ant-table {
+        overflow: scroll;
+      }
+    }
+  }
+}

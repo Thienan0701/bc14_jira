@@ -1,0 +1,11 @@
+export const DRAWER_COMMON_OPEN = "@drawerCommonReducer/DRAWER_COMMON_OPEN";
+export const DRAWER_COMMON_CLOSE = "@drawerCommonReducer/DRAWER_COMMON_CLOSE";
+export const DRAWER_COMMON_OPEN_COMMON =
+  "@drawerCommonReducer/DRAWER_COMMON_OPEN_COMMON";
+export const DRAWER_COMMON_SET_CALLBACK =
+  "@drawerCommonReducer/DRAWER_COMMON_SET_CALLBACK";
+
+export const DRAWER_COMMON_SET_CALLBACK_CLOSE =
+  "@drawerCommonReducer/DRAWER_COMMON_SET_CALLBACK_CLOSE";
+export const DRAWER_COMMON_SET_CALLBACK_FOCUS =
+  "@drawerCommonReducer/DRAWER_COMMON_SET_CALLBACK_FOCUS";

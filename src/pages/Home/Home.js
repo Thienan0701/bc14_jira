@@ -1,44 +1,58 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../components/Loader/Loader";
 import { actFetchListProject } from "./modules/actions";
-import Project from "./Project/Project";
+import { Button } from "antd";
+import HomeTable from "./Table";
+import { Input } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import "./index.scss";
+
+import { Drawer, Form, Col, Row, Select, DatePicker, Space } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import {
+  actOpenDrawerCommon,
+  actOpenDrawerCommonFull,
+} from "../../components/DrawerCommon/modules/actions";
+import FormCreateProject from "./Forms/FormCreateProject/FormCreateProject";
+
+const { Option } = Select;
 
 function Home() {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(actFetchListProject());
-  }, [dispatch]);
 
-  const data = useSelector((state) => state.homeReducer.data);
-  const loading = useSelector((state) => state.homeReducer.loading);
+  const [valueSearch, setValueSearch] = useState("");
 
-  const renderListProject = () => {
-    return data?.map((project) => {
-      return <Project key={project.id} project={project} />;
-    });
-  };
-
-  if (loading) {
-    return <Loader />;
-  }
   return (
-    <div>
-      <h3>Project management</h3>
-      <div className="table-responsive mt-3 mb-5" style={{ height: 500 }}>
-        <table className="table table-bordered ">
-          <thead>
-            <tr>
-              <th scope="col">id</th>
-              <th scope="col">projectName</th>
-              <th scope="col">category</th>
-              <th scope="col">creator</th>
-              <th scope="col">members</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>{renderListProject()}</tbody>
-        </table>
+    <div className="home">
+      <div className="home-form">
+        <Button
+          type="primary"
+          onClick={() =>
+            dispatch(
+              actOpenDrawerCommonFull({
+                component: <FormCreateProject />,
+                callback: () => {
+                  alert("ok");
+                },
+                title: "Create Project",
+              })
+            )
+          }
+        >
+          Create Project
+        </Button>
+        <Input
+          className="input-search"
+          placeholder="Enter your username"
+          onChange={(e) => {
+            setValueSearch(e.target.value);
+          }}
+          suffix={<SearchOutlined />}
+        />
+      </div>
+      <div className="table-project">
+        <HomeTable valueSearch={valueSearch} />
       </div>
     </div>
   );

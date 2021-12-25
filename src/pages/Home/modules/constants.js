@@ -17,3 +17,15 @@ export const ASIGN_USER_PROJECT_SUCCESS =
   "@HomeReducer/ASIGN_USER_PROJECT_SUCCESS";
 export const ASIGN_USER_PROJECT_FAILED =
   "@HomeReducer/ASIGN_USER_PROJECT_FAILED";
+
+export const CREATE_PROJECT_REQUEST = "@HomeReducer/CREATE_PROJECT_REQUEST";
+export const CREATE_PROJECT_SUCCESS = "@HomeReducer/CREATE_PROJECT_SUCCESS";
+export const CREATE_PROJECT_FAILED = "@HomeReducer/CREATE_PROJECT_FAILED";
+
+export const GET_CATEGORY_SUCCESS = "@HomeReducer/GET_CATEGORY_SUCCESS";
+
+export const GET_PROJECT_EDIT_SUCCESS = "@HomeReducer/GET_PROJECT_EDIT_SUCCESS";
+
+export const EDIT_SUCCESS = "@HomeReducer/EDIT_SUCCESS ";
+
+export const EDIT_FAILED = "@HomeReducer/EDIT_FAILED ";

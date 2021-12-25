@@ -58,8 +58,8 @@ function Register(props) {
 
       case "name":
         nameValid = mess === "" ? true : false;
-        if (value.length <= 3 || value.length > 10) {
-          mess = "độ dài name phải từ 3 đến 10";
+        if (value.length < 8 || value.length > 32) {
+          mess = "độ dài name phải từ 8 đến 32";
           nameValid = false;
         }
         break;

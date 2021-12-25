@@ -164,7 +164,7 @@ function Project(props) {
               />
             );
           }}
-          title="Add member"
+          title="Add "
           trigger="click"
           visible={state.visible}
           onVisibleChange={handleVisibleChange}

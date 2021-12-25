@@ -1,7 +1,12 @@
 import * as ActionType from "./constants";
 
+let userLogin = null;
+
+if (localStorage.getItem("UserLogin"))
+  userLogin = JSON.parse(localStorage.getItem("UserLogin"));
+
 const initialState = {
-  data: null,
+  data: userLogin,
   loading: false,
   error: null,
 };

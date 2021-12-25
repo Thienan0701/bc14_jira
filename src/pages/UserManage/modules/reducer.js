@@ -8,6 +8,15 @@ const initialState = {
   //delete user
   deleteResult: "",
   deleteErr: [],
+
+  // edit user
+  userEdit: {
+    id: "",
+    passWord: "",
+    email: "",
+    name: "",
+    phoneNumber: "strin",
+  },
 };
 const usermanageReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -39,6 +48,9 @@ const usermanageReducer = (state = initialState, action) => {
       state.deleteErr = action.payload;
       return { ...state };
 
+    case actTypes.SET_USER_UPDATE:
+      state.userEdit = action.payload;
+      return { ...state };
     default:
       return { ...state };
   }

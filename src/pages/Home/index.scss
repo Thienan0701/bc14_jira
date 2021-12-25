@@ -1,0 +1,32 @@
+.home {
+  padding: 0 1rem;
+  .home-form {
+    display: flex;
+    padding: 1rem 0;
+    .input-search {
+      width: 200px;
+      margin-left: 0.5rem;
+    }
+  }
+  .table-project {
+    .table-content {
+      td {
+        padding: 0.5rem 0;
+      }
+    }
+  }
+  .table-action {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .home {
+    .table-project {
+      .ant-table {
+        overflow: scroll;
+      }
+    }
+  }
+}

@@ -11,9 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+#root .home-common > .ant-layout {
+  height: 100vh;
+}
+.tox-tinymce-aux {
+  display: none !important;
+}
 
 @media only screen and (max-width: 600px) and (min-width: 375px) {
   .body {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ant-drawer-content-wrapper {
+    width: 100% !important;
   }
 }
