@@ -1,6 +1,5 @@
 import * as actType from "./constant";
 import api from "../../../utils/apiUtils";
-import { actOpenDrawerCommon } from "../../../components/DrawerCommon/modules/actions";
 
 export const actGetUserList = () => {
   return (dispatch) => {
@@ -68,19 +67,19 @@ export const actDeleteUser = (id, Swal) => {
       });
   };
 };
-const actDeleteUserSuccess = (data) => {
-  return {
-    type: actType.DELETE_USER_SUCCESS,
-    payload: data,
-  };
-};
+// const actDeleteUserSuccess = (data) => {
+//   return {
+//     type: actType.DELETE_USER_SUCCESS,
+//     payload: data,
+//   };
+// };
 
-const actDeleteUserFailed = (error) => {
-  return {
-    type: actType.DELETE_USER_FAILED,
-    payload: error,
-  };
-};
+// const actDeleteUserFailed = (error) => {
+//   return {
+//     type: actType.DELETE_USER_FAILED,
+//     payload: error,
+//   };
+// };
 
 export const createUser = (info, Swal) => {
   return (dispatch, getState) => {

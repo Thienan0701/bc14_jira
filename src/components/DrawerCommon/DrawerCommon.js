@@ -1,17 +1,7 @@
-import React, { useState } from "react";
-import {
-  Drawer,
-  Form,
-  Col,
-  Row,
-  Select,
-  DatePicker,
-  Space,
-  Button,
-  Input,
-} from "antd";
+import React from "react";
+import { Drawer } from "antd";
 import { useSelector } from "react-redux";
-import { actCloseDrawerCommon } from "./modules/actions";
+// import { actCloseDrawerCommon } from "./modules/actions";
 import { useDispatch } from "react-redux";
 const DrawerCommon = () => {
   const { open, callbackClose, callBackSubmit, ComponentContentDrawer, title } =

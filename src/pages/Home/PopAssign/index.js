@@ -19,7 +19,7 @@ const PopAssign = (props) => {
   const [value, setValue] = useState("");
 
   //The hien cac loi, ket qua cua action add,remove user project
-  const asignResult = useSelector((state) => state.homeReducer.asignResult);
+  // const asignResult = useSelector((state) => state.homeReducer.asignResult);
 
   const handleVisibleChange = (visible) => {
     setValue("");

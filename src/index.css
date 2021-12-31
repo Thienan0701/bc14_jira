@@ -12,9 +12,16 @@ code {
     monospace;
 }
 #root .home-common > .ant-layout {
-  height: 100vh;
+  min-height: 100vh;
 }
 .tox-tinymce-aux {
+  /* display: none !important; */
+}
+
+svg {
+  vertical-align: unset !important;
+}
+.tox-notification--warning {
   display: none !important;
 }
 
@@ -24,8 +31,29 @@ code {
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 767.98px) {
+  input[type="color"],
+  input[type="date"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="email"],
+  input[type="month"],
+  input[type="number"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="text"],
+  input[type="time"],
+  input[type="url"],
+  input[type="week"],
+  select:focus,
+  textarea {
+    font-size: 16px !important;
+  }
   .ant-drawer-content-wrapper {
     width: 100% !important;
+  }
+  iframe body {
+    font-size: 16px !important;
   }
 }

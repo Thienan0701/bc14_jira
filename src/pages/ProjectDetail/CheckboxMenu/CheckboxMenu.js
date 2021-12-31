@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Checkbox, Popover, Button, Row, Col } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { Checkbox, Popover, Row, Col } from "antd";
+// import { DownOutlined } from "@ant-design/icons";
 
 class CheckboxMenu extends React.Component {
   state = {

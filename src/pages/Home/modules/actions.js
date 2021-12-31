@@ -2,7 +2,7 @@ import * as actTypes from "./constants";
 
 import api from "../../../utils/apiUtils";
 import {
-  actCloseDrawerCommon,
+  // actCloseDrawerCommon,
   actOpenDrawerCommonFull,
 } from "../../../components/DrawerCommon/modules/actions";
 
@@ -63,18 +63,18 @@ export const actDeleteProject = (id, Swal) => {
   };
 };
 
-const actDeleteProjectSuccess = (data) => {
-  return {
-    type: actTypes.DELETE_SUCCESS,
-    payload: data,
-  };
-};
-const actDeleteProjectFailed = (error) => {
-  return {
-    type: actTypes.DELETE_FAILED,
-    payload: error,
-  };
-};
+// const actDeleteProjectSuccess = (data) => {
+//   return {
+//     type: actTypes.DELETE_SUCCESS,
+//     payload: data,
+//   };
+// };
+// const actDeleteProjectFailed = (error) => {
+//   return {
+//     type: actTypes.DELETE_FAILED,
+//     payload: error,
+//   };
+// };
 
 //Search user
 export const actSearchUser = (keyword) => {
@@ -140,19 +140,19 @@ export const actAsignUserProject = (object, Swal) => {
   };
 };
 
-const actAsignUserSuccess = (data) => {
-  return {
-    type: actTypes.ASIGN_USER_PROJECT_SUCCESS,
-    payload: data,
-  };
-};
+// const actAsignUserSuccess = (data) => {
+//   return {
+//     type: actTypes.ASIGN_USER_PROJECT_SUCCESS,
+//     payload: data,
+//   };
+// };
 
-const actAsignUserFailed = (err) => {
-  return {
-    type: actTypes.ASIGN_USER_PROJECT_FAILED,
-    payload: err,
-  };
-};
+// const actAsignUserFailed = (err) => {
+//   return {
+//     type: actTypes.ASIGN_USER_PROJECT_FAILED,
+//     payload: err,
+//   };
+// };
 
 //delete user from project
 export const actDeleteUserProject = (object, Swal) => {
@@ -194,19 +194,19 @@ export const actDeleteUserProject = (object, Swal) => {
   };
 };
 
-const actDeleteUserProjectSuccess = (data) => {
-  return {
-    type: actTypes.DELETE_USER_PROJECT_SUCCESS,
-    payload: data,
-  };
-};
+// const actDeleteUserProjectSuccess = (data) => {
+//   return {
+//     type: actTypes.DELETE_USER_PROJECT_SUCCESS,
+//     payload: data,
+//   };
+// };
 
-const actDeleteUserProjectFailed = (error) => {
-  return {
-    type: actTypes.DELETE_USER_PROJECT_FAILED,
-    payload: error,
-  };
-};
+// const actDeleteUserProjectFailed = (error) => {
+//   return {
+//     type: actTypes.DELETE_USER_PROJECT_FAILED,
+//     payload: error,
+//   };
+// };
 
 export const actCreateProject = (project, history, Swal) => {
   return (dispatch, getState) => {
@@ -236,19 +236,19 @@ export const actCreateProject = (project, history, Swal) => {
   };
 };
 
-const actCreateSuccess = (data) => {
-  return {
-    type: actTypes.CREATE_PROJECT_SUCCESS,
-    payload: data,
-  };
-};
+// const actCreateSuccess = (data) => {
+//   return {
+//     type: actTypes.CREATE_PROJECT_SUCCESS,
+//     payload: data,
+//   };
+// };
 
-const actCreateFailed = (error) => {
-  return {
-    type: actTypes.CREATE_PROJECT_FAILED,
-    payload: error,
-  };
-};
+// const actCreateFailed = (error) => {
+//   return {
+//     type: actTypes.CREATE_PROJECT_FAILED,
+//     payload: error,
+//   };
+// };
 export const actGetCategory = () => {
   return (dispatch) => {
     api
@@ -342,16 +342,16 @@ export const actEditProject = (id, project, Swal) => {
   };
 };
 
-const actEditSuccess = (data) => {
-  return {
-    type: actTypes.EDIT_SUCCESS,
-    payload: data,
-  };
-};
+// const actEditSuccess = (data) => {
+//   return {
+//     type: actTypes.EDIT_SUCCESS,
+//     payload: data,
+//   };
+// };
 
-const actEditFailed = (error) => {
-  return {
-    type: actTypes.EDIT_FAILED,
-    payload: error,
-  };
-};
+// const actEditFailed = (error) => {
+//   return {
+//     type: actTypes.EDIT_FAILED,
+//     payload: error,
+//   };
+// };

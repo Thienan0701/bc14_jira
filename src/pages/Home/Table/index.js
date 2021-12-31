@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Button, Popconfirm, Popover, Table, Tag } from "antd";
 import { useSelector } from "react-redux";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Avatar, message } from "antd";
+import { Avatar } from "antd";
 import { useDispatch } from "react-redux";
 import {
   actDeleteProject,
@@ -12,7 +12,7 @@ import {
 } from "../modules/actions";
 import PopAssign from "../PopAssign";
 import { Link } from "react-router-dom";
-import { actOpenDrawerCommonFull } from "../../../components/DrawerCommon/modules/actions";
+// import { actOpenDrawerCommonFull } from "../../../components/DrawerCommon/modules/actions";
 import FormEditProject from "../Forms/FormEditProject/FormEditProject";
 import Swal from "sweetalert2";
 import Loader from "../../../components/Loader/Loader";

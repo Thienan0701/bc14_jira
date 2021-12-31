@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
-import { actGetDetailProject } from "../modules/actions";
+import { actGetDetailProject, updateStatus } from "../modules/actions";
 import { useSelector } from "react-redux";
 import TaskDetail from "./TaskDetail/TaskDetail";
+import { message } from "antd";
 
 const Content = (props) => {
   const [listTask, setListTask] = useState();
@@ -12,7 +13,7 @@ const Content = (props) => {
 
   const { id } = props.match.params;
   useEffect(() => {
-    dispatch(actGetDetailProject(id));
+    dispatch(actGetDetailProject(id, props.history));
   }, [id]);
 
   const { data } = useSelector((state) => state.projectDetailReducer);
@@ -20,9 +21,9 @@ const Content = (props) => {
   useEffect(() => {
     setListTask(data?.lstTask);
   }, [data]);
-  console.log(data);
+
   const handleDragEnd = (result) => {
-    console.log(result);
+    const listTaskPrev = listTask;
     const { destination, source, draggableId } = result;
     if (destination) {
       if (
@@ -31,6 +32,13 @@ const Content = (props) => {
       ) {
         return;
       }
+      if (
+        destination.droppableId === source.droppableId &&
+        destination.index !== source.index
+      ) {
+        return;
+      }
+
       const listTaskTemp = [...listTask];
       const indexDropSource = +source.droppableId - 1;
       const indexDropDestination = +destination.droppableId - 1;
@@ -39,43 +47,35 @@ const Content = (props) => {
         ...listTask[indexDropDestination].lstTaskDeTail,
       ];
       const tempSource = { ...arrTempSource[source.index] };
-      if (
-        destination.droppableId === source.droppableId &&
-        destination.index !== source.index
-      ) {
-        // const itemSourceTemp = arrTempSource[source.index];
-        // arrTempSource.splice(source.index, 1);
-        // arrTempSource.splice(destination.index, 0, itemSourceTemp);
-        // listTaskTemp.splice(indexDropSource, 1, {
-        //   ...listTaskTemp[indexDropSource],
-        //   lstTaskDeTail: arrTempSource,
-        // });
 
-        // setListTask(listTaskTemp);
-        return;
-      }
       arrTempSource.splice(source.index, 1);
       listTaskTemp.splice(indexDropSource, 1, {
         ...listTaskTemp[indexDropSource],
         lstTaskDeTail: arrTempSource,
       });
-
-      // arrTempDestination.splice(destination.index, 0, tempSource);
-      // listTaskTemp.splice(indexDropDestination, 1, {
-      //   ...listTaskTemp[indexDropDestination],
-      //   lstTaskDeTail: [...arrTempDestination],
-      // });
-
       arrTempDestination.push(tempSource);
+
       listTaskTemp.splice(indexDropDestination, 1, {
         ...listTaskTemp[indexDropDestination],
         lstTaskDeTail: [...arrTempDestination],
       });
+      dispatch(
+        updateStatus(
+          {
+            taskId: tempSource.taskId,
+            statusId: destination.droppableId,
+          },
+          id,
+          props.history,
+          setListTask,
+          listTaskPrev,
+          message
+        )
+      );
 
       setListTask(listTaskTemp);
     }
   };
-
   return (
     <div className="project-content">
       <div className="project-content-wrapper">
@@ -115,13 +115,18 @@ const Content = (props) => {
                                         {...provided.dragHandleProps}
                                         className="project-content-content"
                                       >
-                                        <TaskDetail task={task} />
+                                        <TaskDetail
+                                          isOpen={props.isOpen}
+                                          setIsOpen={props.setIsOpen}
+                                          task={task}
+                                        />
                                       </div>
                                     );
                                   }}
                                 </Draggable>
                               );
                             })}
+
                             {provided.placeholder}
                           </div>
                         );

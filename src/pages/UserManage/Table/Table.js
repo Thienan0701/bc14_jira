@@ -1,8 +1,7 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Table, Tag } from "antd";
+import { Button, Popconfirm, Table } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { actOpenDrawerCommonFull } from "../../../components/DrawerCommon/modules/actions";
 import Loader from "../../../components/Loader/Loader";

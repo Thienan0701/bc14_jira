@@ -1,12 +1,10 @@
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, UserAddOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { actOpenDrawerCommonFull } from "../../components/DrawerCommon/modules/actions";
 import FormCreateUser from "./Forms/FormCreateUser/FormCreateUser";
-import { actGetUserList } from "./modules/actions";
 import TableUser from "./Table/Table";
-import User from "./User/User";
 import "./index.scss";
 function UserManage() {
   const dispatch = useDispatch();
@@ -18,6 +16,7 @@ function UserManage() {
       <div className="user-manage-form">
         <Button
           type="primary"
+          className="btn-create-user"
           onClick={() =>
             dispatch(
               actOpenDrawerCommonFull({
@@ -30,7 +29,7 @@ function UserManage() {
             )
           }
         >
-          Create User
+          <p>Create User</p> <UserAddOutlined className="btn-icon" />
         </Button>
         <Input
           className="input-search"

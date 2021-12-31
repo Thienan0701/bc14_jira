@@ -8,8 +8,14 @@ import medium from "../../../../assets/images/medium.svg";
 import taskImg from "../../../../assets/images/task.svg";
 
 import { CheckOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { getTaskDetail } from "../../modules/actions";
 
-export default function TaskDetail({ task }) {
+export default function TaskDetail(props) {
+  const { isOpen, setIsOpen, task } = props;
+
+  const dispatch = useDispatch();
+
   const renderPriority = (priorityTask) => {
     if (priorityTask?.priorityId === 1) {
       return <img className="priority" src={highest} alt="highest" />;
@@ -37,7 +43,13 @@ export default function TaskDetail({ task }) {
   };
 
   return (
-    <div className="project-content-item">
+    <div
+      className="project-content-item"
+      onClick={() => {
+        setIsOpen(true);
+        dispatch(getTaskDetail(task.taskId));
+      }}
+    >
       <p className="task-name">{task.taskName}</p>
       <div className="task-detail-footer">
         {renderTaskType()}

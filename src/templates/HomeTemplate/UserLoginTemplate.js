@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Route } from "react-router";
 import { Layout } from "antd";
+import { Suspense } from "react";
 
 const { Sider, Content } = Layout;
 
@@ -21,7 +22,9 @@ export const UserLoginTemplate = (props) => {
                 }}
               ></Sider>
               <Content>
-                <Component {...propsRoute} />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Component {...propsRoute} />
+                </Suspense>
               </Content>
             </Layout>
           </Fragment>

@@ -4,12 +4,34 @@
   .user-manage-form {
     display: flex;
     padding: 1rem 0;
+    .btn-create-user {
+      .btn-icon {
+        display: none;
+        @media screen and (max-width: 540px) {
+          display: block;
+        }
+      }
+      span {
+        display: block;
+        margin: 0;
+      }
+      p {
+        @media screen and (max-width: 540px) {
+          display: none;
+        }
+      }
+    }
     .input-search {
       width: 200px;
       margin-left: 0.5rem;
     }
   }
   .table-user {
+    overflow: auto;
+
+    table {
+      background-color: white;
+    }
     .table-content {
       td {
         padding: 0.5rem 0;
@@ -26,7 +48,7 @@
   .user-manage {
     .table-user {
       .ant-table {
-        overflow: scroll;
+        overflow: auto;
       }
     }
   }

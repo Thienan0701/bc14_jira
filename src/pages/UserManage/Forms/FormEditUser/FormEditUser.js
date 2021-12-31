@@ -10,7 +10,7 @@ import {
   setCallbackFocus,
 } from "../../../../components/DrawerCommon/modules/actions";
 import Swal from "sweetalert2";
-import { actUpdateUser, createUser } from "../../modules/actions";
+import { actUpdateUser } from "../../modules/actions";
 
 function FormEditUser(props) {
   const btnSubmitRef = useRef();

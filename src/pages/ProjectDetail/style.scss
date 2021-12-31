@@ -5,6 +5,7 @@
   display: flex;
   background: rgb(255, 255, 255);
   flex-direction: column;
+
   .project-header {
     display: flex;
     flex-direction: column;
@@ -20,9 +21,6 @@
 
         .input-search {
           width: 120px;
-          &:hover {
-            width: 200px;
-          }
         }
       }
       .list-avatar-user {
@@ -54,6 +52,36 @@
             &:hover {
               background-color: #b3bac5;
             }
+          }
+        }
+      }
+      .create-task {
+        margin-left: 1rem;
+        .btn-create-task {
+          align-items: baseline;
+          box-sizing: border-box;
+          display: inline-flex;
+          font-weight: 500;
+          position: relative;
+          text-align: center;
+          white-space: nowrap;
+          color: #ffffff;
+          cursor: pointer;
+          height: 2.28571em;
+          width: auto;
+          justify-content: center;
+          background-color: #0052cc;
+          border-width: 0px;
+          border-radius: 3px;
+          text-decoration: none;
+          outline: none;
+          padding: 0px 10px;
+          margin: 0px;
+          align-items: center;
+
+          span {
+            display: block;
+            line-height: 1;
           }
         }
       }
@@ -155,5 +183,14 @@
         }
       }
     }
+  }
+}
+.type-item {
+  cursor: pointer;
+  margin-left: -4px;
+  display: flex;
+  align-items: center;
+  img {
+    margin-right: 4px;
   }
 }

@@ -1,14 +1,50 @@
 .home {
   padding: 0 1rem;
+  .box-button {
+    padding-top: 1rem;
+    width: 250px;
+    display: flex;
+    @media screen and (max-width: 540px) {
+      width: auto;
+    }
+    button {
+      margin-right: 1rem;
+    }
+    span {
+      display: block;
+    }
+
+    .anticon-plus {
+      margin: 0;
+    }
+    .btn-icon {
+      display: none;
+      @media screen and (max-width: 540px) {
+        display: block;
+      }
+    }
+    p {
+      @media screen and (max-width: 540px) {
+        display: none;
+      }
+    }
+  }
   .home-form {
     display: flex;
     padding: 1rem 0;
     .input-search {
-      width: 200px;
-      margin-left: 0.5rem;
+      width: 250px;
     }
   }
   .table-project {
+    overflow: auto;
+    .ant-table-wrapper {
+      .ant-table-content {
+        table {
+          background-color: white;
+        }
+      }
+    }
     .table-content {
       td {
         padding: 0.5rem 0;
@@ -25,7 +61,7 @@
   .home {
     .table-project {
       .ant-table {
-        overflow: scroll;
+        overflow: auto;
       }
     }
   }
