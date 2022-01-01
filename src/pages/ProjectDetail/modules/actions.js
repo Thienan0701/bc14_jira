@@ -1,15 +1,21 @@
 import api from "../../../utils/apiUtils";
 import * as actTypes from "./constants";
 
-export const actGetDetailProject = (id, history) => {
+export const actGetDetailProject = (id, history, isLoading = false) => {
   return (dispatch) => {
+    if (isLoading) {
+      dispatch(actDetailProjectRequest());
+    }
     api
       .get(`Project/getProjectDetail?id=${id}`)
       .then((result) => {
         dispatch(actDetailProjectSuccess(result.data.content));
       })
       .catch((error) => {
-        if (error.response?.data.statusCode === 404) {
+        if (
+          error.response?.data.statusCode === 404 ||
+          error.response?.data.statusCode === 500
+        ) {
           history.push("/");
         }
         dispatch(actDetailProjectFailed(error));
@@ -17,11 +23,11 @@ export const actGetDetailProject = (id, history) => {
   };
 };
 
-// const actDetailProjectRequest = () => {
-//   return {
-//     type: actTypes.PROJECT_DETAIL_REQUEST,
-//   };
-// };
+const actDetailProjectRequest = () => {
+  return {
+    type: actTypes.PROJECT_DETAIL_REQUEST,
+  };
+};
 const actDetailProjectSuccess = (data) => {
   return {
     type: actTypes.PROJECT_DETAIL_SUCCESS,
@@ -219,7 +225,7 @@ export const actInsertComment = (
   setContentComment
 ) => {
   return (dispatch, getState) => {
-    const { avatar, name, id: userId } = getState().loginReducer.data;
+    const { avatar, name, id: idUser } = getState().loginReducer.data;
 
     api
       .post("Comment/insertComment", info)
@@ -231,7 +237,7 @@ export const actInsertComment = (
             ...prevTask.lstComment,
             {
               id: result.data.content.id,
-              userId,
+              idUser,
               commentContent: result.data.content.contentComment,
               avatar,
               name,
@@ -270,6 +276,34 @@ export const actDeleteComment = (
           message.error(error.response?.data.content);
           dispatch(getTaskDetail(taskId));
         }
+      });
+  };
+};
+
+export const actUpdateComment = (
+  info,
+  id,
+  history,
+  setTask,
+  prevTask,
+  message,
+  setContentComment,
+  prevComment,
+  callBackDifference
+) => {
+  return (dispatch) => {
+    api
+      .put(
+        `Comment/updateComment?id=${info.id}&contentComment=${info.contentComment}`
+      )
+      .then((result) => {
+        dispatch(actGetDetailProject(id, history));
+        callBackDifference();
+      })
+      .catch((error) => {
+        setTask(prevTask);
+        setContentComment(prevComment);
+        message.error(error.response?.data.content);
       });
   };
 };

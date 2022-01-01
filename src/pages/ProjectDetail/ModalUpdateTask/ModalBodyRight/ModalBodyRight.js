@@ -98,17 +98,12 @@ export default function ModalBodyRight(props) {
     setTaskDetailReal,
     taskUpdate,
     setTaskType,
+    history,
   } = props;
 
-  const {
-    taskDetail,
-    loading,
-    error,
-    dataStatus,
-    data,
-    dataPriority,
-    dataTaskType,
-  } = useSelector((state) => state.projectDetailReducer);
+  const { dataStatus, data, dataPriority } = useSelector(
+    (state) => state.projectDetailReducer
+  );
 
   const dispatch = useDispatch();
 
@@ -137,14 +132,7 @@ export default function ModalBodyRight(props) {
       statusId: item.statusId,
     };
     dispatch(
-      actUpdateStatusDetail(
-        info,
-        id,
-        prevStatusId,
-        setStatus,
-        props.history,
-        message
-      )
+      actUpdateStatusDetail(info, id, prevStatusId, setStatus, history, message)
     );
   };
 
@@ -181,7 +169,7 @@ export default function ModalBodyRight(props) {
         id,
         prevTaskDetailReal,
         setTaskDetailReal,
-        props.history,
+        history,
         message
       )
     );
@@ -218,7 +206,7 @@ export default function ModalBodyRight(props) {
         id,
         prevTaskDetailReal,
         setTaskDetailReal,
-        props.history,
+        history,
         message
       )
     );
@@ -247,7 +235,7 @@ export default function ModalBodyRight(props) {
         id,
         prevTaskDetailReal,
         setTaskDetailReal,
-        props.history,
+        history,
         message
       )
     );

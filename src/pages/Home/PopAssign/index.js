@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 
 const PopAssign = (props) => {
   const { record } = props;
+
   const dispatch = useDispatch();
   const [state, setState] = useState({
     visible: false,
@@ -18,18 +19,25 @@ const PopAssign = (props) => {
 
   const [value, setValue] = useState("");
 
-  //The hien cac loi, ket qua cua action add,remove user project
-  // const asignResult = useSelector((state) => state.homeReducer.asignResult);
-
   const handleVisibleChange = (visible) => {
     setValue("");
     setState({ visible });
   };
+
+  let recordMembers = record.members.map((member) => member.userId);
+
+  let searDataTemp = searchData ? [...searchData] : [];
+  if (recordMembers.length) {
+    searDataTemp = searDataTemp.filter(
+      (item) => !recordMembers.includes(item.userId)
+    );
+  }
+
   return (
     <Popover
       content={() => (
         <AutoComplete
-          options={searchData?.map((opts) => {
+          options={searDataTemp?.map((opts) => {
             return {
               label: opts.name,
               value: opts.userId.toString(),

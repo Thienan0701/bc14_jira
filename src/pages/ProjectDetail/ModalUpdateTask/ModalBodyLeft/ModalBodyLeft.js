@@ -14,6 +14,7 @@ import CommentItem from "./CommentItem/CommentItem";
 export default function ModalBodyLeft(props) {
   const {
     taskDetailReal,
+    setTaskDetailReal,
     inputDescriptionRefFake,
     handleClear,
     commenting,
@@ -25,9 +26,10 @@ export default function ModalBodyLeft(props) {
     isFirst,
     setIsFirst,
     setContentComment,
-    setTaskDetailReal,
     taskUpdate,
     setCommenting,
+    setTaskType,
+    history,
   } = props;
 
   const [description, setDescription] = useState("");
@@ -76,7 +78,6 @@ export default function ModalBodyLeft(props) {
       }, []),
       description: description,
     };
-    console.log(info);
 
     dispatch(
       actUpdateTask(
@@ -84,7 +85,7 @@ export default function ModalBodyLeft(props) {
         id,
         prevTaskDetailReal,
         setTaskDetailReal,
-        props.history,
+        history,
         message,
         handleDisplayDescriptionReal
       )
@@ -126,7 +127,7 @@ export default function ModalBodyLeft(props) {
         actInsertComment(
           info,
           id,
-          props.history,
+          history,
           setTaskDetailReal,
           prevTaskDetailReal,
           message,
@@ -150,6 +151,7 @@ export default function ModalBodyLeft(props) {
     const id = data.id;
     const commentId = comment.id;
     const taskId = taskDetailReal.taskId;
+    setTaskType(false);
 
     setTaskDetailReal({
       ...taskDetailReal,
@@ -162,7 +164,7 @@ export default function ModalBodyLeft(props) {
       actDeleteComment(
         commentId,
         id,
-        props.history,
+        history,
         setTaskDetailReal,
         prevTaskDetailReal,
         message,
@@ -170,7 +172,6 @@ export default function ModalBodyLeft(props) {
       )
     );
   };
-
   return (
     <div className="modal-body-update-left">
       <div className="modal-body-update-left-container">
@@ -245,13 +246,15 @@ export default function ModalBodyLeft(props) {
 
             <div className="comment-item">
               <div className="avatar">
-                <img src="https://i.ibb.co/6RJ5hq6/gaben.jpg" alt="" />
+                <img src={userLogin.avatar} alt="" />
               </div>
               <div className="comment-input">
                 <div ref={inputCommentRefFake}>
                   <div
                     onClick={(e) => {
                       if (inputCommentRefReal) {
+                        setCommenting(false);
+                        setIsFirst(false);
                         handleFocusRealComment(false);
                       }
                     }}
@@ -272,7 +275,7 @@ export default function ModalBodyLeft(props) {
                   <textarea
                     placeholder="Add a comment"
                     value={contentComment}
-                    onInput={(e) => {
+                    onChange={(e) => {
                       if (isFirst) {
                         setIsFirst(false);
                       } else {
@@ -292,7 +295,14 @@ export default function ModalBodyLeft(props) {
                 <CommentItem
                   key={index}
                   item={item}
+                  history={history}
+                  taskDetailReal={taskDetailReal}
+                  setTaskDetailReal={setTaskDetailReal}
                   handleDeleteComment={handleDeleteComment}
+                  handleClear={handleClear}
+                  addEventListenerKeyPress={addEventListenerKeyPress}
+                  commenting={commenting}
+                  inputCommentRefReal={inputCommentRefReal}
                 />
               );
             })}

@@ -6,7 +6,7 @@
   background-color: rgba(23, 43, 77, 0.5);
   left: 0;
   z-index: 1;
-  transition: all 0.3s;
+  transition: all 0.1s;
   p {
     padding: 0;
     margin: 0;
@@ -269,6 +269,22 @@
                 .comment-item {
                   margin-top: 25px;
                   position: relative;
+                  input {
+                    position: relative;
+                    background-color: #fff;
+                    border: 1px solid #d9d9d9;
+                    outline: none;
+                    font-size: 16px;
+                    margin-left: -13px;
+                    padding-left: 11px;
+                    height: 30px;
+                    width: 100%;
+                    border-radius: 2px;
+                    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+                    &:focus {
+                      border-color: #40a9ff;
+                    }
+                  }
                   .avatar {
                     position: absolute;
                     top: 0;
@@ -353,7 +369,7 @@
                       padding-bottom: 10px;
                       white-space: pre-wrap;
                       margin: 0px;
-                      font-size: 15px;
+                      font-size: 16px;
                     }
                     .action {
                       display: flex;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
-import { actGetDetailProject, updateStatus } from "../modules/actions";
+import { updateStatus } from "../modules/actions";
 import { useSelector } from "react-redux";
 import TaskDetail from "./TaskDetail/TaskDetail";
 import { message } from "antd";
@@ -10,21 +10,20 @@ import { message } from "antd";
 const Content = (props) => {
   const [listTask, setListTask] = useState();
   const dispatch = useDispatch();
-
+  const { arrUserFilter, arrPriorityFilter, valueSearch } = props;
   const { id } = props.match.params;
-  useEffect(() => {
-    dispatch(actGetDetailProject(id, props.history));
-  }, [id]);
 
   const { data } = useSelector((state) => state.projectDetailReducer);
 
   useEffect(() => {
-    setListTask(data?.lstTask);
+    if (data) {
+      setListTask(data?.lstTask);
+    }
   }, [data]);
 
   const handleDragEnd = (result) => {
     const listTaskPrev = listTask;
-    const { destination, source, draggableId } = result;
+    const { destination, source } = result;
     if (destination) {
       if (
         destination.droppableId === source.droppableId &&
@@ -76,6 +75,64 @@ const Content = (props) => {
       setListTask(listTaskTemp);
     }
   };
+
+  const handleRenderCol = (lstTaskDeTail, provided) => {
+    let lstTaskDeTailTemp = [...lstTaskDeTail];
+
+    if (arrUserFilter.length) {
+      lstTaskDeTailTemp = lstTaskDeTailTemp.filter((item) => {
+        const assigness = item.assigness.filter((item) => {
+          return arrUserFilter.includes(item.id);
+        });
+        if (assigness.length) {
+          return item;
+        }
+      });
+    }
+
+    if (arrPriorityFilter.length) {
+      lstTaskDeTailTemp = lstTaskDeTailTemp.filter((item) => {
+        return arrPriorityFilter.includes(item.priorityTask.priorityId);
+      });
+    }
+    if (valueSearch) {
+      lstTaskDeTailTemp = lstTaskDeTailTemp.filter((item) => {
+        return item.taskName
+          .trim()
+          .toLowerCase()
+          .includes(valueSearch.trim().toLowerCase());
+      });
+    }
+
+    return lstTaskDeTailTemp.map((task, index) => {
+      return (
+        <Draggable
+          key={task.taskId + ""}
+          draggableId={task.taskId + ""}
+          {...provided.draggableProps}
+          index={index}
+        >
+          {(provided) => {
+            return (
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                className="project-content-content"
+              >
+                <TaskDetail
+                  isOpen={props.isOpen}
+                  setIsOpen={props.setIsOpen}
+                  task={task}
+                />
+              </div>
+            );
+          }}
+        </Draggable>
+      );
+    });
+  };
+
   return (
     <div className="project-content">
       <div className="project-content-wrapper">
@@ -99,33 +156,10 @@ const Content = (props) => {
                             {...provided.droppableProps}
                             className="content-list"
                           >
-                            {taskListDetail.lstTaskDeTail.map((task, index) => {
-                              return (
-                                <Draggable
-                                  key={task.taskId + ""}
-                                  draggableId={task.taskId + ""}
-                                  {...provided.draggableProps}
-                                  index={index}
-                                >
-                                  {(provided) => {
-                                    return (
-                                      <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        className="project-content-content"
-                                      >
-                                        <TaskDetail
-                                          isOpen={props.isOpen}
-                                          setIsOpen={props.setIsOpen}
-                                          task={task}
-                                        />
-                                      </div>
-                                    );
-                                  }}
-                                </Draggable>
-                              );
-                            })}
+                            {handleRenderCol(
+                              taskListDetail.lstTaskDeTail,
+                              provided
+                            )}
 
                             {provided.placeholder}
                           </div>

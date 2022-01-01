@@ -1,33 +1,20 @@
-import React, { useRef, useState, memo } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { useEffect } from "react";
 import "./ModalUpdateTask.scss";
-import { Editor } from "@tinymce/tinymce-react";
-import { message, Slider } from "antd";
+import { message } from "antd";
 
 import bug from "../../../assets/images/bug.svg";
-import highest from "../../../assets/images/highest.svg";
-import low from "../../../assets/images/low.svg";
-import lowest from "../../../assets/images/lowest.svg";
-import medium from "../../../assets/images/medium.svg";
 import taskImg from "../../../assets/images/task.svg";
-import { Popover, Select, Tag, Tooltip } from "antd";
-import {
-  CloseOutlined,
-  DownOutlined,
-  ShareAltOutlined,
-} from "@ant-design/icons";
+import { Popover } from "antd";
+import { CloseOutlined, ShareAltOutlined } from "@ant-design/icons";
 import {
   actGetPriority,
   actGetStatusTask,
   actUpdateTask,
-  actUpdateStatusDetail,
   actTaskType,
-  actInsertComment,
-  actDeleteComment,
 } from "../modules/actions";
 import { useDispatch, useSelector } from "react-redux";
 import loadingTaskDetail from "../../../assets/images/loading-task-detail.svg";
-import Action from "./Action/Action";
 import ModalBodyLeft from "./ModalBodyLeft/ModalBodyLeft";
 import ModalBodyRight from "./ModalBodyRight/ModalBodyRight";
 
@@ -91,15 +78,8 @@ function ModalUpdateTask(props) {
   });
 
   // get data tu store
-  const {
-    taskDetail,
-    loading,
-    error,
-    dataStatus,
-    data,
-    dataPriority,
-    dataTaskType,
-  } = useSelector((state) => state.projectDetailReducer);
+  const { taskDetail, isLoadingTaskDetail, dataStatus, data, dataTaskType } =
+    useSelector((state) => state.projectDetailReducer);
 
   // gán task detail vào task real khi task detail thay doi(data moi nhat tu server)
   useEffect(() => {
@@ -147,12 +127,12 @@ function ModalUpdateTask(props) {
     if (isOpen && commenting) {
       addEventListenerKeyPress();
     } else {
-      window.document.removeEventListener("keypress", handleEvenWindow);
+      document.removeEventListener("keypress", memoizedListener);
     }
   }, [isOpen, commenting]);
   // hàm clear event
   const handleClear = () => {
-    window.document.removeEventListener("keypress", handleEvenWindow);
+    document.removeEventListener("keypress", memoizedListener);
     setCommenting(false);
   };
 
@@ -174,9 +154,10 @@ function ModalUpdateTask(props) {
       handleFocusRealComment();
     }
   };
+  const memoizedListener = useMemo(() => handleEvenWindow, []);
 
   const addEventListenerKeyPress = () => {
-    window.document.addEventListener("keypress", handleEvenWindow);
+    document.addEventListener("keypress", memoizedListener);
   };
 
   const handleChangeTaskType = (item) => {
@@ -230,7 +211,7 @@ function ModalUpdateTask(props) {
     >
       <div className="modal-wrapper">
         <div className="modal-container">
-          {loading ? (
+          {isLoadingTaskDetail ? (
             <div
               style={{
                 padding: 40,
@@ -324,6 +305,8 @@ function ModalUpdateTask(props) {
                   setIsFirst={setIsFirst}
                   setContentComment={setContentComment}
                   setCommenting={setCommenting}
+                  setTaskType={setTaskType}
+                  history={props.history}
                 />
                 <ModalBodyRight
                   status={status}
@@ -336,14 +319,20 @@ function ModalUpdateTask(props) {
                   setTaskDetailReal={setTaskDetailReal}
                   taskUpdate={taskUpdate}
                   setTaskType={setTaskType}
+                  history={props.history}
                 />
               </div>
             </div>
           )}
         </div>
       </div>
+      <img
+        src={loadingTaskDetail}
+        style={{ display: "none", visibility: "hidden" }}
+        alt=""
+      />
     </div>
   );
 }
 
-export default memo(ModalUpdateTask);
+export default ModalUpdateTask;

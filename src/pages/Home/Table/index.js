@@ -33,57 +33,60 @@ const HomeTable = (props) => {
   const { loading, data } = useSelector((state) => state.homeReducer);
   const { data: userLogin } = useSelector((state) => state.loginReducer);
 
-  const content = (members, record) => (
-    <table className="table-content" style={{ width: 300 }}>
-      <colgroup>
-        <col style={{ width: "calc(15%)" }} />
-        <col style={{ width: "calc(25%)" }} />
-        <col style={{ width: "calc(40%)" }} />
-        <col style={{ width: "calc(20%)" }} />
-      </colgroup>
-      <thead>
-        <tr className="class m-0">
-          <th>ID</th>
-          <th>Avatar</th>
-          <th>Name</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {members?.map((member, index) => {
-          return (
-            <tr key={index} className="class m-0">
-              <td>{member.userId}</td>
-              <td>
-                <img
-                  src={`https://i.pravatar.cc/150?u=https://ui-avatars.com/api/?name=${record.name}`}
-                  alt={member.name}
-                  style={{ borderRadius: "50%", width: 30, height: 30 }}
-                />
-              </td>
-              <td>{member.name}</td>
-              <td>
-                <DeleteOutlined
-                  style={{ fontSize: "20px" }}
-                  onClick={() => {
-                    dispatch(
-                      actDeleteUserProject(
-                        {
-                          projectId: record.id,
-                          userId: member.userId,
-                        },
-                        Swal
-                      )
-                    );
-                  }}
-                />
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  );
+  const content = (members, record) => {
+    return (
+      <table className="table-content" style={{ width: 300 }}>
+        <colgroup>
+          <col style={{ width: "calc(15%)" }} />
+          <col style={{ width: "calc(25%)" }} />
+          <col style={{ width: "calc(40%)" }} />
+          <col style={{ width: "calc(20%)" }} />
+        </colgroup>
+        <thead>
+          <tr className="class m-0">
+            <th>ID</th>
+            <th>Avatar</th>
+            <th>Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {members?.map((member, index) => {
+            return (
+              <tr key={index} className="class m-0 pop-tr">
+                <td>{member.userId}</td>
+                <td>
+                  <img
+                    className="residual-item"
+                    src={member.avatar}
+                    alt={member.name}
+                    style={{ borderRadius: "50%", width: 30, height: 30 }}
+                  />
+                </td>
+                <td>{member.name}</td>
+                <td>
+                  <DeleteOutlined
+                    style={{ fontSize: "20px" }}
+                    onClick={() => {
+                      dispatch(
+                        actDeleteUserProject(
+                          {
+                            projectId: record.id,
+                            userId: member.userId,
+                          },
+                          Swal
+                        )
+                      );
+                    }}
+                  />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    );
+  };
 
   const handleRenderMembers = (text, record) => {
     if (text.length > 0) {
@@ -96,12 +99,8 @@ const HomeTable = (props) => {
             {text.map((member, index) => {
               return (
                 <Popover key={index} content={() => content(text, record)}>
-                  <Avatar
-                    className="avatar-member"
-                    key={member.userId}
-                    style={{ backgroundColor: "#3a87f7" }}
-                  >
-                    {cutCharFirst(member.name)}
+                  <Avatar className="avatar-member " key={member.userId}>
+                    <img src={member.avatar} alt="" />
                   </Avatar>
                 </Popover>
               );

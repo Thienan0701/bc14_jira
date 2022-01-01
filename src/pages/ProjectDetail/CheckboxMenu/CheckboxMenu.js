@@ -20,6 +20,14 @@ class CheckboxMenu extends React.Component {
     }
   };
 
+  static getDerivedStateFromProps = (props) => {
+    if (props.isDelete) {
+      props.setIsDelete(false);
+      return { ...this.state, selectedItems: [] };
+    }
+    return null;
+  };
+
   onChange = (selection) => {
     this.setState({ selectedItems: [...selection] }, () => {
       this.checkIconFilled();
@@ -59,11 +67,11 @@ class CheckboxMenu extends React.Component {
                 {group.map((label, i) => {
                   return (
                     <Checkbox
-                      key={label}
-                      value={label}
-                      style={{ display: "flex", margin: "0" }}
+                      key={i}
+                      value={label.item}
+                      className="check-box-item"
                     >
-                      {label}
+                      {label.view}
                     </Checkbox>
                   );
                 })}
@@ -83,9 +91,7 @@ class CheckboxMenu extends React.Component {
         trigger="click"
         placement="bottomLeft"
       >
-        {/* <Button> */}
         {this.props.name}
-        {/* </Button> */}
       </Popover>
     );
   }

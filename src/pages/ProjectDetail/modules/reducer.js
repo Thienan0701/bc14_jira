@@ -6,6 +6,8 @@ const initialState = {
   error: null,
   // taskDetail
   taskDetail: null,
+  isLoadingTaskDetail: false,
+
   // status
   dataStatus: null,
 
@@ -46,13 +48,13 @@ const projectDetailReducer = (state = initialState, action) => {
         ...state,
         taskDetail: action.payload,
         error: null,
-        loading: false,
+        isLoadingTaskDetail: false,
       };
     case actType.TASK_DETAIL_REQUEST:
       return {
         ...state,
         error: null,
-        loading: true,
+        isLoadingTaskDetail: true,
         taskDetail: null,
       };
 
@@ -60,7 +62,7 @@ const projectDetailReducer = (state = initialState, action) => {
       return {
         ...state,
         error: action.payload,
-        loading: false,
+        isLoadingTaskDetail: false,
         taskDetail: null,
       };
 

@@ -104,21 +104,24 @@ const actSearchUserFailed = (err) => {
 };
 
 //adduser to project
-export const actAsignUserProject = (object, Swal) => {
+export const actAsignUserProject = (object, Swal = undefined) => {
   return (dispatch, getState) => {
     api
       .post("Project/assignUserProject", object)
       .then((result) => {
         // message.success(result.data);
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Assign user to project successfully!",
-          showConfirmButton: false,
-          timer: 2500,
-        }).then(() => {
-          dispatch(actFetchListProject());
-        });
+        if (Swal) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Assign user to project successfully!",
+            showConfirmButton: false,
+            timer: 2500,
+          }).then(() => {
+            dispatch(actFetchListProject());
+          });
+        } else {
+        }
       })
       .catch((error) => {
         if (error.response.data.statusCode === 403) {
@@ -214,7 +217,14 @@ export const actCreateProject = (project, history, Swal) => {
       .post(`Project/createProjectAuthorize`, project)
       .then((result) => {
         const { callbackFocus } = getState().drawerCommonReducer;
+        dispatch(
+          actAsignUserProject({
+            projectId: result.data.content.id,
+            userId: result.data.content.creator,
+          })
+        );
         callbackFocus();
+
         Swal.fire({
           position: "center",
           icon: "success",
