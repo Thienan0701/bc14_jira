@@ -48,7 +48,7 @@ const TableUser = (props) => {
       render: (text, record) => {
         return (
           <img
-            src={`https://i.pravatar.cc/150?u=https://ui-avatars.com/api/?name=${record.name}`}
+            src={text}
             alt="avatar"
             width="35"
             style={{
@@ -56,6 +56,9 @@ const TableUser = (props) => {
               width: "35px",
               display: "block",
               height: "35px",
+            }}
+            onError={(e) => {
+              e.target.src = `https://i.pravatar.cc/150?u=https://ui-avatars.com/api/?name=${record.name}`;
             }}
           />
         );

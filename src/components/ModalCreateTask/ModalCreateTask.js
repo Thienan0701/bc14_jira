@@ -104,20 +104,27 @@ function ModalCreateTask(props) {
   }
 
   const onChangeByName = (name) => (value) => {
-    setFieldValue(name, value);
+    if (value.target) setFieldValue(name, +value.target.value);
+    else setFieldValue(name, value);
   };
+
   const changeSelectProject = (name) => (value) => {
+    if (value) {
+      setFieldTouched("projectId", false);
+      setFieldError("projectId", "");
+    }
     dispatch(actGetUserByProjectId(value));
     setFieldValue(name, value);
+    setFieldValue("listUserAsign", []);
   };
 
   const handleRenderErrorFooter = () => {
     if (Object.keys(errors).length === 1) {
       if (touched.taskName && errors.taskName) {
-        return "Error Task Name";
+        return "Error: Task Name";
       }
       if (touched.projectId && errors.projectId) {
-        return "Error Project";
+        return "Error: Project";
       }
     } else if (Object.keys(errors).length === 2) {
       if (
@@ -126,18 +133,41 @@ function ModalCreateTask(props) {
         touched.projectId &&
         errors.projectId
       ) {
-        return "Error Task Name, Project";
+        return "Error: Task Name, Project";
       }
       if (touched.taskName && errors.taskName) {
-        return "Error Task Name";
+        return "Error: Task Name";
       }
       if (touched.projectId && errors.projectId) {
-        return "Error Project";
+        return "Error: Project";
       }
     }
     return <></>;
   };
 
+  const handleAssignToMe = () => {
+    if (dataUserByProjectId?.length) {
+      if (!values.listUserAsign.includes(userLogin.id)) {
+        setFieldValue("listUserAsign", [...values.listUserAsign, userLogin.id]);
+      }
+    }
+  };
+
+  const handleRenderAssignToMe = () => {
+    if (dataUserByProjectId) {
+      const index = dataUserByProjectId?.findIndex(
+        (item) => item.userId === userLogin.id
+      );
+      if (index !== -1) {
+        return (
+          <span className="assign-me" onClick={handleAssignToMe}>
+            Assign to me
+          </span>
+        );
+      }
+    }
+    return <></>;
+  };
   return (
     <div
       className="modal-create-issue"
@@ -265,7 +295,7 @@ function ModalCreateTask(props) {
                       className="input-custom"
                       value={values?.timeTrackingSpent}
                       min={0}
-                      onChange={handleChange}
+                      onChange={onChangeByName("timeTrackingSpent")}
                     />
                   </div>
                   <div className="right">
@@ -276,7 +306,7 @@ function ModalCreateTask(props) {
                       className="input-custom"
                       value={values?.timeTrackingRemaining}
                       min={0}
-                      onChange={handleChange}
+                      onChange={onChangeByName("timeTrackingRemaining")}
                     />
                   </div>
                 </div>
@@ -284,7 +314,7 @@ function ModalCreateTask(props) {
                   <label className="label">Original Estimate</label>
                   <input
                     name="originalEstimate"
-                    onChange={handleChange}
+                    onChange={onChangeByName("originalEstimate")}
                     className="input-custom"
                     value={values?.originalEstimate}
                     type="number"
@@ -309,7 +339,7 @@ function ModalCreateTask(props) {
                     })) || []
                   }
                 />
-                <span className="assign-me">Assign to me</span>
+                {handleRenderAssignToMe()}
               </div>
             </div>
             <div className="modal-body-mid">
@@ -367,6 +397,7 @@ function ModalCreateTask(props) {
             <span
               onClick={() => {
                 setIsOpen(false);
+                resetForm();
               }}
               className="btn-cancel"
             >

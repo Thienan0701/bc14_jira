@@ -1,4 +1,5 @@
 import React from "react";
+import { Tooltip } from "antd";
 
 import bug from "../../../../assets/images/bug.svg";
 import highest from "../../../../assets/images/highest.svg";
@@ -41,6 +42,35 @@ export default function TaskDetail(props) {
       return <CheckOutlined className="icon-done" />;
     }
   };
+  console.log(task);
+
+  const renderAvatar = () => {
+    return task?.assigness?.slice(0, 1).map((item, index) => {
+      return (
+        <Tooltip placement="top" title={item.name}>
+          <img
+            key={index}
+            className="avatar"
+            src={item.avatar}
+            alt=""
+            onError={(e) => {
+              e.target.src = `https://i.pravatar.cc/150?u=https://ui-avatars.com/api/?name=${item.name}`;
+            }}
+          />
+        </Tooltip>
+      );
+    });
+  };
+
+  const renderAvatarResidual = () => {
+    if (task?.assigness.length - 1 > 0) {
+      return (
+        <div className="img-residual">
+          <span>+{task?.assigness.length - 1}</span>
+        </div>
+      );
+    }
+  };
 
   return (
     <div
@@ -57,7 +87,8 @@ export default function TaskDetail(props) {
           {renderStatus()}
           {renderPriority(task.priorityTask)}
           <div className="avatar-group">
-            <img className="avatar" src="https://picsum.photos/30/30" alt="" />
+            {renderAvatar()}
+            {renderAvatarResidual()}
           </div>
         </div>
       </div>

@@ -1,15 +1,26 @@
 import * as ActionType from "./constants";
 
 let userLogin = null;
-
+let whatHappen = "";
 if (localStorage.getItem("UserLogin"))
   userLogin = JSON.parse(localStorage.getItem("UserLogin"));
+if (localStorage.getItem("WHAT_HAPPEN"))
+  whatHappen = localStorage.getItem("WHAT_HAPPEN");
+
+if (whatHappen && userLogin) {
+} else {
+  userLogin = null;
+  whatHappen = "";
+  localStorage.removeItem("UserLogin");
+  localStorage.removeItem("WHAT_HAPPEN");
+}
 
 const initialState = {
   data: userLogin,
   loading: false,
   error: null,
 };
+
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.LOGIN_REQUEST:

@@ -1,5 +1,6 @@
 import * as ActionType from "./constants";
 import api from "./../../../utils/apiUtils";
+const bcryptjs = require("bcryptjs");
 
 const TIME_EXPIRE = 3600000;
 
@@ -12,11 +13,13 @@ export const actLoginApi = (user, history) => {
         //Tg het phien
         const date = new Date().getTime();
         const expire = date + TIME_EXPIRE;
-
         //luu thoi gian het phien-> localStorage
         localStorage.setItem("exp", expire);
 
-        // dispatch(actSetTimeoutLogout(history, TIME_EXPIRE));
+        // hashPassword
+        const salt = bcryptjs.genSaltSync(10);
+        const hashPassword = bcryptjs.hashSync(user.password, salt);
+        localStorage.setItem("WHAT_HAPPEN", hashPassword);
 
         //Luu trang thai login -> Local Storage
         localStorage.setItem("UserLogin", JSON.stringify(result.data.content));

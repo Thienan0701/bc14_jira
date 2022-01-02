@@ -215,7 +215,6 @@ export default function ModalBodyRight(props) {
   const handleUpdateTimeByName = (name) => (e) => {
     const prevTaskDetailReal = taskDetailReal;
     const id = data.id;
-
     setTaskDetailReal({
       ...taskDetailReal,
       [name]: +e.target.value,

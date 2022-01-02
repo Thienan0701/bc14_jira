@@ -44,7 +44,7 @@ function Home(props) {
       <div className="home-form">
         <Input
           className="input-search"
-          placeholder="Enter your username"
+          placeholder="Enter your project"
           onChange={(e) => {
             setValueSearch(e.target.value);
           }}

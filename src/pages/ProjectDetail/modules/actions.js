@@ -190,7 +190,15 @@ export const actUpdateTask = (
       })
       .catch((error) => {
         setTask(prevTask);
-        if (error) {
+        const valueInt32 = 2147483647;
+        if (
+          error.response?.status === 400 &&
+          (info.timeTrackingSpent > valueInt32 ||
+            info.timeTrackingRemaining > valueInt32 ||
+            info.originalEstimate > valueInt32)
+        ) {
+          message.error(`The maximum value is ${valueInt32}`);
+        } else {
           message.error(error.response?.data.content);
         }
       });

@@ -229,6 +229,22 @@
                           height: 24px;
                           width: 24px;
                         }
+                        .img-residual {
+                          display: block;
+                          border-radius: 50%;
+                          height: 24px;
+                          width: 24px;
+                          background-color: #ddd;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          position: relative;
+                          border: 1px solid #1963d1;
+                          margin-left: -4px;
+                          span {
+                            font-size: 14px;
+                          }
+                        }
                       }
                     }
                   }

@@ -6,6 +6,7 @@ import { Breadcrumb, Input } from "antd";
 import CheckboxMenu from "../CheckboxMenu/CheckboxMenu";
 import { useDispatch } from "react-redux";
 import { actGetPriority } from "../modules/actions";
+import { Tooltip } from "antd";
 
 const Header = (props) => {
   const { data: detail, dataPriority } = useSelector(
@@ -104,14 +105,16 @@ const Header = (props) => {
                 : "";
               return (
                 <div key={index} className="list-avatar-user-item">
-                  <img
-                    onClick={() => {
-                      handleClickAvatarFirst(item);
-                    }}
-                    src={item.avatar}
-                    alt={item.name}
-                    className={`img-avatar ${active}`}
-                  />
+                  <Tooltip placement="top" title={item.name}>
+                    <img
+                      onClick={() => {
+                        handleClickAvatarFirst(item);
+                      }}
+                      src={item.avatar}
+                      alt={item.name}
+                      className={`img-avatar ${active}`}
+                    />
+                  </Tooltip>
                 </div>
               );
             })}

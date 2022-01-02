@@ -45,7 +45,6 @@ export const actGetUserByProjectId = (id) => {
   return async (dispatch) => {
     try {
       const result = await api.get(`Users/getUserByProjectId?idProject=${id}`);
-      console.log(result.data.content);
       dispatch(actGetUserByProjectIdSuccess(result.data.content));
     } catch (error) {
       if (error.response?.data.statusCode === 404) {

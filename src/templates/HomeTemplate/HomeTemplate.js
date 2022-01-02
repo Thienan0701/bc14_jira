@@ -69,7 +69,13 @@ export const HomeTemplate = (props) => {
                       >
                         Users
                       </Menu.Item>
-                      <Menu.Item key="3" icon={<UserOutlined />}>
+                      <Menu.Item
+                        key="/profile"
+                        onClick={() => {
+                          propsRoute.history.push("/profile");
+                        }}
+                        icon={<UserOutlined />}
+                      >
                         Profile
                       </Menu.Item>
                       <Menu.Item key="4" icon={<PoweroffOutlined />}>
