@@ -36,3 +36,93 @@
     transform: rotate(360deg);
   }
 }
+
+.input-global {
+  background-color: transparent;
+  border: 0px;
+  box-sizing: border-box;
+  color: inherit;
+  cursor: inherit;
+  min-width: 0px;
+  outline: none;
+  width: 100%;
+  line-height: 1.42857;
+  padding: 8px 6px;
+  height: 2.57em;
+  -webkit-box-align: center;
+  align-items: center;
+  background-color: #fafbfc;
+  border-color: #dfe1e6;
+  cursor: text;
+  border-radius: 3px;
+  border-width: 2px;
+  border-style: solid;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 100%;
+  font-size: 14px;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  max-width: 100%;
+  overflow: hidden;
+  transition: background-color 0.2s ease-in-out 0s,
+    border-color 0.2s ease-in-out 0s;
+  overflow-wrap: break-word;
+  vertical-align: top;
+  pointer-events: auto;
+}
+.input-global.input-project {
+  line-height: unset;
+  height: unset;
+}
+.input-global.disabled {
+  background-color: #ddd;
+}
+.input-global:focus {
+  background-color: #fff;
+  border-color: #4c9aff;
+}
+
+.btn-global {
+  -webkit-box-align: baseline;
+  align-items: baseline;
+  box-sizing: border-box;
+  display: inline-flex;
+  font-size: inherit;
+  font-style: normal;
+  font-family: inherit;
+  font-weight: 500;
+  max-width: 100%;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  height: 2.28571em;
+  line-height: 2.28571em;
+  vertical-align: middle;
+  width: auto;
+  -webkit-box-pack: center;
+  justify-content: center;
+  border-width: 0px;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: background 0.1s ease-out 0s,
+    box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  padding: 0px 10px;
+  outline: none;
+}
+.btn-global.btn-global-primary {
+  background-color: #0052cc;
+  color: #fff;
+}
+.btn-global.btn-global-primary:hover {
+  background-color: rgba(0, 82, 204, 0.9);
+}
+
+.btn-global.btn-global-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+.btn-global.btn-global-secondary:hover {
+  background-color: #646f79;
+}

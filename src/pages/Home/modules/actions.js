@@ -39,42 +39,20 @@ const actListProjectFailed = (error) => {
   };
 };
 //Delete project
-export const actDeleteProject = (id, Swal) => {
+export const actDeleteProject = (id, message) => {
   return (dispatch) => {
     api
       .delete(`Project/deleteProject?projectId=${id}`)
       .then((result) => {
-        Swal.fire({
-          title: "Delete project success!",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 2500,
-        }).then(() => {
-          dispatch(actFetchListProject());
-        });
+        message.success("Delete project success!");
+
+        dispatch(actFetchListProject());
       })
       .catch((error) => {
-        Swal.fire({
-          title: "Delete project failed!",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
+        message.error("Delete project failed!");
       });
   };
 };
-
-// const actDeleteProjectSuccess = (data) => {
-//   return {
-//     type: actTypes.DELETE_SUCCESS,
-//     payload: data,
-//   };
-// };
-// const actDeleteProjectFailed = (error) => {
-//   return {
-//     type: actTypes.DELETE_FAILED,
-//     payload: error,
-//   };
-// };
 
 //Search user
 export const actSearchUser = (keyword) => {
@@ -104,114 +82,48 @@ const actSearchUserFailed = (err) => {
 };
 
 //adduser to project
-export const actAsignUserProject = (object, Swal = undefined) => {
+export const actAsignUserProject = (object, message = undefined) => {
   return (dispatch, getState) => {
     api
       .post("Project/assignUserProject", object)
       .then((result) => {
-        // message.success(result.data);
-        if (Swal) {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Assign user to project successfully!",
-            showConfirmButton: false,
-            timer: 2500,
-          }).then(() => {
-            dispatch(actFetchListProject());
-          });
+        if (message) {
+          message.success("Assign user to project successfully!");
+
+          dispatch(actFetchListProject());
         } else {
         }
       })
       .catch((error) => {
         if (error.response.data.statusCode === 403) {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "You can not assign this project!",
-            showConfirmButton: true,
-          });
+          message.error("You can not assign this project!");
         } else {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Assign user to project failed",
-            showConfirmButton: true,
-          });
+          message.error("Assign user to project failed!");
         }
       });
   };
 };
 
-// const actAsignUserSuccess = (data) => {
-//   return {
-//     type: actTypes.ASIGN_USER_PROJECT_SUCCESS,
-//     payload: data,
-//   };
-// };
-
-// const actAsignUserFailed = (err) => {
-//   return {
-//     type: actTypes.ASIGN_USER_PROJECT_FAILED,
-//     payload: err,
-//   };
-// };
-
 //delete user from project
-export const actDeleteUserProject = (object, Swal) => {
+export const actDeleteUserProject = (object, message) => {
   return (dispatch) => {
     api
       .post("Project/removeUserFromProject", object)
       .then((result) => {
-        // message.success(result.data.content);
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Delete user from project successfully!",
-          showConfirmButton: false,
-          timer: 2500,
-        }).then(() => {
-          dispatch(actFetchListProject());
-        });
-        // dispatch(actDeleteUserProjectSuccess(result.data.content));
+        dispatch(actFetchListProject());
+        message.success("Delete user from project successfully!");
       })
       .catch((err) => {
         if (err.response.data.statusCode === 403) {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "You can not delete this user!",
-            showConfirmButton: true,
-          });
+          message.error("You can not delete this user!");
         } else {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Delete user from project failed!",
-            showConfirmButton: true,
-          });
+          message.error("Delete user from project failed!");
         }
-        // message.error(err.response.data.message);
-        // dispatch(actDeleteUserProjectFailed(err.response.data.message));
       });
   };
 };
 
-// const actDeleteUserProjectSuccess = (data) => {
-//   return {
-//     type: actTypes.DELETE_USER_PROJECT_SUCCESS,
-//     payload: data,
-//   };
-// };
-
-// const actDeleteUserProjectFailed = (error) => {
-//   return {
-//     type: actTypes.DELETE_USER_PROJECT_FAILED,
-//     payload: error,
-//   };
-// };
-
-export const actCreateProject = (project, history, Swal) => {
+export const actCreateProject = (project, history, message) => {
   return (dispatch, getState) => {
     api
       .post(`Project/createProjectAuthorize`, project)
@@ -224,41 +136,18 @@ export const actCreateProject = (project, history, Swal) => {
           })
         );
         callbackFocus();
+        message.success("Create project success");
 
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Create project success",
-          showConfirmButton: false,
-          timer: 2500,
-        }).then(() => {
-          const { callbackClose } = getState().drawerCommonReducer;
-          callbackClose();
-          dispatch(actFetchListProject());
-        });
+        const { callbackClose } = getState().drawerCommonReducer;
+        callbackClose();
+        dispatch(actFetchListProject());
       })
       .catch((error) => {
-        Swal.fire({
-          icon: "error",
-          title: error.response.data.content,
-        });
+        message.error(error.response?.data.content);
       });
   };
 };
 
-// const actCreateSuccess = (data) => {
-//   return {
-//     type: actTypes.CREATE_PROJECT_SUCCESS,
-//     payload: data,
-//   };
-// };
-
-// const actCreateFailed = (error) => {
-//   return {
-//     type: actTypes.CREATE_PROJECT_FAILED,
-//     payload: error,
-//   };
-// };
 export const actGetCategory = () => {
   return (dispatch) => {
     api
@@ -280,7 +169,7 @@ export const actCategorySuccess = (data) => {
 };
 
 // action get user edit
-export const actGetProjectEdit = (id, Component, title, Swal) => {
+export const actGetProjectEdit = (id, Component, title, message) => {
   return (dispatch, getState) => {
     api
       .get(`Project/getProjectDetail?id=${id}`)
@@ -296,12 +185,8 @@ export const actGetProjectEdit = (id, Component, title, Swal) => {
         dispatch(actGetUserEditSuccess(result.data.content));
       })
       .catch((error) => {
-        Swal.fire({
-          icon: "error",
-          title: error.response.data.content,
-        }).then(() => {
-          dispatch(actFetchListProject());
-        });
+        message.error(error.response?.data.content);
+        dispatch(actFetchListProject());
       });
   };
 };
@@ -313,55 +198,24 @@ const actGetUserEditSuccess = (data) => {
 };
 
 //Edit project
-export const actEditProject = (id, project, Swal) => {
+export const actEditProject = (id, project, message) => {
   return (dispatch, getState) => {
     api
       .put(`Project/updateProject?projectId=${id}`, project)
       .then((result) => {
         const { callbackFocus } = getState().drawerCommonReducer;
         callbackFocus();
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Edit project successfully!",
-          showConfirmButton: false,
-          timer: 2500,
-        }).then(() => {
-          const { callbackClose } = getState().drawerCommonReducer;
-          dispatch(actFetchListProject());
-          callbackClose();
-        });
+        message.success("Edit project successfully!");
+        const { callbackClose } = getState().drawerCommonReducer;
+        dispatch(actFetchListProject());
+        callbackClose();
       })
       .catch((error) => {
         if (error.response.data.statusCode === 403) {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "You can not edit this project!",
-            showConfirmButton: true,
-          });
+          message.error("You can not edit this project!");
         } else {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Edit project failed!",
-            showConfirmButton: true,
-          });
+          message.error("Edit project failed!");
         }
       });
   };
 };
-
-// const actEditSuccess = (data) => {
-//   return {
-//     type: actTypes.EDIT_SUCCESS,
-//     payload: data,
-//   };
-// };
-
-// const actEditFailed = (error) => {
-//   return {
-//     type: actTypes.EDIT_FAILED,
-//     payload: error,
-//   };
-// };

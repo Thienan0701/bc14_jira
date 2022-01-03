@@ -1,3 +1,14 @@
 .profile {
   padding: 0 1rem;
+  .title {
+    font-size: 40px;
+    @media screen and (max-width: 767.98px) {
+      font-size: 24px;
+    }
+  }
+  .form-password {
+    @media screen and (max-width: 767.98px) {
+      margin-top: 40px;
+    }
+  }
 }

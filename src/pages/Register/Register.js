@@ -1,170 +1,143 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../components/Loader/Loader";
-import { actRegister } from "./modules/actions";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
+import { Link } from "react-router-dom";
+import "./Register.scss";
+import { actRegister, actResetReducer } from "./modules/actions";
+import { message } from "antd";
 function Register(props) {
-  const [state, setState] = useState({
-    values: {
-      email: "",
-      passWord: "",
-      name: "",
-      phoneNumber: "",
-    },
-    errors: {
-      email: "",
-      passWord: "",
-      name: "",
-      phoneNumber: "",
-    },
-
-    emailValid: false,
-    passwordValid: false,
-    nameValid: false,
-    phoneNumberValid: false,
-    formValid: false, //form chua hop le
-  });
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.registerReducer.loading);
+  const { error } = useSelector((state) => state.registerReducer);
 
-  const handleOnchange = (e) => {
-    const { name, value } = e.target;
-    setState({
-      ...state,
-      values: { ...state.values, [name]: value },
-    });
-  };
+  let schema = yup.object().shape({
+    name: yup.string().required("Name is a required field!"),
+    email: yup
+      .string()
+      .required("Email is a required field!")
+      .email("Email is invalid!"),
+    phoneNumber: yup
+      .string()
+      .required("Phone number is a required field!")
+      .matches(
+        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+        "Phone number is invalid!"
+      ),
+    passWord: yup
+      .string()
+      .required("Password is a required field!")
+      .min(8, "Password must be between 8 and 32 characters!")
+      .max(32, "Password must be between 8 and 32 characters!"),
+  });
 
-  const handleErors = (e) => {
-    const { name, value } = e.target;
-    let mess = value.trim() === "" ? name + " không được rỗng" : "";
-    let { emailValid, passwordValid, nameValid, phoneNumberValid } = state;
+  useEffect(() => {
+    return () => {
+      dispatch(actResetReducer());
+    };
+  }, []);
 
-    switch (name) {
-      case "email":
-        emailValid = mess === "" ? true : false;
-        if (value && !value.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)) {
-          mess = " Email chưa đúng định dạng";
-          emailValid = false;
-        }
-        break;
-      case "passWord":
-        passwordValid = mess === "" ? true : false;
-        if (value.length <= 5 || value.length > 24) {
-          mess = "độ dài password phải từ 6 đến 24";
-          passwordValid = false;
-        }
-        break;
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      passWord: "",
+      name: "",
+      phoneNumber: "",
+    },
+    validationSchema: schema,
 
-      case "name":
-        nameValid = mess === "" ? true : false;
-        if (value.length < 8 || value.length > 32) {
-          mess = "độ dài name phải từ 8 đến 32";
-          nameValid = false;
-        }
-        break;
-      case "phoneNumber":
-        phoneNumberValid = mess === "" ? true : false;
-        if (value && !value.match(/^\d{10}$/)) {
-          mess = "Phone number chưa đúng định dạng";
-          phoneNumberValid = false;
-        }
-        break;
-      default:
-        break;
-    }
-    setState({
-      ...state,
-      errors: { ...state.errors, [name]: mess },
-      emailValid,
-      passwordValid,
-      nameValid,
-      phoneNumberValid,
-      formValid: emailValid && passwordValid && nameValid && phoneNumberValid,
-    });
-  };
+    onSubmit: (values) => {
+      dispatch(actRegister(values, props.history, message));
+    },
+  });
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    dispatch(actRegister(state.values, props.history));
-  };
-  if (loading) return <Loader />;
   return (
-    <div className="container" style={{ height: window.innerHeight }}>
-      <form onSubmit={handleRegister}>
-        <h3 className="d-flex justify-content-center">Register</h3>
-        <div className="form-group">
-          <label>Email:</label>
-          <input
-            className="form-control"
-            name="email"
-            type="text"
-            onBlur={handleErors}
-            onChange={handleOnchange}
-          />
-          {state.errors.email ? (
-            <div className="alert alert-danger">{state.errors.email}</div>
-          ) : (
-            " "
-          )}
-        </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            className="form-control"
-            name="passWord"
-            type="text"
-            onBlur={handleErors}
-            onChange={handleOnchange}
-          />
-          {state.errors.passWord ? (
-            <div className="alert alert-danger">{state.errors.passWord}</div>
-          ) : (
-            " "
-          )}
-        </div>
-        <div className="form-group">
-          <label>Name:</label>
-          <input
-            className="form-control"
-            name="name"
-            type="text"
-            onBlur={handleErors}
-            onChange={handleOnchange}
-          />
-          {state.errors.name ? (
-            <div className="alert alert-danger">{state.errors.name}</div>
-          ) : (
-            " "
-          )}
-        </div>
-        <div className="form-group">
-          <label>Phone number:</label>
-          <input
-            className="form-control"
-            name="phoneNumber"
-            type="text"
-            onBlur={handleErors}
-            onChange={handleOnchange}
-          />
-          {state.errors.phoneNumber ? (
-            <div className="alert alert-danger">{state.errors.phoneNumber}</div>
-          ) : (
-            " "
-          )}
-        </div>
-        <div className="form-group ">
-          <div className="row mt-2 d-flex justify-content-center">
-            <button
-              type="submit"
-              className="btn btn-danger ml-1"
-              disabled={!state.formValid}
-            >
-              Register
-            </button>
+    <div className="register">
+      <div className="title">Sign up for your account</div>
+      <div className="form">
+        {error ? (
+          <span className="text-danger">{error.response?.data.message}</span>
+        ) : (
+          ""
+        )}
+        <form onSubmit={formik.handleSubmit}>
+          <div className="form-group-login">
+            <label htmlFor="name">Name</label>
+            <input
+              id="name"
+              value={formik.values.name}
+              className="input-global"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="Enter name"
+            />
+            {formik.touched.name && formik.errors.name ? (
+              <span className="text-danger">{formik.errors.name}</span>
+            ) : (
+              " "
+            )}
           </div>
-        </div>
-      </form>
+          <div className="form-group-login">
+            <label htmlFor="phoneNumber">Phone number</label>
+            <input
+              id="phoneNumber"
+              value={formik.values.phoneNumber}
+              className="input-global"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="Enter phone number"
+            />
+            {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
+              <span className="text-danger">{formik.errors.phoneNumber}</span>
+            ) : (
+              " "
+            )}
+          </div>
+          <div className="form-group-login">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              value={formik.values.email}
+              className="input-global"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="Enter email"
+            />
+            {formik.touched.email && formik.errors.email ? (
+              <span className="text-danger">{formik.errors.email}</span>
+            ) : (
+              " "
+            )}
+          </div>
+          <div className="form-group-login">
+            <label htmlFor="passWord">Password</label>
+            <input
+              className="input-global"
+              type="passWord"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.passWord}
+              id="passWord"
+              placeholder="Enter password"
+            />
+            {formik.touched.passWord && formik.errors.passWord ? (
+              <span className="text-danger">{formik.errors.passWord}</span>
+            ) : (
+              " "
+            )}
+          </div>
+          <button type="submit" className="btn-submit-login-template btn-login">
+            Sign up
+          </button>
+        </form>
+      </div>
+      <div className="text-center my-2">or</div>
+      <div className="text-center">
+        <Link to="/login">Already have an Atlassian account? Log in</Link>
+      </div>
     </div>
   );
 }

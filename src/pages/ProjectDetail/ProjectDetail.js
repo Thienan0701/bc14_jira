@@ -8,27 +8,42 @@ import { useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
 import { useDispatch } from "react-redux";
 import { actGetDetailProject } from "./modules/actions";
+import { message } from "antd";
+import Loading from "../../components/Loading";
 function ProjectDetail(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const { loading } = useSelector((state) => state.projectDetailReducer);
+  const { loading, data } = useSelector((state) => state.projectDetailReducer);
+  const [listTask, setListTask] = useState();
+
   // setup filter
   const [arrUserFilter, setArrUserFilter] = useState([]);
   const [arrUserFilterCheckbox, setArrUserFilterCheckbox] = useState([]);
   const [arrUserFilterFirst, setArrUserFilterFirst] = useState([]);
   const [arrPriorityFilter, setArrPriorityFilter] = useState([]);
   const [valueSearch, setValueSearch] = useState("");
+  const [isLoadFirst, setIsLoadFirst] = useState(true);
 
   const dispatch = useDispatch();
 
   const { id } = props.match.params;
   useEffect(() => {
-    dispatch(actGetDetailProject(id, props.history, true));
+    dispatch(actGetDetailProject(id, props.history, message, true));
   }, [id]);
 
-  if (loading) {
+  useEffect(() => {
+    if (data) {
+      setIsLoadFirst(false);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setIsLoadFirst(true);
+  }, []);
+
+  if (loading && isLoadFirst) {
     return (
       <>
-        <Loader />
+        <Loading />
       </>
     );
   }
@@ -52,6 +67,8 @@ function ProjectDetail(props) {
           arrUserFilter={arrUserFilter}
           arrPriorityFilter={arrPriorityFilter}
           valueSearch={valueSearch}
+          setListTask={setListTask}
+          listTask={listTask}
           {...props}
           isOpen={isOpen}
           setIsOpen={setIsOpen}

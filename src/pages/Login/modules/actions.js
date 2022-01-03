@@ -18,7 +18,7 @@ export const actLoginApi = (user, history) => {
 
         // hashPassword
         const salt = bcryptjs.genSaltSync(10);
-        const hashPassword = bcryptjs.hashSync(user.password, salt);
+        const hashPassword = bcryptjs.hashSync(user.passWord, salt);
         localStorage.setItem("WHAT_HAPPEN", hashPassword);
 
         //Luu trang thai login -> Local Storage
@@ -41,7 +41,7 @@ const actLoginRequest = () => {
   };
 };
 
-const actLoginSuccess = (data) => {
+export const actLoginSuccess = (data) => {
   return {
     type: ActionType.LOGIN_SUCCESS,
     payload: data,
@@ -54,3 +54,25 @@ const actLoginFailed = (error) => {
     payload: error,
   };
 };
+
+// export const actLoginWithFb = (response) => {
+//   return (dispatch) => {
+//     console.log(JSON.stringify(response));
+//     api
+//       .post("Users/facebooklogin", {
+//         facebookToken: response.accessToken,
+//       })
+//       .then((result) => {
+//         console.log(result);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+// };
+
+export const actLogout = () => ({
+  type: ActionType.LOGOUT,
+});
+
+export const actResetReducer = () => ({ type: ActionType.RESET_REDUCER });

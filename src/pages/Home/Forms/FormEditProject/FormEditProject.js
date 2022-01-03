@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  actCreateProject,
-  actEditProject,
-  actGetCategory,
-} from "../../modules/actions";
+import { actEditProject, actGetCategory } from "../../modules/actions";
 
 import { Editor } from "@tinymce/tinymce-react";
 import {
@@ -13,7 +9,7 @@ import {
   setCallbackClose,
   setCallbackFocus,
 } from "../../../../components/DrawerCommon/modules/actions";
-import Swal from "sweetalert2";
+import { message } from "antd";
 
 function FormEditProject(props) {
   const [state, setState] = useState({
@@ -90,39 +86,17 @@ function FormEditProject(props) {
     });
   };
 
-  const handleOnEditorBlur = (e) => {
-    if (!state.values.description) {
-      setState({
-        ...state,
-        errors: { ...state.errors, description: "Description is required!" },
-      });
-      return false;
-    } else {
-      setState({
-        ...state,
-        errors: { ...state.errors, description: "" },
-      });
-      return true;
-    }
-  };
-
   const handleValidation = () => {
     let isValid = true;
     let messageProjectName = "";
-    let messageDescription = "";
     if (!state.values.projectName) {
       messageProjectName = "Project name is required!";
-      isValid = false;
-    }
-    if (!state.values.description) {
-      messageDescription = "Description is required!";
       isValid = false;
     }
     setState({
       ...state,
       errors: {
         projectName: messageProjectName,
-        description: messageDescription,
       },
     });
     return isValid;
@@ -132,7 +106,7 @@ function FormEditProject(props) {
     e.preventDefault();
     const isValid = handleValidation();
     if (isValid) {
-      dispatch(actEditProject(state.values.id, state.values, Swal));
+      dispatch(actEditProject(state.values.id, state.values, message));
     }
   };
 
@@ -163,7 +137,7 @@ function FormEditProject(props) {
   const btnSubmitRef = useRef(null);
 
   useEffect(() => {
-    if (btnSubmitRef) {
+    if (btnSubmitRef.current) {
       dispatch(setCallbackFocus(() => btnSubmitRef.current.focus()));
     }
   }, [btnSubmitRef]);
@@ -174,7 +148,7 @@ function FormEditProject(props) {
         <div className="form-group">
           <label>ID:</label>
           <input
-            className="form-control"
+            className="input-global input-project disabled"
             name="id"
             placeholder="Project name"
             disabled
@@ -184,7 +158,7 @@ function FormEditProject(props) {
         <div className="form-group">
           <label>Name:</label>
           <input
-            className="form-control"
+            className="input-global input-project"
             name="projectName"
             placeholder="Project name"
             value={state.values.projectName}
@@ -192,7 +166,7 @@ function FormEditProject(props) {
             onChange={handleOnchange}
           />
           {state.errors.projectName ? (
-            <div className="alert alert-danger">{state.errors.projectName}</div>
+            <span className="text-danger">{state.errors.projectName}</span>
           ) : (
             " "
           )}
@@ -200,7 +174,7 @@ function FormEditProject(props) {
         <div className="form-group">
           <label>Category:</label>
           <select
-            className="form-control"
+            className="input-global input-project"
             aria-label="Default select example"
             name="categoryId"
             defaultValue={state.categoryId}
@@ -240,26 +214,24 @@ function FormEditProject(props) {
               content_style:
                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
-            onBlur={handleOnEditorBlur}
             onEditorChange={handleOnEditorChange}
           />
-          {state.errors.description ? (
-            <div className="alert alert-danger">{state.errors.description}</div>
-          ) : (
-            " "
-          )}
         </div>
 
         <div className="form-group text-right">
           <button
+            ref={btnSubmitRef}
+            className="btn-global btn-global-primary mr-1"
+            type="submit"
+          >
+            Update
+          </button>
+          <button
             onClick={handleClose}
-            className="btn btn-secondary mr-1"
+            className="btn-global btn-global-secondary"
             type="button"
           >
             Cancel
-          </button>
-          <button ref={btnSubmitRef} className="btn btn-primary" type="submit">
-            Update
           </button>
         </div>
       </form>

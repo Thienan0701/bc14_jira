@@ -9,7 +9,7 @@ import {
   setCallbackClose,
   setCallbackFocus,
 } from "../../../../components/DrawerCommon/modules/actions";
-import Swal from "sweetalert2";
+import { message } from "antd";
 
 function FormCreateProject(props) {
   const [state, setState] = useState({
@@ -26,11 +26,6 @@ function FormCreateProject(props) {
   });
 
   const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -72,24 +67,7 @@ function FormCreateProject(props) {
     setState({
       ...state,
       values: { ...state.values, description: value },
-      errors: { ...state.errors, description: "" },
     });
-  };
-
-  const handleOnEditorBlur = (e) => {
-    if (!state.values.description) {
-      setState({
-        ...state,
-        errors: { ...state.errors, description: "Description is required!" },
-      });
-      return false;
-    } else {
-      setState({
-        ...state,
-        errors: { ...state.errors, description: "" },
-      });
-      return true;
-    }
   };
 
   const handleValidation = () => {
@@ -100,10 +78,7 @@ function FormCreateProject(props) {
       messageProjectName = "Project name is required!";
       isValid = false;
     }
-    if (!state.values.description) {
-      messageDescription = "Description is required!";
-      isValid = false;
-    }
+
     setState({
       ...state,
       errors: {
@@ -118,7 +93,7 @@ function FormCreateProject(props) {
     e.preventDefault();
     const isValid = handleValidation();
     if (isValid) {
-      dispatch(actCreateProject(state.values, props.history, Swal));
+      dispatch(actCreateProject(state.values, props.history, message));
     }
   };
 
@@ -156,14 +131,14 @@ function FormCreateProject(props) {
           <label>Name:</label>
           <input
             value={state.values.projectName}
-            className="form-control"
+            className="input-global input-project"
             name="projectName"
             placeholder="Project name"
             onBlur={handleErors}
             onChange={handleOnchange}
           />
           {state.errors.projectName ? (
-            <div className="alert alert-danger">{state.errors.projectName}</div>
+            <p className="text-danger">{state.errors.projectName}</p>
           ) : (
             " "
           )}
@@ -171,10 +146,9 @@ function FormCreateProject(props) {
         <div className="form-group">
           <label>Category:</label>
           <select
-            className="form-control"
+            className="input-global input-project"
             aria-label="Default select example"
             name="categoryId"
-            // defaultValue={state.values.categoryId}
             value={state.values.categoryId}
             onChange={handleOnchange}
           >
@@ -211,26 +185,24 @@ function FormCreateProject(props) {
               content_style:
                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
-            onBlur={handleOnEditorBlur}
             onEditorChange={handleOnEditorChange}
           />
-          {state.errors.description ? (
-            <div className="alert alert-danger">{state.errors.description}</div>
-          ) : (
-            " "
-          )}
         </div>
 
         <div className="form-group text-right">
           <button
+            ref={btnSubmitRef}
+            className="btn-global btn-global-primary  mr-1"
+            type="submit"
+          >
+            Create
+          </button>
+          <button
             onClick={handleClose}
-            className="btn btn-secondary mr-1"
+            className="btn-global btn-global-secondary"
             type="button"
           >
             Cancel
-          </button>
-          <button ref={btnSubmitRef} className="btn btn-primary" type="submit">
-            Create
           </button>
         </div>
       </form>

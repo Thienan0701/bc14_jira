@@ -1,5 +1,5 @@
-import React from "react";
-import { Tooltip } from "antd";
+import React, { useState } from "react";
+import { message, Popover, Tooltip } from "antd";
 
 import bug from "../../../../assets/images/bug.svg";
 import highest from "../../../../assets/images/highest.svg";
@@ -8,13 +8,14 @@ import lowest from "../../../../assets/images/lowest.svg";
 import medium from "../../../../assets/images/medium.svg";
 import taskImg from "../../../../assets/images/task.svg";
 
-import { CheckOutlined } from "@ant-design/icons";
+import { CheckOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import { getTaskDetail } from "../../modules/actions";
+import { actDeleteTask, getTaskDetail } from "../../modules/actions";
 
 export default function TaskDetail(props) {
-  const { isOpen, setIsOpen, task } = props;
-
+  const { isOpen, setIsOpen, task, taskListDetail, setListTask, listTask } =
+    props;
+  const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
 
   const renderPriority = (priorityTask) => {
@@ -42,14 +43,12 @@ export default function TaskDetail(props) {
       return <CheckOutlined className="icon-done" />;
     }
   };
-  console.log(task);
 
   const renderAvatar = () => {
     return task?.assigness?.slice(0, 1).map((item, index) => {
       return (
-        <Tooltip placement="top" title={item.name}>
+        <Tooltip key={index} placement="top" title={item.name}>
           <img
-            key={index}
             className="avatar"
             src={item.avatar}
             alt=""
@@ -72,6 +71,36 @@ export default function TaskDetail(props) {
     }
   };
 
+  const handleDeleteTask = (e) => {
+    e.stopPropagation();
+
+    const prevProject = [...listTask];
+    const listItemByStatusCurrent = [...taskListDetail?.lstTaskDeTail];
+
+    const indexItemRemove = listItemByStatusCurrent?.findIndex(
+      (item) => item.taskId === task.taskId
+    );
+
+    listItemByStatusCurrent.splice(indexItemRemove, 1);
+
+    const listTaskTemp = [...listTask];
+    listTaskTemp.splice(taskListDetail.statusId - 1, 1, {
+      ...taskListDetail,
+      lstTaskDeTail: listItemByStatusCurrent,
+    });
+    setListTask(listTaskTemp);
+    dispatch(
+      actDeleteTask(
+        task.taskId,
+        task.projectId,
+        props.history,
+        prevProject,
+        setListTask,
+        message
+      )
+    );
+  };
+
   return (
     <div
       className="project-content-item"
@@ -80,7 +109,31 @@ export default function TaskDetail(props) {
         dispatch(getTaskDetail(task.taskId));
       }}
     >
-      <p className="task-name">{task.taskName}</p>
+      <div className="task-header">
+        <p className="task-name">{task.taskName}</p>
+        <div>
+          <Popover
+            placement="bottomRight"
+            content={
+              <div className="popup-task">
+                <div className="task-item" onClick={handleDeleteTask}>
+                  Delete task
+                </div>
+              </div>
+            }
+            trigger="click"
+            visible={visible}
+            onVisibleChange={setVisible}
+          >
+            <EllipsisOutlined
+              className={`icon-dot ${visible ? "active" : ""}`}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            />
+          </Popover>
+        </div>
+      </div>
       <div className="task-detail-footer">
         {renderTaskType()}
         <div className="right">

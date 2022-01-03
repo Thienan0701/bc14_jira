@@ -5,7 +5,7 @@ import { lazy } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
 
-import { UserLoginTemplate } from "./templates/HomeTemplate/UserLoginTemplate";
+import { UserLoginTemplate } from "./templates/LoginTemplate/UserLoginTemplate";
 import DrawerCommon from "./components/DrawerCommon/DrawerCommon";
 import PageNotFound from "./templates/PageNotFound/PageNotFound";
 

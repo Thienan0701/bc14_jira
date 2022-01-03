@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Popconfirm, Popover, Table, Tag } from "antd";
+import { Button, message, Popconfirm, Popover, Table, Tag } from "antd";
 import { useSelector } from "react-redux";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
@@ -7,28 +7,16 @@ import { useDispatch } from "react-redux";
 import {
   actDeleteProject,
   actDeleteUserProject,
-  actFetchListProject,
   actGetProjectEdit,
 } from "../modules/actions";
 import PopAssign from "../PopAssign";
 import { Link } from "react-router-dom";
 // import { actOpenDrawerCommonFull } from "../../../components/DrawerCommon/modules/actions";
 import FormEditProject from "../Forms/FormEditProject/FormEditProject";
-import Swal from "sweetalert2";
 import Loader from "../../../components/Loader/Loader";
 const HomeTable = (props) => {
   const dispatch = useDispatch();
   const { valueSearch } = props;
-  const cutCharFirst = (str) => {
-    if (str) {
-      const newArr = str?.split(" ");
-      return newArr[newArr?.length - 1].slice(0, 1).toUpperCase();
-    }
-  };
-
-  useEffect(() => {
-    dispatch(actFetchListProject());
-  }, [dispatch]);
 
   const { loading, data } = useSelector((state) => state.homeReducer);
   const { data: userLogin } = useSelector((state) => state.loginReducer);
@@ -74,7 +62,7 @@ const HomeTable = (props) => {
                             projectId: record.id,
                             userId: member.userId,
                           },
-                          Swal
+                          message
                         )
                       );
                     }}
@@ -143,7 +131,7 @@ const HomeTable = (props) => {
       render: (text, record, index) => {
         return (
           <Tag
-            color={userLogin.id === record.creator.id ? "red" : "blue"}
+            color={userLogin?.id === record.creator.id ? "red" : "blue"}
             key={index}
           >
             {text.name.toUpperCase()}
@@ -170,7 +158,7 @@ const HomeTable = (props) => {
                     record.id,
                     FormEditProject,
                     "Edit Project",
-                    Swal
+                    message
                   )
                 );
               }}
@@ -193,7 +181,7 @@ const HomeTable = (props) => {
     },
   ];
   function confirm(record) {
-    dispatch(actDeleteProject(record.id, Swal));
+    dispatch(actDeleteProject(record.id, message));
   }
 
   const onChange = (pagination, filters, sorter, extra) => {};

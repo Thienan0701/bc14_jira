@@ -24,7 +24,11 @@ const registerReducer = (state = initialState, action) => {
       state.data = null;
       state.error = action.payload;
       return { ...state };
-
+    case actTypes.RESET_REDUCER:
+      state.loading = false;
+      state.data = null;
+      state.error = null;
+      return { ...state };
     default:
       return { ...state };
   }

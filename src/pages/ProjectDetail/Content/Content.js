@@ -6,14 +6,15 @@ import { updateStatus } from "../modules/actions";
 import { useSelector } from "react-redux";
 import TaskDetail from "./TaskDetail/TaskDetail";
 import { message } from "antd";
+import Loader from "../../../components/Loader/Loader";
 
 const Content = (props) => {
-  const [listTask, setListTask] = useState();
+  const { listTask, setListTask } = props;
   const dispatch = useDispatch();
   const { arrUserFilter, arrPriorityFilter, valueSearch } = props;
   const { id } = props.match.params;
 
-  const { data } = useSelector((state) => state.projectDetailReducer);
+  const { data, loading } = useSelector((state) => state.projectDetailReducer);
 
   useEffect(() => {
     if (data) {
@@ -76,7 +77,7 @@ const Content = (props) => {
     }
   };
 
-  const handleRenderCol = (lstTaskDeTail, provided) => {
+  const handleRenderCol = (lstTaskDeTail, provided, taskListDetail) => {
     let lstTaskDeTailTemp = [...lstTaskDeTail];
 
     if (arrUserFilter.length) {
@@ -122,8 +123,12 @@ const Content = (props) => {
               >
                 <TaskDetail
                   isOpen={props.isOpen}
+                  listTask={listTask}
+                  setListTask={setListTask}
                   setIsOpen={props.setIsOpen}
                   task={task}
+                  taskListDetail={taskListDetail}
+                  history={props.history}
                 />
               </div>
             );
@@ -132,6 +137,14 @@ const Content = (props) => {
       );
     });
   };
+
+  if (loading) {
+    return (
+      <>
+        <Loader />
+      </>
+    );
+  }
 
   return (
     <div className="project-content">
@@ -158,7 +171,8 @@ const Content = (props) => {
                           >
                             {handleRenderCol(
                               taskListDetail.lstTaskDeTail,
-                              provided
+                              provided,
+                              taskListDetail
                             )}
 
                             {provided.placeholder}

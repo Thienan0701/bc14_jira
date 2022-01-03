@@ -1,23 +1,14 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Table } from "antd";
+import { Button, message, Popconfirm, Table } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
 import { actOpenDrawerCommonFull } from "../../../components/DrawerCommon/modules/actions";
 import Loader from "../../../components/Loader/Loader";
 import FormEditUser from "../Forms/FormEditUser/FormEditUser";
-import {
-  actDeleteUser,
-  actGetUserList,
-  setUserUpdate,
-} from "../modules/actions";
+import { actDeleteUser, setUserUpdate } from "../modules/actions";
 const TableUser = (props) => {
   const dispatch = useDispatch();
   const { valueSearch } = props;
-
-  useEffect(() => {
-    dispatch(actGetUserList());
-  }, []);
 
   const { data: userList, loading } = useSelector(
     (state) => state.usermanageReducer
@@ -106,7 +97,7 @@ const TableUser = (props) => {
 
   // confirm
   function confirm(record) {
-    dispatch(actDeleteUser(record.userId, Swal));
+    dispatch(actDeleteUser(record.userId, message));
   }
 
   let dataSearch = userList ? [...userList] : [];

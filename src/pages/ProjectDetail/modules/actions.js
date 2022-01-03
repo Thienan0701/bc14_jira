@@ -1,7 +1,12 @@
 import api from "../../../utils/apiUtils";
 import * as actTypes from "./constants";
 
-export const actGetDetailProject = (id, history, isLoading = false) => {
+export const actGetDetailProject = (
+  id,
+  history,
+  message,
+  isLoading = false
+) => {
   return (dispatch) => {
     if (isLoading) {
       dispatch(actDetailProjectRequest());
@@ -18,6 +23,7 @@ export const actGetDetailProject = (id, history, isLoading = false) => {
         ) {
           history.push("/");
         }
+        message?.error(error.response?.data.content);
         dispatch(actDetailProjectFailed(error));
       });
   };
@@ -41,19 +47,6 @@ const actDetailProjectFailed = (error) => {
   };
 };
 
-export const actCreateTask = (info) => {
-  return (dispatch) => {
-    api
-      .post("Project/createTask", info)
-      .then((result) => {
-        dispatch(actGetDetailProject(info.projectId));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-};
-
 export const updateStatus = (
   info,
   id,
@@ -66,7 +59,7 @@ export const updateStatus = (
     api
       .put(`Project/updateStatus`, info)
       .then((result) => {
-        dispatch(actGetDetailProject(id, history));
+        dispatch(actGetDetailProject(id, history, message));
       })
       .catch((error) => {
         message.error("Update status failed!", [2.5]);
@@ -138,7 +131,7 @@ export const actUpdateStatusDetail = (
     api
       .put(`Project/updateStatus`, info)
       .then((result) => {
-        dispatch(actGetDetailProject(id, history));
+        dispatch(actGetDetailProject(id, history, message));
       })
       .catch((error) => {
         setStatus(prevStatusId);
@@ -148,27 +141,6 @@ export const actUpdateStatusDetail = (
       });
   };
 };
-
-// export const actUpdatePriority = (
-//   info,
-//   id,
-//   prevPriority,
-//   setPriority,
-//   history,
-//   message
-// ) => {
-//   return (dispatch) => {
-//     console.log(info);
-//     api
-//       .put(`Project/updatePriority`, info)
-//       .then((result) => {
-//         dispatch(actGetDetailProject(id, history));
-//       })
-//       .catch((error) => {
-//         setPriority(prevPriority);
-//       });
-//   };
-// };
 
 export const actUpdateTask = (
   info,
@@ -183,7 +155,7 @@ export const actUpdateTask = (
     api
       .post("Project/updateTask", info)
       .then((result) => {
-        dispatch(actGetDetailProject(id, history));
+        dispatch(actGetDetailProject(id, history, message));
         if (callBackDifference) {
           callBackDifference();
         }
@@ -212,9 +184,7 @@ export const actTaskType = () => {
       .then((result) => {
         dispatch(actTaskTypeSuccess(result.data.content));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 };
 
@@ -238,7 +208,7 @@ export const actInsertComment = (
     api
       .post("Comment/insertComment", info)
       .then((result) => {
-        dispatch(actGetDetailProject(id, history));
+        dispatch(actGetDetailProject(id, history, message));
         setTask({
           ...prevTask,
           lstComment: [
@@ -276,7 +246,7 @@ export const actDeleteComment = (
     api
       .delete(`Comment/deleteComment?idComment=${commentId}`)
       .then(() => {
-        dispatch(actGetDetailProject(id, history));
+        dispatch(actGetDetailProject(id, history, message));
       })
       .catch((error) => {
         setTask(prevTask);
@@ -305,12 +275,34 @@ export const actUpdateComment = (
         `Comment/updateComment?id=${info.id}&contentComment=${info.contentComment}`
       )
       .then((result) => {
-        dispatch(actGetDetailProject(id, history));
+        dispatch(actGetDetailProject(id, history, message));
         callBackDifference();
       })
       .catch((error) => {
         setTask(prevTask);
         setContentComment(prevComment);
+        message.error(error.response?.data.content);
+      });
+  };
+};
+
+export const actDeleteTask = (
+  id,
+  projectId,
+  history,
+  prevProject,
+  setListTask,
+  message
+) => {
+  return (dispatch) => {
+    api
+      .delete(`Project/removeTask?taskId=${id}`)
+      .then((result) => {
+        dispatch(actGetDetailProject(projectId, history, message));
+        message.success("Delete task successfully!");
+      })
+      .catch((error) => {
+        setListTask(prevProject);
         message.error(error.response?.data.content);
       });
   };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button } from "antd";
 import HomeTable from "./Table";
@@ -11,11 +11,37 @@ import {
 import "./index.scss";
 import { actOpenDrawerCommonFull } from "../../components/DrawerCommon/modules/actions";
 import FormCreateProject from "./Forms/FormCreateProject/FormCreateProject";
+import Loading from "../../components/Loading";
+import { useSelector } from "react-redux";
+import { actFetchListProject } from "./modules/actions";
 
 function Home(props) {
   const dispatch = useDispatch();
   const { isOpen, setIsOpen } = props;
   const [valueSearch, setValueSearch] = useState("");
+  const [isLoadFirst, setIsLoadFirst] = useState(true);
+  useEffect(() => {
+    dispatch(actFetchListProject());
+  }, [dispatch]);
+
+  const { loading, data } = useSelector((state) => state.homeReducer);
+  useEffect(() => {
+    if (data) {
+      setIsLoadFirst(false);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setIsLoadFirst(true);
+  }, []);
+
+  if (loading && isLoadFirst) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <div className="home">

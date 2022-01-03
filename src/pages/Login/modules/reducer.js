@@ -41,6 +41,16 @@ const loginReducer = (state = initialState, action) => {
       state.error = action.payload;
       return { ...state };
 
+    case ActionType.LOGOUT:
+      localStorage.removeItem("UserLogin");
+      localStorage.removeItem("WHAT_HAPPEN");
+      localStorage.removeItem("exp");
+      return { ...state, data: null, loading: false, error: null };
+    case ActionType.RESET_REDUCER:
+      state.data = null;
+      state.loading = false;
+      state.error = null;
+      return { ...state };
     default:
       return { ...state };
   }

@@ -35,81 +35,42 @@ const actListUserFailed = (error) => {
 };
 
 //delete user
-export const actDeleteUser = (id, Swal) => {
+export const actDeleteUser = (id, message) => {
   return (dispatch) => {
     api
       .delete(`Users/deleteUser?id=${id}`)
       .then((result) => {
-        Swal.fire({
-          title: "Delete user successfully!",
-          icon: "success",
-          timer: 2500,
-          showConfirmButton: false,
-        }).then(() => {
-          dispatch(actGetUserList());
-        });
+        message.success("Delete user successfully!");
+        dispatch(actGetUserList());
       })
       .catch((error) => {
-        console.log(error);
         if (error.response.data.statusCode === 404) {
-          Swal.fire({
-            title: "User does not exist!",
-            icon: "error",
-          }).then(() => {
-            dispatch(actGetUserList());
-          });
+          message.error("User does not exist!");
+
+          dispatch(actGetUserList());
         } else {
-          Swal.fire({
-            title: "Delete user failed!",
-            icon: "error",
-          });
+          message.error("Delete user failed!");
         }
       });
   };
 };
-// const actDeleteUserSuccess = (data) => {
-//   return {
-//     type: actType.DELETE_USER_SUCCESS,
-//     payload: data,
-//   };
-// };
 
-// const actDeleteUserFailed = (error) => {
-//   return {
-//     type: actType.DELETE_USER_FAILED,
-//     payload: error,
-//   };
-// };
-
-export const createUser = (info, Swal) => {
+export const createUser = (info, message) => {
   return (dispatch, getState) => {
     api
       .post("Users/signup", info)
       .then((result) => {
-        Swal.fire({
-          title: "Create user successfully!",
-          icon: "success",
-          timer: 2500,
-          showConfirmButton: false,
-        }).then(() => {
-          const { callbackClose } = getState().drawerCommonReducer;
-          callbackClose();
-          dispatch(actGetUserList());
-        });
+        message.success("Create user successfully!");
+
+        const { callbackClose } = getState().drawerCommonReducer;
+        callbackClose();
+        dispatch(actGetUserList());
       })
       .catch((error) => {
         if (error.response.data.statusCode === 400) {
-          Swal.fire({
-            title: "Email is existed!",
-            icon: "error",
-          });
+          message.error("Email is existed!");
         } else {
-          Swal.fire({
-            title: "Create user failed!",
-            icon: "error",
-            timer: 2500,
-            showConfirmButton: false,
-          });
+          message.error("Create user failed!");
         }
       });
   };
@@ -122,37 +83,25 @@ export const setUserUpdate = (info) => {
   };
 };
 
-export const actUpdateUser = (info, Swal) => {
+export const actUpdateUser = (info, message) => {
   return (dispatch, getState) => {
     api
       .put("Users/editUser", info)
       .then((result) => {
-        Swal.fire({
-          title: "Update user successfully!",
-          icon: "success",
-          timer: 2500,
-          showConfirmButton: false,
-        }).then(() => {
-          const { callbackClose } = getState().drawerCommonReducer;
-          dispatch(actGetUserList());
-          callbackClose();
-        });
+        message.success("Update user successfully!");
+        const { callbackClose } = getState().drawerCommonReducer;
+        dispatch(actGetUserList());
+        callbackClose();
       })
       .catch((error) => {
         if (error.response.data.statusCode === 404) {
-          Swal.fire({
-            title: "User does not exist!",
-            icon: "error",
-          }).then(() => {
-            const { callbackClose } = getState().drawerCommonReducer;
-            dispatch(actGetUserList());
-            callbackClose();
-          });
+          message.error("User does not exist!");
+
+          const { callbackClose } = getState().drawerCommonReducer;
+          dispatch(actGetUserList());
+          callbackClose();
         } else {
-          Swal.fire({
-            title: "Update user failed!",
-            icon: "error",
-          });
+          message.error("Update user failed!");
         }
       });
   };

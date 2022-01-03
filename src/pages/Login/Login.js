@@ -1,141 +1,99 @@
-import React, { useState } from "react";
-import { Button } from "antd";
-import { FacebookOutlined } from "@ant-design/icons";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actLoginApi } from "./modules/actions";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 import { Link } from "react-router-dom";
-
+import "./Login.scss";
+import { actLoginApi, actResetReducer } from "./modules/actions";
 function Login(props) {
-  const [state, setState] = useState({
-    values: {
-      email: "",
-      password: "",
-    },
-    errors: {
-      email: "",
-      password: "",
-    },
-    emailValid: false,
-    passwordValid: false,
-    formValid: false, //form chua hop le
+  const dispatch = useDispatch();
+  const { error } = useSelector((state) => state.loginReducer);
+
+  let schema = yup.object().shape({
+    email: yup
+      .string()
+      .required("Email is a required field!")
+      .email("Email is invalid!"),
+
+    passWord: yup
+      .string()
+      .required("Password is a required field!")
+      .min(8, "Password must be between 8 and 32 characters!")
+      .max(32, "Password must be between 8 and 32 characters!"),
   });
 
-  const handleOnchange = (e) => {
-    const { name, value } = e.target;
-    setState({
-      ...state,
-      values: { ...state.values, [name]: value },
-    });
-  };
+  useEffect(() => {
+    return () => {
+      dispatch(actResetReducer());
+    };
+  }, []);
 
-  const handleErors = (e) => {
-    const { name, value } = e.target;
-    let mess = value.trim() === "" ? name + " không được rỗng" : "";
-    let { emailValid, passwordValid } = state;
+  const formik = useFormik({
+    initialValues: {
+      passWord: "",
+      email: "",
+    },
+    validationSchema: schema,
 
-    switch (name) {
-      case "email":
-        emailValid = mess === "" ? true : false;
-        if (value && !value.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)) {
-          mess = " Email chưa đúng định dạng";
-          emailValid = false;
-        }
-        break;
-      case "password":
-        passwordValid = mess === "" ? true : false;
-        if (value.length <= 5 || value.length > 24) {
-          mess = "độ dài password phải từ 6 đến 24";
-          passwordValid = false;
-        }
-        break;
-
-      default:
-        break;
-    }
-    setState({
-      ...state,
-      errors: { ...state.errors, [name]: mess },
-      emailValid,
-      passwordValid,
-      formValid: emailValid && passwordValid,
-    });
-  };
-
-  const dispatch = useDispatch();
-  const error = useSelector((state) => state.loginReducer.error);
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    dispatch(actLoginApi(state.values, props.history));
-  };
-
-  //alert khi login fail
-  const renderNoti = () => {
-    return error && <div className="alert alert-danger">{error?.message}</div>;
-  };
+    onSubmit: (values) => {
+      dispatch(actLoginApi(values, props.history));
+    },
+  });
 
   return (
-    <div className="container" style={{ height: window.innerHeight }}>
-      <h3 className="d-flex justify-content-center">Login</h3>
-      <form onSubmit={handleLogin}>
-        <div className="form-group">
-          {renderNoti()}
-          <label>Email</label>
-          <input
-            type="text"
-            className="form-control"
-            name="email"
-            value={state.email}
-            onBlur={handleErors}
-            onChange={handleOnchange}
-          />
-          {state.errors.email ? (
-            <div className="alert alert-danger">{state.errors.email}</div>
-          ) : (
-            " "
-          )}
-        </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            className="form-control"
-            name="password"
-            value={state.password}
-            onBlur={handleErors}
-            onChange={handleOnchange}
-          />
-          {state.errors.password ? (
-            <div className="alert alert-danger">{state.errors.password}</div>
-          ) : (
-            " "
-          )}
-        </div>
-        <div className="form-group ">
-          <div className="row mt-2 d-flex justify-content-center">
-            <button
-              type="submit"
-              disabled={!state.formValid}
-              className="btn btn-primary"
-            >
-              Login
-            </button>
-            <Link type="button" className="btn btn-danger ml-1" to="/register">
-              Register
-            </Link>
+    <div className="login">
+      <div className="title">Log in to your account</div>
+      <div className="form">
+        {error ? (
+          <span className="text-danger">{error.response?.data.message}</span>
+        ) : (
+          ""
+        )}
+        <form onSubmit={formik.handleSubmit}>
+          <div className="form-group-login">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              value={formik.values.email}
+              className="input-global"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="Enter email"
+            />
+            {formik.touched.email && formik.errors.email ? (
+              <span className="text-danger">{formik.errors.email}</span>
+            ) : (
+              " "
+            )}
           </div>
-        </div>
-
-        <div className="social mt-2 d-flex justify-content-center">
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<FacebookOutlined />}
-          ></Button>
-        </div>
-      </form>
+          <div className="form-group-login">
+            <label htmlFor="passWord">Password</label>
+            <input
+              className="input-global"
+              type="passWord"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.passWord}
+              id="passWord"
+              placeholder="Enter password"
+            />
+            {formik.touched.passWord && formik.errors.passWord ? (
+              <span className="text-danger">{formik.errors.passWord}</span>
+            ) : (
+              " "
+            )}
+          </div>
+          <button type="submit" className="btn-submit-login-template btn-login">
+            Login
+          </button>
+        </form>
+      </div>
+      <div className="text-center my-2">or</div>
+      <div className="text-center">
+        <Link to="/register">Sign up for an account</Link>
+      </div>
     </div>
   );
 }

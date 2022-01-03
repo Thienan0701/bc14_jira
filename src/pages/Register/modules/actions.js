@@ -1,13 +1,14 @@
 import * as actTypes from "./constants";
 import api from "./../../../utils/apiUtils";
 
-export const actRegister = (user, history) => {
+export const actRegister = (user, history, message) => {
   return (dispatch) => {
     dispatch(actRegisterRequest());
     api
       .post("Users/signup", user)
       .then((result) => {
         dispatch(actRegisterSuccess(result.data.content));
+        message.success("Successful account registration!");
         history.replace("/login");
       })
       .catch((error) => {
@@ -34,3 +35,5 @@ const actRegisterFailed = (error) => {
     payload: error,
   };
 };
+
+export const actResetReducer = () => ({ type: actTypes.RESET_REDUCER });

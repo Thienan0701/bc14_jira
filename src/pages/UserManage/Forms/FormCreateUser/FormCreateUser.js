@@ -9,8 +9,8 @@ import {
   setCallbackClose,
   setCallbackFocus,
 } from "../../../../components/DrawerCommon/modules/actions";
-import Swal from "sweetalert2";
 import { createUser } from "../../modules/actions";
+import { message } from "antd";
 
 function FormCreateUser(props) {
   const btnSubmitRef = useRef();
@@ -43,7 +43,7 @@ function FormCreateUser(props) {
         <div className="form-group">
           <label htmlFor="name">Name:</label>
           <input
-            className="form-control"
+            className="input-global input-project"
             name="name"
             id="name"
             placeholder="Name"
@@ -52,7 +52,7 @@ function FormCreateUser(props) {
             onBlur={handleBlur}
           />
           {touched.name && errors.name ? (
-            <div className="alert alert-danger">{errors.name}</div>
+            <p className="text-danger">{errors.name}</p>
           ) : (
             " "
           )}
@@ -60,7 +60,7 @@ function FormCreateUser(props) {
         <div className="form-group">
           <label htmlFor="phone-number">Phone number:</label>
           <input
-            className="form-control"
+            className="input-global input-project"
             name="phoneNumber"
             id="phone-number"
             placeholder="Phone number"
@@ -69,7 +69,7 @@ function FormCreateUser(props) {
             onChange={handleChange}
           />
           {touched.phoneNumber && errors.phoneNumber ? (
-            <div className="alert alert-danger">{errors.phoneNumber}</div>
+            <p className="text-danger">{errors.phoneNumber}</p>
           ) : (
             " "
           )}
@@ -77,7 +77,7 @@ function FormCreateUser(props) {
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input
-            className="form-control"
+            className="input-global input-project"
             name="email"
             id="email"
             placeholder="Email"
@@ -86,7 +86,7 @@ function FormCreateUser(props) {
             onChange={handleChange}
           />
           {touched.email && errors.email ? (
-            <div className="alert alert-danger">{errors.email}</div>
+            <p className="text-danger">{errors.email}</p>
           ) : (
             " "
           )}
@@ -96,7 +96,7 @@ function FormCreateUser(props) {
           <label htmlFor="passWord">Password:</label>
           <input
             type="password"
-            className="form-control"
+            className="input-global input-project"
             name="passWord"
             id="passWord"
             placeholder="Password"
@@ -105,7 +105,7 @@ function FormCreateUser(props) {
             onBlur={handleBlur}
           />
           {touched.passWord && errors.passWord ? (
-            <div className="alert alert-danger">{errors.passWord}</div>
+            <p className="text-danger">{errors.passWord}</p>
           ) : (
             " "
           )}
@@ -113,14 +113,18 @@ function FormCreateUser(props) {
 
         <div className="form-group text-right">
           <button
+            ref={btnSubmitRef}
+            className="btn-global btn-global-primary mr-1"
+            type="submit"
+          >
+            Create
+          </button>
+          <button
             onClick={handleClose}
-            className="btn btn-secondary mr-1"
+            className="btn-global btn-global-secondary "
             type="button"
           >
             Cancel
-          </button>
-          <button ref={btnSubmitRef} className="btn btn-primary" type="submit">
-            Create
           </button>
         </div>
       </form>
@@ -130,9 +134,10 @@ function FormCreateUser(props) {
 
 let schema = yup.object().shape({
   name: yup.string().required("Name is a required field!"),
+
   email: yup
     .string()
-    .required("Name is a required field!")
+    .required("Email is a required field!")
     .email("Email is invalid!"),
   phoneNumber: yup
     .string()
@@ -144,8 +149,8 @@ let schema = yup.object().shape({
   passWord: yup
     .string()
     .required("Password is a required field!")
-    .min(8, "Password must be at least 8 characters!")
-    .max(32, "Password must be less than 32 characters!"),
+    .min(8, "Password must be between 8 and 32 characters!")
+    .max(32, "Password must be between 8 and 32 characters!"),
 });
 
 const MyEnhancedForm = withFormik({
@@ -161,7 +166,7 @@ const MyEnhancedForm = withFormik({
 
   handleSubmit: (values, props) => {
     props.props.drawerCommonReducer.callbackFocus();
-    props.props.dispatch(createUser(values, Swal));
+    props.props.dispatch(createUser(values, message));
   },
 
   displayName: "BasicForm",

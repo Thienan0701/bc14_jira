@@ -9,8 +9,8 @@ import {
   setCallbackClose,
   setCallbackFocus,
 } from "../../../../components/DrawerCommon/modules/actions";
-import Swal from "sweetalert2";
 import { actUpdateUser } from "../../modules/actions";
+import { message } from "antd";
 
 function FormEditUser(props) {
   const btnSubmitRef = useRef();
@@ -43,7 +43,7 @@ function FormEditUser(props) {
         <div className="form-group">
           <label htmlFor="id">ID:</label>
           <input
-            className="form-control"
+            className="input-global input-project disabled"
             id="id"
             name="id"
             placeholder="Name"
@@ -54,7 +54,7 @@ function FormEditUser(props) {
         <div className="form-group">
           <label htmlFor="name">Name:</label>
           <input
-            className="form-control"
+            className="input-global input-project"
             name="name"
             id="name"
             placeholder="Name"
@@ -63,7 +63,7 @@ function FormEditUser(props) {
             onBlur={handleBlur}
           />
           {touched.name && errors.name ? (
-            <div className="alert alert-danger">{errors.name}</div>
+            <p className="text-danger">{errors.name}</p>
           ) : (
             " "
           )}
@@ -71,7 +71,7 @@ function FormEditUser(props) {
         <div className="form-group">
           <label htmlFor="phone-number">Phone number:</label>
           <input
-            className="form-control"
+            className="input-global input-project"
             name="phoneNumber"
             id="phone-number"
             placeholder="Phone number"
@@ -80,7 +80,7 @@ function FormEditUser(props) {
             onChange={handleChange}
           />
           {touched.phoneNumber && errors.phoneNumber ? (
-            <div className="alert alert-danger">{errors.phoneNumber}</div>
+            <p className="text-danger">{errors.phoneNumber}</p>
           ) : (
             " "
           )}
@@ -88,7 +88,7 @@ function FormEditUser(props) {
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input
-            className="form-control"
+            className="input-global input-project"
             name="email"
             id="email"
             placeholder="Email"
@@ -97,7 +97,7 @@ function FormEditUser(props) {
             onChange={handleChange}
           />
           {touched.email && errors.email ? (
-            <div className="alert alert-danger">{errors.email}</div>
+            <p className="text-danger">{errors.email}</p>
           ) : (
             " "
           )}
@@ -107,7 +107,7 @@ function FormEditUser(props) {
           <label htmlFor="passWord">Password:</label>
           <input
             type="password"
-            className="form-control"
+            className="input-global input-project"
             name="passWord"
             id="passWord"
             placeholder="Password"
@@ -116,7 +116,7 @@ function FormEditUser(props) {
             onBlur={handleBlur}
           />
           {touched.passWord && errors.passWord ? (
-            <div className="alert alert-danger">{errors.passWord}</div>
+            <p className="text-danger">{errors.passWord}</p>
           ) : (
             " "
           )}
@@ -124,14 +124,18 @@ function FormEditUser(props) {
 
         <div className="form-group text-right">
           <button
+            ref={btnSubmitRef}
+            className="btn-global btn-global-primary mr-1"
+            type="submit"
+          >
+            Update
+          </button>
+          <button
             onClick={handleClose}
-            className="btn btn-secondary mr-1"
+            className="btn-global btn-global-secondary"
             type="button"
           >
             Cancel
-          </button>
-          <button ref={btnSubmitRef} className="btn btn-primary" type="submit">
-            Update
           </button>
         </div>
       </form>
@@ -174,7 +178,7 @@ const MyEnhancedForm = withFormik({
 
   handleSubmit: (values, props) => {
     props.props.drawerCommonReducer.callbackFocus();
-    props.props.dispatch(actUpdateUser(values, Swal));
+    props.props.dispatch(actUpdateUser(values, message));
   },
 
   displayName: "BasicForm",

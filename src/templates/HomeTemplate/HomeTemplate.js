@@ -14,13 +14,20 @@ import {
   PoweroffOutlined,
 } from "@ant-design/icons";
 import ModalCreateTask from "../../components/ModalCreateTask/ModalCreateTask";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { actLogout } from "../../pages/Login/modules/actions";
+
+import Loading from "../../components/Loading";
+
 const { Header, Content, Sider } = Layout;
 
 export const HomeTemplate = (props) => {
   const { Component, ...restProps } = props;
-
+  const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { data: userLogin } = useSelector((state) => state.loginReducer);
 
   useEffect(() => {
     if (isOpen) {
@@ -78,7 +85,13 @@ export const HomeTemplate = (props) => {
                       >
                         Profile
                       </Menu.Item>
-                      <Menu.Item key="4" icon={<PoweroffOutlined />}>
+                      <Menu.Item
+                        onClick={() => {
+                          dispatch(actLogout());
+                        }}
+                        key="4"
+                        icon={<PoweroffOutlined />}
+                      >
                         Logout
                       </Menu.Item>
                     </Menu>
@@ -103,14 +116,21 @@ export const HomeTemplate = (props) => {
                       )}
                       <div>
                         <img
-                          src="https://picsum.photos/30/30"
+                          src={userLogin?.avatar}
                           alt="avatar"
                           className="header-avatar"
+                          onClick={() => {
+                            propsRoute.history.push("/profile");
+                          }}
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                          }}
                         />
                       </div>
                     </Header>
                     <Content className="site-layout-background content-common">
-                      <Suspense fallback={<div>Loading...</div>}>
+                      <Suspense fallback={<Loading />}>
                         <Component
                           isOpen={isOpen}
                           setIsOpen={setIsOpen}

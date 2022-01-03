@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { AutoComplete, Button, Popover } from "antd";
+import { AutoComplete, Button, message, Popover } from "antd";
 import { useSelector } from "react-redux";
 import { UserAddOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 
 import { actAsignUserProject, actSearchUser } from "../modules/actions";
-import Swal from "sweetalert2";
 
 const PopAssign = (props) => {
   const { record } = props;
@@ -60,7 +59,7 @@ const PopAssign = (props) => {
                   projectId: record.id,
                   userId: option,
                 },
-                Swal
+                message
               )
             );
             setValue("");
