@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import _ from "lodash";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";

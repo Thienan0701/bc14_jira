@@ -4,17 +4,6 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { actUpdateComment } from "../../../modules/actions";
 
-function useRefObject() {
-  const ref = useRef();
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    if (ref.current) setReady(true);
-  }, [ref.current]);
-
-  return [ref, ready];
-}
-
 export default function CommentItem(props) {
   const {
     item,

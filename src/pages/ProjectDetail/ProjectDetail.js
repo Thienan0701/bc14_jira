@@ -5,7 +5,6 @@ import Header from "./Header/Header";
 import Content from "./Content/Content";
 import ModalUpdateTask from "./ModalUpdateTask/ModalUpdateTask";
 import { useSelector } from "react-redux";
-import Loader from "../../components/Loader/Loader";
 import { useDispatch } from "react-redux";
 import { actGetDetailProject } from "./modules/actions";
 import { message } from "antd";

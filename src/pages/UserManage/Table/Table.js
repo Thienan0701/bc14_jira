@@ -1,6 +1,6 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, message, Popconfirm, Table } from "antd";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actOpenDrawerCommonFull } from "../../../components/DrawerCommon/modules/actions";
 import Loader from "../../../components/Loader/Loader";

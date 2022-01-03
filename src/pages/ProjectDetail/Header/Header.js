@@ -2,20 +2,41 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { SearchOutlined, UserAddOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { Breadcrumb, Input } from "antd";
+import {
+  AutoComplete,
+  Breadcrumb,
+  Button,
+  Input,
+  message,
+  Popover,
+} from "antd";
 import CheckboxMenu from "../CheckboxMenu/CheckboxMenu";
 import { useDispatch } from "react-redux";
-import { actGetPriority } from "../modules/actions";
+import {
+  actAssignUser,
+  actGetPriority,
+  actSearchUser,
+} from "../modules/actions";
 import { Tooltip } from "antd";
 
 const Header = (props) => {
-  const { data: detail, dataPriority } = useSelector(
-    (state) => state.projectDetailReducer
-  );
+  const {
+    data: details,
+    dataPriority,
+    listUserSearch,
+  } = useSelector((state) => state.projectDetailReducer);
 
   const [isDelete, setIsDelete] = useState(false);
+  const [value, setValue] = useState("");
+  const [visible, setVisible] = useState("");
+
+  const [detail, setDetail] = useState(null);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setDetail(details);
+  }, [details]);
 
   useEffect(() => {
     dispatch(actGetPriority());
@@ -73,6 +94,48 @@ const Header = (props) => {
     setArrPriorityFilter(priorityId);
   };
 
+  const handleAssignProject = (values) => {
+    const prevDetail = { ...detail };
+    const userAssign = listUserSearch.find(
+      (item) => item.userId === +values.value
+    );
+    const listMember = [...detail?.members, userAssign];
+    const info = {
+      projectId: +props.match.params.id,
+      userId: +values.value,
+    };
+    setDetail({
+      ...detail,
+      members: listMember,
+    });
+    dispatch(
+      actAssignUser(
+        info,
+        +props.match.params.id,
+        prevDetail,
+        setDetail,
+        props.history,
+        message
+      )
+    );
+  };
+
+  const handleGetListOptions = () => {
+    const listIdMember = detail?.members.map((item) => item.userId);
+    const listFilter = listUserSearch?.filter(
+      (opts) => !listIdMember?.includes(opts.userId)
+    );
+    return listFilter?.map((item) => ({
+      label: item.name,
+      value: item.userId.toString(),
+    }));
+  };
+
+  const handleVisibleChange = (visible) => {
+    setValue("");
+    setVisible(visible);
+  };
+
   return (
     <div className="project-header">
       <div className="project-header-content">
@@ -126,7 +189,7 @@ const Header = (props) => {
                   selectedItems={arrUserFilterCheckbox}
                   isDelete={isDelete}
                   setIsDelete={setIsDelete}
-                  options={detail?.members.slice(4).map((item, index) => {
+                  options={detail?.members?.slice(4).map((item, index) => {
                     const active = arrUserFilter.includes(item.userId)
                       ? "active"
                       : "";
@@ -160,9 +223,40 @@ const Header = (props) => {
                 ""
               )}{" "}
               <div className={`more-user`}>
-                <span>
-                  <UserAddOutlined />
-                </span>
+                <Popover
+                  content={() => (
+                    <AutoComplete
+                      options={handleGetListOptions()}
+                      value={value}
+                      className="w-100"
+                      onChange={(txt) => {
+                        setValue(txt);
+                        dispatch(actSearchUser(txt));
+                      }}
+                      onSelect={(option, values) => {
+                        setValue(values.label);
+                        setVisible(!visible);
+
+                        // dispatch(handleAssignProject);
+                        handleAssignProject(values);
+
+                        setValue("");
+                      }}
+                      onFocus={() => {
+                        dispatch(actSearchUser(value));
+                      }}
+                      onSearch={(value) => {
+                        dispatch(actSearchUser(value));
+                      }}
+                    />
+                  )}
+                  title="Add member"
+                  trigger="click"
+                  visible={visible}
+                  onVisibleChange={handleVisibleChange}
+                >
+                  <Button shape="circle" icon={<UserAddOutlined />} />
+                </Popover>
               </div>
             </div>
           </div>

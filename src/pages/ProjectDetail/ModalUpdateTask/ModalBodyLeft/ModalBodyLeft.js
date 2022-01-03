@@ -36,15 +36,7 @@ export default function ModalBodyLeft(props) {
 
   const inputDescriptionRefReal = useRef();
 
-  const {
-    taskDetail,
-    loading,
-    error,
-    dataStatus,
-    data,
-    dataPriority,
-    dataTaskType,
-  } = useSelector((state) => state.projectDetailReducer);
+  const { data } = useSelector((state) => state.projectDetailReducer);
   const { data: userLogin } = useSelector((state) => state.loginReducer);
 
   const dispatch = useDispatch();

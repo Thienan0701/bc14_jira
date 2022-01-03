@@ -276,7 +276,9 @@ export const actUpdateComment = (
       )
       .then((result) => {
         dispatch(actGetDetailProject(id, history, message));
-        callBackDifference();
+        if (callBackDifference) {
+          callBackDifference();
+        }
       })
       .catch((error) => {
         setTask(prevTask);
@@ -303,6 +305,60 @@ export const actDeleteTask = (
       })
       .catch((error) => {
         setListTask(prevProject);
+        message.error(error.response?.data.content);
+      });
+  };
+};
+
+//Search user
+export const actSearchUser = (keyword) => {
+  return (dispatch) => {
+    api
+      .get(`Users/getUser?keyword=${keyword}`)
+      .then((result) => {
+        dispatch(actSearchUserSuccess(result.data.content));
+      })
+      .catch((err) => {
+        dispatch(actSearchUserFailed(err));
+      });
+  };
+};
+const actSearchUserSuccess = (data) => {
+  return {
+    type: actTypes.SEARCH_USER_SUCCESS,
+    payload: data,
+  };
+};
+
+const actSearchUserFailed = (err) => {
+  return {
+    type: actTypes.SEARCH_USER_FAILED,
+    payload: err,
+  };
+};
+
+// assign user
+export const actAssignUser = (
+  info,
+  id,
+  prevTask,
+  setTask,
+  history,
+  message,
+  callBackDifference
+) => {
+  return (dispatch) => {
+    api
+      .post("Project/assignUserProject", info)
+      .then((result) => {
+        dispatch(actGetDetailProject(id, history, message));
+        message.success("Assign user as successful project");
+        if (callBackDifference) {
+          callBackDifference();
+        }
+      })
+      .catch((error) => {
+        setTask(prevTask);
         message.error(error.response?.data.content);
       });
   };

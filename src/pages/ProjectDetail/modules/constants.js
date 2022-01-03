@@ -15,3 +15,6 @@ export const DATA_TASK_TYPE_SUCCESS =
 export const TASK_DETAIL_REQUEST = "@projectDetailReducer/TASK_DETAIL_REQUEST";
 export const TASK_DETAIL_SUCCESS = "@projectDetailReducer/TASK_DETAIL_SUCCESS";
 export const TASK_DETAIL_FAILED = "@projectDetailReducer/TASK_DETAIL_FAILED";
+
+export const SEARCH_USER_SUCCESS = "@projectDetailReducer/SEARCH_USER_SUCCESS";
+export const SEARCH_USER_FAILED = "@projectDetailReducer/SEARCH_USER_FAILED";

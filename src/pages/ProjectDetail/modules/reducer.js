@@ -16,6 +16,9 @@ const initialState = {
 
   // taskType
   dataTaskType: null,
+
+  // list user search
+  listUserSearch: null,
 };
 
 const projectDetailReducer = (state = initialState, action) => {
@@ -37,6 +40,7 @@ const projectDetailReducer = (state = initialState, action) => {
       state.error = action.payload;
       state.loading = false;
       return { ...state };
+
     case actType.DATA_STATUS_SUCCESS:
       return { ...state, dataStatus: action.payload };
     case actType.DATA_PRIORITY_SUCCESS:
@@ -65,7 +69,10 @@ const projectDetailReducer = (state = initialState, action) => {
         isLoadingTaskDetail: false,
         taskDetail: null,
       };
-
+    case actType.SEARCH_USER_SUCCESS:
+      return { ...state, listUserSearch: action.payload, error: null };
+    case actType.SEARCH_USER_FAILED:
+      return { ...state, listUserSearch: null, error: action.payload };
     default:
       return { ...state };
   }
