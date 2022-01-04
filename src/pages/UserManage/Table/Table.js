@@ -24,8 +24,8 @@ const TableUser = (props) => {
     {
       title: "Name",
       dataIndex: "name",
-      sorter: (a, b) => a.name.length - b.name.length,
-      defaultSortOrder: "ascend",
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      width: "18%",
     },
     {
       title: "Email",

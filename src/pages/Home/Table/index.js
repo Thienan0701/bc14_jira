@@ -119,7 +119,8 @@ const HomeTable = (props) => {
       render: (text, record) => {
         return <Link to={`/project-detail/${record.id}`}>{text}</Link>;
       },
-      sorter: (a, b) => a.projectName.length - b.projectName.length,
+      sorter: (a, b) => a.projectName.localeCompare(b.projectName),
+      width: "25%",
       defaultSortOrder: "ascend",
     },
     {
