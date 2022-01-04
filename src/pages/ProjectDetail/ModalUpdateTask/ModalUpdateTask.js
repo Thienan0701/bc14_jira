@@ -128,6 +128,7 @@ function ModalUpdateTask(props) {
       addEventListenerKeyPress();
     } else {
       document.removeEventListener("keypress", memoizedListener);
+      setCommenting(true);
     }
   }, [isOpen, commenting]);
   // hàm clear event
