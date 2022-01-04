@@ -70,7 +70,7 @@ function ModalCreateTask(props) {
   const { data: userLogin } = useSelector((state) => state.loginReducer);
 
   function tagRender(props) {
-    const { label, value, closable, onClose } = props;
+    const { label, closable, onClose } = props;
     const onPreventMouseDown = (event) => {
       event.preventDefault();
       event.stopPropagation();

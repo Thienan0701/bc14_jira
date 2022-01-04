@@ -24,9 +24,6 @@ const TableUser = (props) => {
     {
       title: "Name",
       dataIndex: "name",
-      // render: (text, record) => {
-      //   return <Link to={`/project-detail/${record.id}`}>{text}</Link>;
-      // },
     },
     {
       title: "Email",

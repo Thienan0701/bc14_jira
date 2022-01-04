@@ -1,11 +1,11 @@
 import React from "react";
 import { Drawer } from "antd";
 import { useSelector } from "react-redux";
-// import { actCloseDrawerCommon } from "./modules/actions";
 import { useDispatch } from "react-redux";
 const DrawerCommon = () => {
-  const { open, callbackClose, callBackSubmit, ComponentContentDrawer, title } =
-    useSelector((state) => state.drawerCommonReducer);
+  const { open, callbackClose, ComponentContentDrawer, title } = useSelector(
+    (state) => state.drawerCommonReducer
+  );
   const dispatch = useDispatch();
   return (
     <div>
@@ -15,18 +15,6 @@ const DrawerCommon = () => {
         onClose={() => dispatch(callbackClose)}
         visible={open}
         bodyStyle={{ paddingBottom: 80 }}
-        // footer={
-        //   <div style={{ textAlign: "right" }}>
-        //     <Space>
-        //       <Button onClick={() => dispatch(actCloseDrawerCommon())}>
-        //         Cancel
-        //       </Button>
-        //       <Button onClick={callBackSubmit} type="primary">
-        //         Submit
-        //       </Button>
-        //     </Space>
-        //   </div>
-        // }
       >
         {ComponentContentDrawer}
       </Drawer>

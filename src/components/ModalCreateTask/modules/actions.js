@@ -91,7 +91,3 @@ export const actCreateTask = (data, setIsOpen, message, isHome, history) => {
     }
   };
 };
-const actCreateTaskSuccess = (data) => ({
-  type: actionTypes.GET_STATUS_TASK_SUCCESS,
-  payload: data,
-});

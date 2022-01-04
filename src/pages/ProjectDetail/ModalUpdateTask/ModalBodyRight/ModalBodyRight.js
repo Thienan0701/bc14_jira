@@ -43,7 +43,7 @@ function to_slug(str) {
 }
 
 function tagRender(props) {
-  const { label, value, closable, onClose } = props;
+  const { label, closable, onClose } = props;
 
   const onPreventMouseDown = (event) => {
     event.preventDefault();

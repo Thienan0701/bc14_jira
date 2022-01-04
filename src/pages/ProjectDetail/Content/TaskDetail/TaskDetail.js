@@ -13,8 +13,7 @@ import { useDispatch } from "react-redux";
 import { actDeleteTask, getTaskDetail } from "../../modules/actions";
 
 export default function TaskDetail(props) {
-  const { isOpen, setIsOpen, task, taskListDetail, setListTask, listTask } =
-    props;
+  const { setIsOpen, task, taskListDetail, setListTask, listTask } = props;
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
 

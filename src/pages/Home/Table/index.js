@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button, message, Popconfirm, Popover, Table, Tag } from "antd";
 import { useSelector } from "react-redux";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";

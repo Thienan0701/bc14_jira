@@ -6,7 +6,7 @@ import { message } from "antd";
 import bug from "../../../assets/images/bug.svg";
 import taskImg from "../../../assets/images/task.svg";
 import { Popover } from "antd";
-import { CloseOutlined, ShareAltOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import {
   actGetPriority,
   actGetStatusTask,
@@ -280,7 +280,6 @@ function ModalUpdateTask(props) {
                   <span className="tooltip-text">Bug - Change task type</span>
                 </div>
                 <div className="header-right">
-                  <ShareAltOutlined className="btn-share" />
                   <CloseOutlined
                     className="btn-close"
                     onClick={() => {

@@ -17,7 +17,7 @@ import { actFetchListProject } from "./modules/actions";
 
 function Home(props) {
   const dispatch = useDispatch();
-  const { isOpen, setIsOpen } = props;
+  const { setIsOpen } = props;
   const [valueSearch, setValueSearch] = useState("");
   const [isLoadFirst, setIsLoadFirst] = useState(true);
   useEffect(() => {
