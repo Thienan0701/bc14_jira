@@ -159,8 +159,8 @@ let schema = yup.object().shape({
   passWord: yup
     .string()
     .required("Password is a required field!")
-    .min(8, "Password must be at least 8 characters!")
-    .max(32, "Password must be less than 32 characters!"),
+    .min(8, "Password must be between 8 and 32 characters!")
+    .max(32, "Password must be between 8 and 32 characters!"),
 });
 
 const MyEnhancedForm = withFormik({
