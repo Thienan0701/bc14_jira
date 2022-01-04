@@ -119,6 +119,8 @@ const HomeTable = (props) => {
       render: (text, record) => {
         return <Link to={`/project-detail/${record.id}`}>{text}</Link>;
       },
+      sorter: (a, b) => a.projectName.length - b.projectName.length,
+      defaultSortOrder: "ascend",
     },
     {
       title: "Category",
