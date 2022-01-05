@@ -1,6 +1,6 @@
 ## Link Deploy
 
-`http://jira-project.surge.sh/login`
+`http://jira-project.surge.sh/`
 
 ## Phân chia công viêc
 
